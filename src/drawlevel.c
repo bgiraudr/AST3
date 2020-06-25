@@ -29,7 +29,7 @@ void draw_level(char level[])
 				break;
 		}
 		x+=16;
-		if(x==16*26)
+		if(x==16*25)
 		{
 			x=0;
 			y+=16;

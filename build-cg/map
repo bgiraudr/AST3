@@ -15,7 +15,7 @@ Archive member included to satisfy reference by file (symbol)
 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(bopti.c.o)
                               /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(dimage.c.o) (_bopti_render_clip)
 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(dprint.c.o)
-                              build-cg/src/setlevel.c.o (_dprint)
+                              build-cg/src/main.c.o (_dprint)
 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(r61524.c.o)
                               /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(dupdate.c.o) (_r61524_display)
 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(dma.c.o)
@@ -163,9 +163,9 @@ LOAD /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a
 LOAD /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a
 LOAD /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/m4-nofpu/libgcc.a
                 0x0000000000300000                _brom = 0x300000
-                0x0000000000005150                _srom = (((SIZEOF (.text) + SIZEOF (.rodata)) + SIZEOF (.gint.drivers)) + SIZEOF (.gint.blocks))
+                0x00000000000051c0                _srom = (((SIZEOF (.text) + SIZEOF (.rodata)) + SIZEOF (.gint.drivers)) + SIZEOF (.gint.blocks))
 
-.text           0x0000000000300000     0x3fa0
+.text           0x0000000000300000     0x4020
  *(.text.entry)
  .text.entry    0x0000000000300000      0x12c /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(start.c.o)
                 0x0000000000300000                _start
@@ -192,285 +192,287 @@ LOAD /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/m4-nofpu/libgc
                 0x0000000000300208                _draw_player
                 0x0000000000300218                _draw_level
  .text          0x0000000000300298        0x0 build-cg/src/main.c.o
- .text.startup  0x0000000000300298       0xf4 build-cg/src/main.c.o
+ .text.startup  0x0000000000300298      0x198 build-cg/src/main.c.o
                 0x0000000000300298                _main
- .text          0x000000000030038c       0x4c build-cg/src/setlevel.c.o
-                0x000000000030038c                _set_level
- .text          0x00000000003003d8       0xdc /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(memory.c.o)
-                0x00000000003003d8                _memcpy
-                0x0000000000300492                __memmove
-                0x0000000000300496                __memcmp
-                0x000000000030049a                _memset
- .text          0x00000000003004b4       0x7c /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(string.c.o)
-                0x00000000003004b4                _strlen
-                0x00000000003004c4                _strncpy
-                0x00000000003004dc                _strcat
-                0x0000000000300520                _strcmp
- .text          0x0000000000300530       0x3c /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(dupdate.c.o)
-                0x0000000000300530                _dupdate
-                0x0000000000300554                _dupdate_noint
- .text          0x000000000030056c       0x1c /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(dclear.c.o)
-                0x000000000030056c                _dclear
- .text          0x0000000000300588       0x40 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(dimage.c.o)
-                0x0000000000300588                _dimage
-                0x00000000003005b0                _dsubimage
- .text          0x00000000003005c8       0x6c /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(dvram.c.o)
-                0x00000000003005c8                _dsetvram
-                0x00000000003005f4                _dgetvram
-                0x0000000000300614                _dvram_switch
- .text          0x0000000000300634      0x1e4 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(bopti.c.o)
-                0x0000000000300634                _bopti_render
-                0x0000000000300724                _bopti_render_clip
-                0x00000000003007ec                _bopti_render_noclip
- .text          0x0000000000300818       0xbc /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(dprint.c.o)
-                0x0000000000300818                _dprint_opt
-                0x0000000000300884                _dprint
- .text          0x00000000003008d4      0x2d4 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(r61524.c.o)
-                0x0000000000300924                _r61524_win_get
-                0x00000000003009dc                _r61524_win_set
-                0x0000000000300a9c                _r61524_display
- .text          0x0000000000300ba8      0x420 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(dma.c.o)
-                0x0000000000300e78                _dma_transfer
-                0x0000000000300eb8                _dma_transfer_wait
-                0x0000000000300f5c                _dma_transfer_noint
- .text          0x0000000000300fc8        0x0 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(inth.s.o)
- .text          0x0000000000300fc8       0x4c /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(memset.c.o)
-                0x0000000000300fc8                _dma_memset
- .text          0x0000000000301014       0xf4 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(intc.c.o)
-                0x0000000000301090                _intc_priority
- .text          0x0000000000301108       0x30 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(start.c.o)
- .text          0x0000000000301138      0x29c /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(exch.c.o)
-                0x00000000003013a4                _gint_panic
-                0x00000000003013b4                _gint_panic_set
-                0x00000000003013c8                _gint_exc_catch
- .text          0x00000000003013d4       0x40 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(hardware.c.o)
-                0x00000000003013d4                _hw_detect
- .text          0x0000000000301414      0x2b8 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(kernel.c.o)
-                0x0000000000301590                _kinit
-                0x0000000000301624                _gint_inthandler
-                0x0000000000301654                _gint_switch
-                0x00000000003016a4                _kquit
- .text          0x00000000003016cc        0x0 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(tlbh.S.o)
- .text          0x00000000003016cc      0x424 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(keysc.c.o)
-                0x00000000003018a4                _pollevent
-                0x00000000003019e0                _waitevent
-                0x0000000000301a2c                _clearevents
-                0x0000000000301a4c                _keydown
-                0x0000000000301a78                _keydown_all
-                0x0000000000301ab4                _keydown_any
- .text          0x0000000000301af0      0x1f8 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(getkey.c.o)
-                0x0000000000301af0                _getkey_opt
-                0x0000000000301ca0                _getkey
-                0x0000000000301cac                _getkey_repeat
- .text          0x0000000000301ce8      0x69c /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(tmu.c.o)
-                0x0000000000301fb4                _timer_delay
-                0x0000000000302060                _timer_setup
-                0x0000000000302260                _timer_start
-                0x0000000000302298                _timer_reload
-                0x00000000003022d0                _timer_pause
-                0x000000000030230c                _timer_wait
-                0x0000000000302374                _timer_timeout
- .text          0x0000000000302384        0x0 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(inth.s.o)
- .text          0x0000000000302384      0xcec /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(stdio.c.o)
-                0x0000000000302d80                _kprint_opt
-                0x0000000000302ec8                _kprint
-                0x0000000000302fa8                _kvsprint
-                0x0000000000302ff0                _sprintf
-                0x0000000000303018                _vsprintf
-                0x0000000000303038                _snprintf
-                0x0000000000303058                _vsnprintf
- .text          0x0000000000303070       0xb8 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(cpg.c.o)
-                0x000000000030311c                _clock_freq
- *fill*         0x0000000000303128        0x8 
- .text          0x0000000000303130      0x100 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(bopti-asm.s.o)
-                0x0000000000303130                _bopti_r5g6b5
-                0x0000000000303180                _bopti_r5g6b5a
-                0x00000000003031b0                _bopti_p8
-                0x00000000003031e0                _bopti_p4
- .text          0x0000000000303230      0x2b4 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(topti.c.o)
-                0x0000000000303230                _topti_render
-                0x0000000000303420                _dtext_opt
-                0x00000000003034c4                _dtext
- .text          0x00000000003034e4      0x1ac /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(topti.c.o)
-                0x00000000003034e4                _dfont
-                0x00000000003034fc                _charset_size
-                0x0000000000303528                _charset_decode
-                0x0000000000303596                _topti_offset
-                0x00000000003035f4                _dsize
- .text          0x0000000000303690       0x30 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(cpu.s.o)
-                0x0000000000303690                _cpu_setCPUOPM
-                0x00000000003036a2                _cpu_getCPUOPM
- .text          0x00000000003036c0        0x0 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(exch.s.o)
- .text          0x00000000003036c0       0xfc /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(osmenu.c.o)
-                0x00000000003037ac                _gint_osmenu
- *fill*         0x00000000003037bc        0x4 
- .text          0x00000000003037c0      0x190 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(syscalls.S.o)
-                0x00000000003037c0                _malloc
-                0x00000000003037d4                _free
-                0x00000000003037e4                _calloc
-                0x00000000003037f4                _realloc
-                0x0000000000303804                _BFile_Remove
-                0x0000000000303814                _BFile_Create
-                0x0000000000303824                _BFile_Open
-                0x0000000000303834                _BFile_Close
-                0x0000000000303844                _BFile_Size
-                0x0000000000303854                _BFile_Write
-                0x0000000000303864                _BFile_Read
-                0x0000000000303874                _BFile_FindFirst
-                0x0000000000303884                _BFile_FindNext
-                0x0000000000303894                _BFile_FindClose
-                0x00000000003038a4                ___Timer_Install
-                0x00000000003038b4                ___Timer_Start
-                0x00000000003038c4                ___Timer_Stop
-                0x00000000003038d4                ___Timer_Deinstall
-                0x00000000003038e4                ___PutKeyCode
-                0x00000000003038f4                ___GetKeyWait
-                0x0000000000303904                ___ClearKeyBuffer
-                0x0000000000303914                ___GetVRAMAddress
-                0x0000000000303924                ___ConfigureStatusArea
-                0x0000000000303934                ___SpecialMatrixCodeProcessing
- .text          0x0000000000303950        0x0 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(inth.S.o)
- .text          0x0000000000303950       0xc0 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(drect.c.o)
-                0x0000000000303950                _drect
- .text          0x0000000000303a10       0xd0 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(topti-asm.s.o)
-                0x0000000000303a10                _topti_glyph_fg_bg
-                0x0000000000303a4e                _topti_glyph_fg
-                0x0000000000303a88                _topti_glyph_bg
- .text          0x0000000000303ae0       0x78 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/m4-nofpu/libgcc.a(_movmem.o)
-                0x0000000000303ae0                ___movstr
-                0x0000000000303ae0                ___movmem
-                0x0000000000303b14                ___movmemSI64
-                0x0000000000303b14                ___movstrSI64
-                0x0000000000303b18                ___movstrSI60
-                0x0000000000303b18                ___movmemSI60
-                0x0000000000303b1c                ___movmemSI56
-                0x0000000000303b1c                ___movstrSI56
-                0x0000000000303b20                ___movstrSI52
-                0x0000000000303b20                ___movmemSI52
-                0x0000000000303b24                ___movstrSI48
-                0x0000000000303b24                ___movmemSI48
-                0x0000000000303b28                ___movstrSI44
-                0x0000000000303b28                ___movmemSI44
-                0x0000000000303b2c                ___movstrSI40
-                0x0000000000303b2c                ___movmemSI40
-                0x0000000000303b30                ___movstrSI36
-                0x0000000000303b30                ___movmemSI36
-                0x0000000000303b34                ___movmemSI32
-                0x0000000000303b34                ___movstrSI32
-                0x0000000000303b38                ___movmemSI28
-                0x0000000000303b38                ___movstrSI28
-                0x0000000000303b3c                ___movstrSI24
-                0x0000000000303b3c                ___movmemSI24
-                0x0000000000303b40                ___movmemSI20
-                0x0000000000303b40                ___movstrSI20
-                0x0000000000303b44                ___movstrSI16
-                0x0000000000303b44                ___movmemSI16
-                0x0000000000303b48                ___movmemSI12
-                0x0000000000303b48                ___movstrSI12
-                0x0000000000303b4c                ___movmemSI8
-                0x0000000000303b4c                ___movstrSI8
-                0x0000000000303b50                ___movmemSI4
-                0x0000000000303b50                ___movstrSI4
- .text          0x0000000000303b58      0x1e0 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/m4-nofpu/libgcc.a(_udivdi3.o)
-                0x0000000000303b58                ___udivdi3
- .text          0x0000000000303d38      0x208 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/m4-nofpu/libgcc.a(_umoddi3.o)
-                0x0000000000303d38                ___umoddi3
- .text          0x0000000000303f40       0x60 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/m4-nofpu/libgcc.a(_udiv_qrnnd_16.o)
-                0x0000000000303f40                ___udiv_qrnnd_16
- .text          0x0000000000303fa0        0x0 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/m4-nofpu/libgcc.a(_clz.o)
+ .text          0x0000000000300430       0x30 build-cg/src/setlevel.c.o
+                0x0000000000300430                _set_level
+ .text          0x0000000000300460       0xdc /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(memory.c.o)
+                0x0000000000300460                _memcpy
+                0x000000000030051a                __memmove
+                0x000000000030051e                __memcmp
+                0x0000000000300522                _memset
+ .text          0x000000000030053c       0x7c /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(string.c.o)
+                0x000000000030053c                _strlen
+                0x000000000030054c                _strncpy
+                0x0000000000300564                _strcat
+                0x00000000003005a8                _strcmp
+ .text          0x00000000003005b8       0x3c /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(dupdate.c.o)
+                0x00000000003005b8                _dupdate
+                0x00000000003005dc                _dupdate_noint
+ .text          0x00000000003005f4       0x1c /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(dclear.c.o)
+                0x00000000003005f4                _dclear
+ .text          0x0000000000300610       0x40 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(dimage.c.o)
+                0x0000000000300610                _dimage
+                0x0000000000300638                _dsubimage
+ .text          0x0000000000300650       0x6c /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(dvram.c.o)
+                0x0000000000300650                _dsetvram
+                0x000000000030067c                _dgetvram
+                0x000000000030069c                _dvram_switch
+ .text          0x00000000003006bc      0x1e4 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(bopti.c.o)
+                0x00000000003006bc                _bopti_render
+                0x00000000003007ac                _bopti_render_clip
+                0x0000000000300874                _bopti_render_noclip
+ .text          0x00000000003008a0       0xbc /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(dprint.c.o)
+                0x00000000003008a0                _dprint_opt
+                0x000000000030090c                _dprint
+ .text          0x000000000030095c      0x2d4 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(r61524.c.o)
+                0x00000000003009ac                _r61524_win_get
+                0x0000000000300a64                _r61524_win_set
+                0x0000000000300b24                _r61524_display
+ .text          0x0000000000300c30      0x420 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(dma.c.o)
+                0x0000000000300f00                _dma_transfer
+                0x0000000000300f40                _dma_transfer_wait
+                0x0000000000300fe4                _dma_transfer_noint
+ .text          0x0000000000301050        0x0 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(inth.s.o)
+ .text          0x0000000000301050       0x4c /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(memset.c.o)
+                0x0000000000301050                _dma_memset
+ .text          0x000000000030109c       0xf4 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(intc.c.o)
+                0x0000000000301118                _intc_priority
+ .text          0x0000000000301190       0x30 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(start.c.o)
+ .text          0x00000000003011c0      0x29c /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(exch.c.o)
+                0x000000000030142c                _gint_panic
+                0x000000000030143c                _gint_panic_set
+                0x0000000000301450                _gint_exc_catch
+ .text          0x000000000030145c       0x40 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(hardware.c.o)
+                0x000000000030145c                _hw_detect
+ .text          0x000000000030149c      0x2b8 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(kernel.c.o)
+                0x0000000000301618                _kinit
+                0x00000000003016ac                _gint_inthandler
+                0x00000000003016dc                _gint_switch
+                0x000000000030172c                _kquit
+ .text          0x0000000000301754        0x0 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(tlbh.S.o)
+ .text          0x0000000000301754      0x424 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(keysc.c.o)
+                0x000000000030192c                _pollevent
+                0x0000000000301a68                _waitevent
+                0x0000000000301ab4                _clearevents
+                0x0000000000301ad4                _keydown
+                0x0000000000301b00                _keydown_all
+                0x0000000000301b3c                _keydown_any
+ .text          0x0000000000301b78      0x1f8 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(getkey.c.o)
+                0x0000000000301b78                _getkey_opt
+                0x0000000000301d28                _getkey
+                0x0000000000301d34                _getkey_repeat
+ .text          0x0000000000301d70      0x69c /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(tmu.c.o)
+                0x000000000030203c                _timer_delay
+                0x00000000003020e8                _timer_setup
+                0x00000000003022e8                _timer_start
+                0x0000000000302320                _timer_reload
+                0x0000000000302358                _timer_pause
+                0x0000000000302394                _timer_wait
+                0x00000000003023fc                _timer_timeout
+ .text          0x000000000030240c        0x0 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(inth.s.o)
+ .text          0x000000000030240c      0xcec /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(stdio.c.o)
+                0x0000000000302e08                _kprint_opt
+                0x0000000000302f50                _kprint
+                0x0000000000303030                _kvsprint
+                0x0000000000303078                _sprintf
+                0x00000000003030a0                _vsprintf
+                0x00000000003030c0                _snprintf
+                0x00000000003030e0                _vsnprintf
+ .text          0x00000000003030f8       0xb8 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(cpg.c.o)
+                0x00000000003031a4                _clock_freq
+ .text          0x00000000003031b0      0x100 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(bopti-asm.s.o)
+                0x00000000003031b0                _bopti_r5g6b5
+                0x0000000000303200                _bopti_r5g6b5a
+                0x0000000000303230                _bopti_p8
+                0x0000000000303260                _bopti_p4
+ .text          0x00000000003032b0      0x2b4 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(topti.c.o)
+                0x00000000003032b0                _topti_render
+                0x00000000003034a0                _dtext_opt
+                0x0000000000303544                _dtext
+ .text          0x0000000000303564      0x1ac /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(topti.c.o)
+                0x0000000000303564                _dfont
+                0x000000000030357c                _charset_size
+                0x00000000003035a8                _charset_decode
+                0x0000000000303616                _topti_offset
+                0x0000000000303674                _dsize
+ .text          0x0000000000303710       0x30 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(cpu.s.o)
+                0x0000000000303710                _cpu_setCPUOPM
+                0x0000000000303722                _cpu_getCPUOPM
+ .text          0x0000000000303740        0x0 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(exch.s.o)
+ .text          0x0000000000303740       0xfc /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(osmenu.c.o)
+                0x000000000030382c                _gint_osmenu
+ *fill*         0x000000000030383c        0x4 
+ .text          0x0000000000303840      0x190 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(syscalls.S.o)
+                0x0000000000303840                _malloc
+                0x0000000000303854                _free
+                0x0000000000303864                _calloc
+                0x0000000000303874                _realloc
+                0x0000000000303884                _BFile_Remove
+                0x0000000000303894                _BFile_Create
+                0x00000000003038a4                _BFile_Open
+                0x00000000003038b4                _BFile_Close
+                0x00000000003038c4                _BFile_Size
+                0x00000000003038d4                _BFile_Write
+                0x00000000003038e4                _BFile_Read
+                0x00000000003038f4                _BFile_FindFirst
+                0x0000000000303904                _BFile_FindNext
+                0x0000000000303914                _BFile_FindClose
+                0x0000000000303924                ___Timer_Install
+                0x0000000000303934                ___Timer_Start
+                0x0000000000303944                ___Timer_Stop
+                0x0000000000303954                ___Timer_Deinstall
+                0x0000000000303964                ___PutKeyCode
+                0x0000000000303974                ___GetKeyWait
+                0x0000000000303984                ___ClearKeyBuffer
+                0x0000000000303994                ___GetVRAMAddress
+                0x00000000003039a4                ___ConfigureStatusArea
+                0x00000000003039b4                ___SpecialMatrixCodeProcessing
+ .text          0x00000000003039d0        0x0 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(inth.S.o)
+ .text          0x00000000003039d0       0xc0 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(drect.c.o)
+                0x00000000003039d0                _drect
+ .text          0x0000000000303a90       0xd0 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(topti-asm.s.o)
+                0x0000000000303a90                _topti_glyph_fg_bg
+                0x0000000000303ace                _topti_glyph_fg
+                0x0000000000303b08                _topti_glyph_bg
+ .text          0x0000000000303b60       0x78 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/m4-nofpu/libgcc.a(_movmem.o)
+                0x0000000000303b60                ___movstr
+                0x0000000000303b60                ___movmem
+                0x0000000000303b94                ___movmemSI64
+                0x0000000000303b94                ___movstrSI64
+                0x0000000000303b98                ___movstrSI60
+                0x0000000000303b98                ___movmemSI60
+                0x0000000000303b9c                ___movmemSI56
+                0x0000000000303b9c                ___movstrSI56
+                0x0000000000303ba0                ___movstrSI52
+                0x0000000000303ba0                ___movmemSI52
+                0x0000000000303ba4                ___movstrSI48
+                0x0000000000303ba4                ___movmemSI48
+                0x0000000000303ba8                ___movstrSI44
+                0x0000000000303ba8                ___movmemSI44
+                0x0000000000303bac                ___movstrSI40
+                0x0000000000303bac                ___movmemSI40
+                0x0000000000303bb0                ___movstrSI36
+                0x0000000000303bb0                ___movmemSI36
+                0x0000000000303bb4                ___movmemSI32
+                0x0000000000303bb4                ___movstrSI32
+                0x0000000000303bb8                ___movmemSI28
+                0x0000000000303bb8                ___movstrSI28
+                0x0000000000303bbc                ___movstrSI24
+                0x0000000000303bbc                ___movmemSI24
+                0x0000000000303bc0                ___movmemSI20
+                0x0000000000303bc0                ___movstrSI20
+                0x0000000000303bc4                ___movstrSI16
+                0x0000000000303bc4                ___movmemSI16
+                0x0000000000303bc8                ___movmemSI12
+                0x0000000000303bc8                ___movstrSI12
+                0x0000000000303bcc                ___movmemSI8
+                0x0000000000303bcc                ___movstrSI8
+                0x0000000000303bd0                ___movmemSI4
+                0x0000000000303bd0                ___movstrSI4
+ .text          0x0000000000303bd8      0x1e0 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/m4-nofpu/libgcc.a(_udivdi3.o)
+                0x0000000000303bd8                ___udivdi3
+ .text          0x0000000000303db8      0x208 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/m4-nofpu/libgcc.a(_umoddi3.o)
+                0x0000000000303db8                ___umoddi3
+ .text          0x0000000000303fc0       0x60 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/m4-nofpu/libgcc.a(_udiv_qrnnd_16.o)
+                0x0000000000303fc0                ___udiv_qrnnd_16
+ .text          0x0000000000304020        0x0 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/m4-nofpu/libgcc.a(_clz.o)
 
-.gint.blocks    0x0000000000303fa0      0x160
+.gint.blocks    0x0000000000304020      0x160
  *(.gint.blocks)
- .gint.blocks   0x0000000000303fa0       0x40 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(inth.s.o)
-                0x0000000000303fa0                _inth_dma_te
-                0x0000000000303fc0                _inth_dma_ae
- .gint.blocks   0x0000000000303fe0       0xe0 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(inth.s.o)
-                0x0000000000303fe0                _inth_tmu
-                0x0000000000304060                _inth_etmu2
-                0x0000000000304080                _inth_etmu_help
-                0x00000000003040a0                _inth_etmux
- .gint.blocks   0x00000000003040c0       0x40 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(inth.S.o)
-                0x00000000003040c0                _gint_inth_7305
+ .gint.blocks   0x0000000000304020       0x40 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(inth.s.o)
+                0x0000000000304020                _inth_dma_te
+                0x0000000000304040                _inth_dma_ae
+ .gint.blocks   0x0000000000304060       0xe0 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(inth.s.o)
+                0x0000000000304060                _inth_tmu
+                0x00000000003040e0                _inth_etmu2
+                0x0000000000304100                _inth_etmu_help
+                0x0000000000304120                _inth_etmux
+ .gint.blocks   0x0000000000304140       0x40 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(inth.S.o)
+                0x0000000000304140                _gint_inth_7305
 
-.gint.drivers   0x0000000000304100       0xc0
-                0x0000000000304100                _bdrv = .
+.gint.drivers   0x0000000000304180       0xc0
+                0x0000000000304180                _bdrv = .
  *(.gint.drivers.0)
  .gint.drivers.0
-                0x0000000000304100       0x20 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(intc.c.o)
-                0x0000000000304100                _drv_intc
+                0x0000000000304180       0x20 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(intc.c.o)
+                0x0000000000304180                _drv_intc
  *(.gint.drivers.1)
  .gint.drivers.1
-                0x0000000000304120       0x20 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(cpg.c.o)
-                0x0000000000304120                _drv_cpg
+                0x00000000003041a0       0x20 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(cpg.c.o)
+                0x00000000003041a0                _drv_cpg
  *(.gint.drivers.2)
  .gint.drivers.2
-                0x0000000000304140       0x20 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(dma.c.o)
-                0x0000000000304140                _drv_dma0
+                0x00000000003041c0       0x20 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(dma.c.o)
+                0x00000000003041c0                _drv_dma0
  .gint.drivers.2
-                0x0000000000304160       0x20 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(tmu.c.o)
-                0x0000000000304160                _drv_tmu
+                0x00000000003041e0       0x20 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(tmu.c.o)
+                0x00000000003041e0                _drv_tmu
  *(.gint.drivers.3)
  *(.gint.drivers.4)
  .gint.drivers.4
-                0x0000000000304180       0x20 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(keysc.c.o)
-                0x0000000000304180                _drv_keysc
+                0x0000000000304200       0x20 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(keysc.c.o)
+                0x0000000000304200                _drv_keysc
  *(.gint.drivers.5)
  .gint.drivers.5
-                0x00000000003041a0       0x20 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(r61524.c.o)
-                0x00000000003041a0                _drv_r61524
+                0x0000000000304220       0x20 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(r61524.c.o)
+                0x0000000000304220                _drv_r61524
  *(.gint.drivers.6)
-                0x00000000003041c0                _edrv = .
+                0x0000000000304240                _edrv = .
 
-.rodata         0x00000000003041c0      0xf90
+.rodata         0x0000000000304240      0xf80
  *(.rodata.4)
  *(.rodata .rodata.*)
  .rodata.str1.4
-                0x00000000003041c0      0x182 build-cg/src/setlevel.c.o
- *fill*         0x0000000000304342        0x2 
- .rodata        0x0000000000304344      0x208 build-cg/assets/img/solid_1.png.o
-                0x0000000000304344                _img_solid_1
-                0x000000000030454c                _img_solid_1_end
- .rodata        0x000000000030454c      0x128 build-cg/assets/img/player.png.o
-                0x000000000030454c                _img_player
-                0x0000000000304674                _img_player_end
- .rodata        0x0000000000304674      0x208 build-cg/assets/img/solid_0.png.o
-                0x0000000000304674                _img_solid_0
-                0x000000000030487c                _img_solid_0_end
+                0x0000000000304240        0x7 build-cg/src/main.c.o
+ *fill*         0x0000000000304247        0x1 
  .rodata.str1.4
-                0x000000000030487c        0x7 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(r61524.c.o)
- *fill*         0x0000000000304883        0x1 
- .rodata        0x0000000000304884       0x30 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(dma.c.o)
+                0x0000000000304248      0x16a build-cg/src/setlevel.c.o
+ *fill*         0x00000000003043b2        0x2 
+ .rodata        0x00000000003043b4      0x208 build-cg/assets/img/solid_1.png.o
+                0x00000000003043b4                _img_solid_1
+                0x00000000003045bc                _img_solid_1_end
+ .rodata        0x00000000003045bc      0x128 build-cg/assets/img/player.png.o
+                0x00000000003045bc                _img_player
+                0x00000000003046e4                _img_player_end
+ .rodata        0x00000000003046e4      0x208 build-cg/assets/img/solid_0.png.o
+                0x00000000003046e4                _img_solid_0
+                0x00000000003048ec                _img_solid_0_end
  .rodata.str1.4
-                0x00000000003048b4        0x5 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(dma.c.o)
- *fill*         0x00000000003048b9        0x3 
+                0x00000000003048ec        0x7 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(r61524.c.o)
+ *fill*         0x00000000003048f3        0x1 
+ .rodata        0x00000000003048f4       0x30 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(dma.c.o)
  .rodata.str1.4
-                0x00000000003048bc        0x5 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(intc.c.o)
- *fill*         0x00000000003048c1        0x3 
+                0x0000000000304924        0x5 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(dma.c.o)
+ *fill*         0x0000000000304929        0x3 
  .rodata.str1.4
-                0x00000000003048c4      0x288 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(exch.c.o)
+                0x000000000030492c        0x5 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(intc.c.o)
+ *fill*         0x0000000000304931        0x3 
+ .rodata.str1.4
+                0x0000000000304934      0x288 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(exch.c.o)
                                         0x28c (size before relaxing)
  .rodata.str1.4
-                0x0000000000304b4c        0x6 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(keysc.c.o)
- *fill*         0x0000000000304b52        0x2 
- .rodata        0x0000000000304b54        0xc /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(tmu.c.o)
+                0x0000000000304bbc        0x6 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(keysc.c.o)
+ *fill*         0x0000000000304bc2        0x2 
+ .rodata        0x0000000000304bc4        0xc /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(tmu.c.o)
  .rodata.str1.4
-                0x0000000000304b60        0x4 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(tmu.c.o)
+                0x0000000000304bd0        0x4 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(tmu.c.o)
  .rodata.str1.4
-                0x0000000000304b64       0x31 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(stdio.c.o)
- *fill*         0x0000000000304b95        0x3 
+                0x0000000000304bd4       0x31 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(stdio.c.o)
+ *fill*         0x0000000000304c05        0x3 
  .rodata.str1.4
-                0x0000000000304b98        0x4 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(cpg.c.o)
- .rodata        0x0000000000304b9c       0x18 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(topti.c.o)
- .rodata        0x0000000000304bb4      0x49c /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(font8x9.png.o)
-                0x0000000000304bb4                _gint_font8x9
-                0x0000000000305050                _gint_font8x9_end
- .rodata        0x0000000000305050      0x100 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/m4-nofpu/libgcc.a(_clz.o)
-                0x0000000000305050                ___clz_tab
+                0x0000000000304c08        0x4 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(cpg.c.o)
+ .rodata        0x0000000000304c0c       0x18 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(topti.c.o)
+ .rodata        0x0000000000304c24      0x49c /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(font8x9.png.o)
+                0x0000000000304c24                _gint_font8x9
+                0x00000000003050c0                _gint_font8x9_end
+ .rodata        0x00000000003050c0      0x100 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/m4-nofpu/libgcc.a(_clz.o)
+                0x00000000003050c0                ___clz_tab
 
-.rela.dyn       0x0000000000305150        0x0
- .rela.text     0x0000000000305150        0x0 build-cg/src/drawlevel.c.o
+.rela.dyn       0x00000000003051c0        0x0
+ .rela.text     0x00000000003051c0        0x0 build-cg/src/drawlevel.c.o
  .rela.text.entry
-                0x0000000000305150        0x0 build-cg/src/drawlevel.c.o
+                0x00000000003051c0        0x0 build-cg/src/drawlevel.c.o
                 0x0000000008101400                . = ORIGIN (ram)
 
 .bss            0x0000000008101400      0x150
@@ -522,8 +524,8 @@ LOAD /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/m4-nofpu/libgc
  *fill*         0x0000000008101548        0x8 
                 0x0000000000000150                _sbss = SIZEOF (.bss)
 
-.data           0x0000000008101550      0x170 load address 0x0000000000305150
-                0x0000000000305150                _ldata = LOADADDR (.data)
+.data           0x0000000008101550      0x170 load address 0x00000000003051c0
+                0x00000000003051c0                _ldata = LOADADDR (.data)
                 0x0000000008101550                _rdata = .
  *(.data .data.*)
  .data          0x0000000008101550        0x0 build-cg/src/drawlevel.c.o
@@ -576,14 +578,14 @@ LOAD /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/m4-nofpu/libgc
                 0x00000000081016c0                . = ALIGN (0x10)
  *fill*         0x00000000081016b8        0x8 
 
-.data.4         0x00000000081016c0        0x0 load address 0x00000000003052c0
+.data.4         0x00000000081016c0        0x0 load address 0x0000000000305330
  *(.data.4)
                 0x00000000081016c0                . = ALIGN (0x10)
                 0x0000000000000170                _sdata = (SIZEOF (.data) + SIZEOF (.data.4))
                 0x00000000e5200000                . = ORIGIN (ilram)
 
-.ilram          0x00000000e5200000      0x160 load address 0x00000000003052c0
-                0x00000000003052c0                _lilram = LOADADDR (.ilram)
+.ilram          0x00000000e5200000      0x160 load address 0x0000000000305330
+                0x0000000000305330                _lilram = LOADADDR (.ilram)
                 0x00000000e5200000                _rilram = .
  *(.ilram)
  .ilram         0x00000000e5200000       0x20 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(memset.c.o)
@@ -602,15 +604,15 @@ LOAD /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/m4-nofpu/libgc
  *fill*         0x00000000e5200154        0xc 
                 0x00000000e5007000                . = ORIGIN (xram)
 
-.xram           0x00000000e5007000        0x0 load address 0x0000000000305420
-                0x0000000000305420                _lxram = LOADADDR (.xram)
+.xram           0x00000000e5007000        0x0 load address 0x0000000000305490
+                0x0000000000305490                _lxram = LOADADDR (.xram)
                 0x00000000e5007000                _rxram = .
  *(.xram)
                 0x00000000e5007000                . = ALIGN (0x10)
                 0x00000000e5017000                . = ORIGIN (yram)
 
-.yram           0x00000000e5017000        0x0 load address 0x0000000000305420
-                0x0000000000305420                _lyram = LOADADDR (.yram)
+.yram           0x00000000e5017000        0x0 load address 0x0000000000305490
+                0x0000000000305490                _lyram = LOADADDR (.yram)
                 0x00000000e5017000                _ryram = .
  *(.yram)
                 0x00000000e5017000                . = ALIGN (0x10)
@@ -621,8 +623,8 @@ LOAD /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/m4-nofpu/libgc
                 0x000000008815ff00                _gint_vbr_fxcg20 = (ORIGIN (vbr20) - 0x100)
                 0x00000000081016c0                . = ((ORIGIN (ram) + _sbss) + _sdata)
 
-.gint.data      0x00000000081016c0       0xa0 load address 0x0000000000305420
-                0x0000000000305420                _lgdata = LOADADDR (.gint.data)
+.gint.data      0x00000000081016c0       0xa0 load address 0x0000000000305490
+                0x0000000000305490                _lgdata = LOADADDR (.gint.data)
                 0x00000000081016c0                _rgdata = .
  *(.gint.data .gint.data.*)
  .gint.data     0x00000000081016c0        0x8 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(r61524.c.o)
@@ -640,7 +642,7 @@ LOAD /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/m4-nofpu/libgc
  *fill*         0x0000000008101758        0x8 
                 0x00000000000000a0                _sgdata = SIZEOF (.gint.data)
 
-.gint.bss       0x0000000008101760      0x530 load address 0x00000000003054c0
+.gint.bss       0x0000000008101760      0x530 load address 0x0000000000305530
  *(.gint.bss .gint.bss.*)
  .gint.bss      0x0000000008101760       0x10 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(r61524.c.o)
  .gint.bss      0x0000000008101770       0xd0 /home/benjamingr/Documents/casio/gcc/lib/gcc/sh3eb-elf/9.3.0/libgint-cg.a(dma.c.o)
