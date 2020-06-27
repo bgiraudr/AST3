@@ -12,6 +12,7 @@ int main(void)
 {
 	dclear(C_WHITE);
 	int player_x=30, player_y=35;
+	int a=0;
 	char level[351];
 	char gravity = 0; //0 down 1 up
 	int id_level = 1;
@@ -34,33 +35,47 @@ int main(void)
 		}
 		else if(keydown(KEY_SHIFT))
 		{
-			gravity = 1;
+			player_y-=PLAYER_SPEED;
 		}
 		else if(keydown(KEY_ALPHA))
 		{
-			gravity = 0;
+			player_y+=PLAYER_SPEED;
 		}
 		if(keydown(KEY_EXIT))
 		{
 			break;
 		}
-		if (collide(player_x, player_y, '1', gravity, level)==0)
+		if(keydown(KEY_OPTN))
 		{
-			player_y+=PLAYER_GRAVITY;
+			a+=1;
 		}
-		else if (collide(player_x, player_y, '1', gravity, level)==1)
+		if(keydown(KEY_VARS))
 		{
-			player_y-=PLAYER_GRAVITY;
+			if (!gravity) gravity=1;
+			else gravity = 0;
+		}
+		if (collide(player_x, player_y, '1', level, gravity)==0 && a%2==0)
+		{
+			if(gravity) player_y+=PLAYER_GRAVITY;
+			else player_y-=PLAYER_GRAVITY;
+		}
+		else
+		{
+			if((player_y-4)%16!=0 && gravity) player_y--;
+			else if((player_y)%16!=0 && !gravity) player_y++;
 		}
 		draw_level(level);
 		draw_player(player_x,player_y);
-		dprint(100,100,C_BLACK,"%d",(int)(player_x/16));
-		dprint(100,150,C_BLACK,"%d",(int)(player_y/16));
+		int x = player_x;
+		int y = player_y;
 		dprint(150,100,C_BLACK,"%d",player_x);
 		dprint(150,150,C_BLACK,"%d",player_y);
-		dprint(150,200,C_BLACK,"%d",(int)(player_x/16)+(int)(player_y/16)*25+25);
-		dprint(100,180,C_BLACK,"%c",level[(int)(player_x/16)+(int)(player_y/16)*25+25]);
-		dprint(120,180,C_BLACK,"%c",level[(int)(player_x/16)+(int)(player_y/16)*25-25]);
+		//dprint(100,180,C_BLACK,"%c",level[(int)(player_x/16)+(int)(player_y/16)*25+25]);
+		//dprint(120,180,C_BLACK,"%c",level[(int)(player_x/16)+(int)(player_y/16)*25-25]);
+		dprint(200,120,C_BLACK,"%c",level[(int)(x/16)+(int)(y/16*25)]);
+		dprint(200,140,C_BLACK,"%c",level[(int)(x/16)+(int)((y+12)/16*25)]);
+		dprint(200,160,C_BLACK,"%c",level[(int)((x+12)/16)+(int)((y+12)/16*25)]);
+		dprint(200,180,C_BLACK,"%c",level[(int)((x+12)/16)+(int)(y/16*25)]);
 	}
 	return 0;
 }
