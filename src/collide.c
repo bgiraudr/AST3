@@ -2,30 +2,30 @@
 #include "define.h"
 #include <gint/display.h>
 
-int collide(int x, int y, char block, char level[], char gravity)
+int collide_vert(int x, int y, char level[], char gravity) //detect if a block is colliding when changing gravity
 {
-	if((level[(int)(x/16)+(int)((y-1)/16*25)] == block || 
-	level[(int)((x+PLAYER_HEIGHT-1)/16)+(int)((y-1)/16*25)] == block) && gravity) //return true if player is touching a block on top of him
+	if((level[(int)(x/16)+(int)((y-1)/16*25)] != '0' || 
+	level[(int)((x+PLAYER_HEIGHT-1)/16)+(int)((y-1)/16*25)] != '0') && gravity) //return true if player is touching a block on top of him
 	{
 		return 1;
 	}
-	else if((level[(int)(x/16)+(int)((y+PLAYER_HEIGHT)/16*25)] == block || 
-	level[(int)((x+PLAYER_HEIGHT-1)/16)+(int)((y+PLAYER_HEIGHT)/16*25)] == block) && !gravity) //return true if player is touching a block on the bottom of him
+	else if((level[(int)(x/16)+(int)((y+PLAYER_HEIGHT)/16*25)] != '0' || 
+	level[(int)((x+PLAYER_HEIGHT-1)/16)+(int)((y+PLAYER_HEIGHT)/16*25)] != '0') && !gravity) //return true if player is touching a block on the bottom of him
 	{
-		return 2;
+		return 1;
 	}
 	else return 0;
 }
 
-int collide_solid(int x, int y, char block, char level[])
+int collide_hor(int x, int y, char level[]) //detect if a block is colliding with the player when going left or right
 {
-	if(level[(int)((x+PLAYER_HEIGHT+1)/16)+(int)(y/16*25)] == block ||
-	level[(int)((x+PLAYER_HEIGHT+1)/16)+(int)((y+PLAYER_HEIGHT-1)/16*25)] == block) //return if player is next to a block on his right
+	if(level[(int)((x+PLAYER_HEIGHT)/16)+(int)(y/16*25)] != '0' ||
+	level[(int)((x+PLAYER_HEIGHT)/16)+(int)((y+PLAYER_HEIGHT-1)/16*25)] != '0') //return if player is next to a block on his right
 	{
 		return 1;
 	}
-	else if(level[(int)((x-1)/16)+(int)(y/16*25)] == block ||
-	level[(int)((x-1)/16)+(int)((y+PLAYER_HEIGHT-1)/16*25)] == block) //return if player is next to a block on his left
+	else if(level[(int)((x-1)/16)+(int)(y/16*25)] != '0' ||
+	level[(int)((x-1)/16)+(int)((y+PLAYER_HEIGHT-1)/16*25)] != '0') //return if player is next to a block on his left
 	{
 		return 2;
 	}
