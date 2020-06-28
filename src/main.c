@@ -47,17 +47,13 @@ int main(void)
 		switch (collide(player_x, player_y, '1', level, gravity))
 		{
 			case 0:
-				if(gravity) player_y+=PLAYER_GRAVITY;
+				if(!gravity) player_y+=PLAYER_GRAVITY;
 				else player_y-=PLAYER_GRAVITY;
 				break;
-			case 1:
-				if((player_y-4)%16!=0 && gravity) player_y--;
-				else if((player_y)%16!=0 && !gravity) player_y++;
+			case 1 || 2:
+				if((player_y-4)%16!=0 && !gravity) player_y--;
+				else if((player_y)%16!=0 && gravity) player_y++;
 				break;
-			/*case '2':
-				if((player_x+PLAYER_HEIGHT)%16!=0) player_x--;
-			case '3':
-				if((player_x+PLAYER_HEIGHT)%16!=0) player_x--;*/
 		}
 		draw_level(level);
 		draw_player(player_x,player_y);
@@ -65,8 +61,8 @@ int main(void)
 		int y = player_y;
 		dprint(150,100,C_BLACK,"%d",player_x);
 		dprint(150,150,C_BLACK,"%d",player_y);
-		dprint(100,180,C_BLACK,"%c",level[(int)((x+PLAYER_HEIGHT+1)/16)+(int)(y/16*25)]);
-		dprint(120,180,C_BLACK,"%c",level[(int)((x+PLAYER_HEIGHT+1)/16)+(int)((y+PLAYER_HEIGHT-1)/16*25)]);
+		dprint(100,180,C_BLACK,"%c",level[(int)((x+PLAYER_HEIGHT)/16)+(int)(y/16*25)]);
+		dprint(120,180,C_BLACK,"%c",level[(int)((x+PLAYER_HEIGHT)/16)+(int)((y+PLAYER_HEIGHT-1)/16*25)]);
 		dprint(100,120,C_BLACK,"%d",collide(player_x, player_y, '1', level, gravity));
 		dprint(100,140,C_BLACK,"%d",collide_solid(player_x, player_y, '1', level));
 		dprint(200,120,C_BLACK,"%c",level[(int)(x/16)+(int)(y/16*25)]);
