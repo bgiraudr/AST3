@@ -9,12 +9,14 @@
 int main(void)
 {
 	dclear(C_WHITE);
-	int player_x=30, player_y=35;
+	int player_x = 20, player_y = 20;
 	char level[351];
 	char gravity = 0; //0 down 1 up
 	char check = 0;
 	int id_level = 1;
-	set_level(id_level,level);
+	int hor = 0;
+	int vert = 0;
+	set_level(id_level, level, &player_x, &player_y);
 	draw_level(level);
 	while(1)
 	{
@@ -24,6 +26,9 @@ int main(void)
 		dprint(150,100,C_GREEN,"%d",player_x);
 		dprint(150,120,C_GREEN,"%d",player_y);
 
+		dprint(320,120,C_GREEN,"%d",hor);
+		dprint(320,140,C_GREEN,"%d",vert);
+		
 		dprint(300,120,C_GREEN,"%c",level[(int)((player_x-1)/16)+(int)((player_y-1)/16*25)]); //top left
 		dprint(300,140,C_GREEN,"%c",level[(int)((player_x+PLAYER_HEIGHT)/16)+(int)((player_y-1)/16*25)]); //top right
 		dprint(300,160,C_GREEN,"%c",level[(int)(player_x/16)+(int)((player_y+PLAYER_HEIGHT)/16*25)]); //bottom left
@@ -31,19 +36,20 @@ int main(void)
 		
 		dupdate();
 		
+		collide_solid(player_x, player_y, level, gravity, &hor, &vert);
 		pollevent();
-		if(keydown(KEY_RIGHT) && collide_hor(player_x, player_y, level)!=1)
+		if(keydown(KEY_RIGHT) && hor!=1)
 		{
 			player_x+=PLAYER_SPEED;
 			if(player_x>=388) player_x=-4;
 
 		}
-		else if(keydown(KEY_LEFT) && collide_hor(player_x, player_y, level)!=2)
+		else if(keydown(KEY_LEFT) && hor!=2)
 		{
 			player_x-=PLAYER_SPEED;
 			if(player_x<-9) player_x=384;
 		}
-		if(keydown(KEY_SHIFT) && !check && collide_vert(player_x, player_y, level, gravity))
+		if(keydown(KEY_SHIFT) && !check && vert)
 		{
 			if(!gravity) gravity=1;
 			else gravity=0;
@@ -54,7 +60,8 @@ int main(void)
 		{
 			break;
 		}
-		switch (collide_vert(player_x, player_y, level, gravity))
+		collide_solid(player_x, player_y, level, gravity, &hor, &vert);
+		switch (vert)
 		{
 			case 0:
 				if(!gravity) player_y+=PLAYER_GRAVITY;

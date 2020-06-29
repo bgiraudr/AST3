@@ -1,2 +1,2 @@
-int collide_vert(int x, int y, char level[], char gravity);
-int collide_hor(int x, int y, char level[]);
+void collide(int x, int y, char level[], char gravity, int *hor, int *vert, char block);
+void collide_solid(int x, int y, char level[], char gravity, int *hor, int *vert);
