@@ -1,3 +1,3 @@
-#define PLAYER_SPEED 2
-#define PLAYER_GRAVITY 4
-#define PLAYER_HEIGHT 12
+#define PLAYER_SPEED 3
+#define PLAYER_GRAVITY 6
+#define PLAYER_HEIGHT 11

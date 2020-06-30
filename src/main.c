@@ -24,7 +24,10 @@ int main(void)
 		dprint(150,100,C_GREEN,"%d",player_x);
 		dprint(150,120,C_GREEN,"%d",player_y);
 
-		dprint(320,120,C_GREEN,"%d",collide_solid(player_x, player_y, level, gravity));
+		dprint(320,120,C_GREEN,"%d",collide_solid(player_x+1, player_y, level, gravity));
+		dprint(320,140,C_GREEN,"%d",collide_solid(player_x-1, player_y, level, gravity));
+		dprint(320,160,C_GREEN,"%d",collide_solid(player_x, player_y+1, level, gravity));
+		dprint(320,180,C_GREEN,"%d",collide_solid(player_x, player_y-1, level, gravity));
 		
 		dprint(300,120,C_GREEN,"%c",level[(int)((player_x-1)/16)+(int)((player_y-1)/16*25)]); //top left
 		dprint(300,140,C_GREEN,"%c",level[(int)((player_x+PLAYER_HEIGHT)/16)+(int)((player_y-1)/16*25)]); //top right
@@ -36,16 +39,18 @@ int main(void)
 		pollevent();
 		if(keydown(KEY_RIGHT))
 		{
-			player_x+=PLAYER_SPEED;
+			if(!collide_solid(player_x+PLAYER_SPEED, player_y, level, gravity)) player_x+=PLAYER_SPEED;
+			else if(!collide_solid(player_x+1, player_y, level, gravity)) player_x+=1;
 			if(player_x>=388) player_x=-4;
 
 		}
 		else if(keydown(KEY_LEFT))
 		{
-			player_x-=PLAYER_SPEED;
+			if(!collide_solid(player_x-PLAYER_SPEED, player_y, level, gravity)) player_x-=PLAYER_SPEED;
+			else if(!collide_solid(player_x-1, player_y, level, gravity)) player_x-=1;
 			if(player_x<-9) player_x=384;
 		}
-		if(keydown(KEY_SHIFT) && !check && collide_solid(player_x, player_y, level, gravity))
+		if(keydown(KEY_SHIFT) && !check && (collide_solid(player_x, player_y-1, level, gravity) || collide_solid(player_x, player_y+1, level, gravity)))
 		{
 			if(!gravity) gravity=1;
 			else gravity=0;
@@ -53,19 +58,24 @@ int main(void)
 		}
 		else if(!keydown(KEY_SHIFT) && check) check=0;
 		if(keydown(KEY_EXIT)) break;
-		switch (collide_solid(player_x, player_y, level, gravity))
+		if(!gravity)
 		{
-			case 0:
-				if(!gravity) player_y+=PLAYER_GRAVITY;
-				else player_y-=PLAYER_GRAVITY;
-				if(player_y>=212) player_y=-4;
-				if(player_y<-6) player_y=212;
-				break;
-			case 1:
-				if((player_y-4)%16!=0 && !gravity) player_y--;
-				else if((player_y)%16!=0 && gravity) player_y++;
-				break;
+			if(!collide_solid(player_x, player_y+PLAYER_GRAVITY, level, gravity)) player_y+=PLAYER_GRAVITY;
+			else if(!collide_solid(player_x, player_y+1, level, gravity)) player_y+=1;
 		}
+		else
+		{
+			if(!collide_solid(player_x, player_y-PLAYER_GRAVITY, level, gravity)) player_y-=PLAYER_GRAVITY;
+			else if(!collide_solid(player_x, player_y-1, level, gravity)) player_y-=1;
+		}
+		if(player_y>=212) player_y=-4;
+		if(player_y<-6) player_y=212;
+
+		/*else
+		{
+			if((player_y-4)%16!=0 && !gravity) player_y--;
+			else if((player_y)%16!=0 && gravity) player_y++;
+		}*/
 	}
 	return 0;
 }
