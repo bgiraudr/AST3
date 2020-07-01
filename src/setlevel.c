@@ -1,7 +1,7 @@
 #include "setlevel.h"
 #include <gint/std/string.h>
 
-void set_level(int id_level, char level[], int *startx, int *starty)
+void set_level(int id_level, char level[], int *startx, int *starty, char *gravity)
 {
 	switch(id_level)
 	{
@@ -12,6 +12,8 @@ void set_level(int id_level, char level[], int *startx, int *starty)
 			memcpy(level,"1210011111111002110011122200000111ddd000111000000120000000000000011100000e1111111ddd111112211111121100000000000000000000d0000122111111dd111111200d000210002100000000011200d000200002100000000012100d000000000000000000011100d00001111dd11200000011100112222000011211ddd0021100111111000011111ddd00211001111110s0021111ddd0012100211111110021111111001110021111",350);
 			break;
 	}
+	
+	set_gravity(id_level, gravity);
 	
 	unsigned int x = 0;
 	unsigned int y = 0;
@@ -32,5 +34,18 @@ void set_level(int id_level, char level[], int *startx, int *starty)
 			y+=16;
 		}
 		i++;
+	}
+}
+
+void set_gravity(int id_level, char *default_gravity)
+{
+	switch(id_level)
+	{
+		case 1:
+			*default_gravity = 0; //0 down - 1 up
+			break;
+		case 2:
+			*default_gravity = 1; //0 down - 1 up
+			break;
 	}
 }

@@ -16,7 +16,7 @@ int main(void)
 	int id_level = 1;
 	int start_x;
 	int start_y;
-	set_level(id_level, level, &start_x, &start_y);
+	set_level(id_level, level, &start_x, &start_y, &gravity);
 	player_x = start_x;
 	player_y = start_y;
 	draw_level(level);
@@ -33,11 +33,11 @@ int main(void)
 		dprint(320,160,C_GREEN,"%d",collide_solid(player_x, player_y+1, level, gravity));
 		dprint(320,180,C_GREEN,"%d",collide_solid(player_x, player_y-1, level, gravity));*/
 		
-		dprint(300,100,C_GREEN,"%d",collide_dead(player_x, player_y, level));
+		/*dprint(300,100,C_GREEN,"%d",collide_dead(player_x, player_y, level));
 		dprint(300,120,C_GREEN,"%c",level[(int)((player_x-1)/16)+(int)((player_y-1)/16*25)]); //top left
 		dprint(300,140,C_GREEN,"%c",level[(int)((player_x+PLAYER_HEIGHT+1)/16)+(int)((player_y-1)/16*25)]); //top right
 		dprint(300,160,C_GREEN,"%c",level[(int)((player_x-1)/16)+(int)((player_y+PLAYER_HEIGHT+1)/16*25)]); //bottom left
-		dprint(300,180,C_GREEN,"%c",level[(int)((player_x+PLAYER_HEIGHT+1)/16)+(int)((player_y+PLAYER_HEIGHT+1)/16*25)]); //bottom right
+		dprint(300,180,C_GREEN,"%c",level[(int)((player_x+PLAYER_HEIGHT+1)/16)+(int)((player_y+PLAYER_HEIGHT+1)/16*25)]); //bottom right*/
 		
 		dupdate();
 		
@@ -77,11 +77,12 @@ int main(void)
 		{
 			player_x = start_x;
 			player_y = start_y;
+			set_gravity(id_level, &gravity);
 		}
 		if(collide_end(player_x, player_y, level, gravity))
 		{
 			id_level++;
-			set_level(id_level, level, &start_x, &start_y);
+			set_level(id_level, level, &start_x, &start_y, &gravity);
 			player_x = start_x;
 			player_y = start_y;
 		}

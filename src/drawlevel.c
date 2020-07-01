@@ -14,7 +14,7 @@ void draw_player(int x, int y)
 }
 void draw_level(char level[])
 {
-	dclear(C_WHITE);
+	dclear(C_BLACK);
 	unsigned int x = 0;
 	unsigned int y = 0;
 	unsigned int i = 0;
