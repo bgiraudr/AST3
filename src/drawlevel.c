@@ -1,11 +1,12 @@
 #include "drawlevel.h"
 #include <gint/std/string.h>
 #include <gint/display.h>
-#include <gint/keyboard.h>
 
-extern bopti_image_t img_solid_0;
-extern bopti_image_t img_solid_1;
-extern bopti_image_t img_player;
+extern bopti_image_t img_solid_0; //solid block
+extern bopti_image_t img_solid_1; //another solid block
+extern bopti_image_t img_dead; //dead block
+extern bopti_image_t img_player; //player
+extern bopti_image_t img_end; //end of level
 
 void draw_player(int x, int y)
 {
@@ -26,6 +27,12 @@ void draw_level(char level[])
 				break;
 			case '2':
 				dimage(x,y,&img_solid_1);
+				break;
+			case 'd':
+				dimage(x,y,&img_dead);
+				break;
+			case 'e':
+				dimage(x,y,&img_end);
 				break;
 		}
 		x+=16;
