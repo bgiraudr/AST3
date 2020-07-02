@@ -1,14 +1,29 @@
 #include <gint/display.h>
 #include <gint/keyboard.h>
+#include <gint/clock.h>
+#include <gint/timer.h>
+
 #include "setlevel.h"
 #include "drawlevel.h"
 #include "collide.h"
-
 #include "define.h"
+
+#define ACCELERATION 0.4
+#define MAX_VSPD 9.0
+
+int callback(volatile int *frame_elapsed)
+{
+    *frame_elapsed = 1;
+    return TIMER_CONTINUE;
+}
 
 int main(void)
 {
-	dclear(C_WHITE);
+	volatile int frame_elapsed = 1;
+	int timer = timer_setup(TIMER_ANY, 16500, callback, &frame_elapsed);
+	timer_start(timer);
+	
+	unsigned int frame = 0;
 	int player_x = 20, player_y = 20;
 	char level[351];
 	char gravity = 0; //0 down 1 up
@@ -16,15 +31,24 @@ int main(void)
 	int id_level = 1;
 	int start_x;
 	int start_y;
+	
+	float vspd = 1.0;
+	int vert_spd = 1;
+	
 	set_level(id_level, level, &start_x, &start_y, &gravity);
 	player_x = start_x;
 	player_y = start_y;
 	draw_level(level);
 	while(1)
 	{
-		draw_level(level);
-		draw_player(player_x,player_y);
+		while(!frame_elapsed) sleep();
+		frame_elapsed = 0;
 		
+		frame++;
+		
+		draw_level(level);
+		draw_player(player_x,player_y);	
+		draw_timer(frame);
 		dprint(150,100,C_GREEN,"%d",player_x);
 		dprint(150,120,C_GREEN,"%d",player_y);
 
@@ -65,16 +89,37 @@ int main(void)
 		if(keydown(KEY_EXIT)) break;
 		if(!gravity)
 		{
-			if(!collide_solid(player_x, player_y+PLAYER_GRAVITY, level, gravity)) player_y+=PLAYER_GRAVITY;
-			else if(!collide_solid(player_x, player_y+1, level, gravity)) player_y+=1;
+			if(!collide_solid(player_x, player_y+vert_spd, level, gravity))
+			{
+				if (vspd<MAX_VSPD) vspd+=ACCELERATION;
+				vert_spd = vspd;
+				player_y+=vert_spd;
+			}
+			else if(!collide_solid(player_x, player_y+1, level, gravity))
+			{
+				vspd = 1;
+				player_y+=1;
+			}
+			else vspd = 1;
 		}
 		else
 		{
-			if(!collide_solid(player_x, player_y-PLAYER_GRAVITY, level, gravity)) player_y-=PLAYER_GRAVITY;
-			else if(!collide_solid(player_x, player_y-1, level, gravity)) player_y-=1;
+			if(!collide_solid(player_x, player_y-vert_spd, level, gravity))
+			{
+				if (vspd<MAX_VSPD) vspd+=ACCELERATION;
+				vert_spd = vspd;
+				player_y-=vert_spd;
+			}
+			else if(!collide_solid(player_x, player_y-1, level, gravity))
+			{
+				vspd = 1;
+				player_y-=1;
+			}
+			else vspd = 1;
 		}
 		if(collide_dead(player_x, player_y, level))
 		{
+			vspd = 1;
 			player_x = start_x;
 			player_y = start_y;
 			set_gravity(id_level, &gravity);
@@ -89,5 +134,6 @@ int main(void)
 		if(player_y>=212) player_y=-4;
 		if(player_y<-6) player_y=212;
 	}
+	timer_stop(timer);
 	return 0;
 }

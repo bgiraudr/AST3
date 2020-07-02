@@ -1,6 +1,7 @@
 #include "drawlevel.h"
 #include <gint/std/string.h>
 #include <gint/display.h>
+#include "define.h"
 
 extern bopti_image_t img_solid_0; //solid block
 extern bopti_image_t img_solid_1; //another solid block
@@ -43,4 +44,9 @@ void draw_level(char level[])
 		}
 		i++;
 	}
+}
+
+void draw_timer(unsigned int frame)
+{
+	dprint_opt(0, 0, C_WHITE, C_BLACK, DTEXT_LEFT, DTEXT_TOP, "%u.%02u",(frame)/45, (frame)%45);
 }
