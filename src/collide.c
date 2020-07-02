@@ -14,7 +14,10 @@ char collide(int x, int y, char level[], char gravity, char block) //detect if p
 
 char collide_solid(int x, int y, char level[], char gravity)
 {
-	return collide(x, y, level, gravity, '1') || collide(x, y, level, gravity, '2');
+	return collide(x, y, level, gravity, '1') 
+	|| collide(x, y, level, gravity, '2') 
+	|| collide(x, y, level, gravity, '3')
+	|| collide(x, y, level, gravity, '4');
 }
 
 char collide_dead(int x, int y, char level[])

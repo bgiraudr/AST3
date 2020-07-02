@@ -131,6 +131,22 @@ int main(void)
 			player_x = start_x;
 			player_y = start_y;
 		}
+		if(collide(player_x, player_y, level, gravity, 'k')) //Collide with key1 = disappearance of blocks
+		{
+			for (int i = 0; level[i]!='\0' ; i++) 
+			{
+				if(level[i]=='3') level[i]='0';
+				if(level[i]=='k') level[i]='0';
+			}
+		}
+		if(collide(player_x, player_y, level, gravity, 'K')) //Collide with key2 = appearance of blocks
+		{
+			for (int i = 0; level[i]!='\0' ; i++) 
+			{
+				if(level[i]=='a') level[i]='4';
+				if(level[i]=='K') level[i]='0';
+			}
+		}
 		if(player_y>=212) player_y=-4;
 		if(player_y<-6) player_y=212;
 	}

@@ -8,6 +8,8 @@ extern bopti_image_t img_solid_1; //another solid block
 extern bopti_image_t img_dead; //dead block
 extern bopti_image_t img_player; //player
 extern bopti_image_t img_end; //end of level
+extern bopti_image_t img_key1; //key 1
+extern bopti_image_t img_keyblock; //block link to the key1
 
 void draw_player(int x, int y)
 {
@@ -23,17 +25,29 @@ void draw_level(char level[])
 	{
 		switch(level[i])
 		{
-			case '1':
+			case '1': //solid block
 				dimage(x,y,&img_solid_0);
 				break;
-			case '2':
+			case '2': //another solid block
 				dimage(x,y,&img_solid_1);
 				break;
-			case 'd':
+			case 'd': //dead block
 				dimage(x,y,&img_dead);
 				break;
-			case 'e':
+			case 'e': //end of level
 				dimage(x,y,&img_end);
+				break;
+			case '3': //block link to the key1
+				dimage(x,y,&img_keyblock);
+				break;
+			case 'k': //key1
+				dimage(x,y,&img_key1);	
+				break;
+			case '4': //block link to the key2
+				dimage(x,y,&img_keyblock);
+				break;
+			case 'K': //key2
+				dimage(x,y,&img_key1);
 				break;
 		}
 		x+=16;
