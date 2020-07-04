@@ -20,10 +20,11 @@ int callback(volatile int *frame_elapsed)
 int main(void)
 {
 	volatile int frame_elapsed = 1;
-	int timer = timer_setup(TIMER_ANY, 16500, callback, &frame_elapsed);
+	int timer = timer_setup(TIMER_ANY, 1000000/FPS, callback, &frame_elapsed);
 	timer_start(timer);
 	
 	unsigned int frame = 0;
+	unsigned int framelevel = 0;
 	int player_x = 20, player_y = 20;
 	char level[351];
 	char gravity = 0; //0 down 1 up
@@ -45,7 +46,7 @@ int main(void)
 		frame_elapsed = 0;
 		
 		frame++;
-		
+		framelevel++;
 		draw_level(level);
 		draw_player(player_x,player_y);	
 		draw_timer(frame);
@@ -122,7 +123,8 @@ int main(void)
 			vspd = 1;
 			player_x = start_x;
 			player_y = start_y;
-			set_gravity(id_level, &gravity);
+			set_level(id_level, level, &start_x, &start_y, &gravity);
+			framelevel=0;
 		}
 		if(collide_end(player_x, player_y, level, gravity))
 		{
@@ -130,6 +132,7 @@ int main(void)
 			set_level(id_level, level, &start_x, &start_y, &gravity);
 			player_x = start_x;
 			player_y = start_y;
+			framelevel=0;
 		}
 		if(collide(player_x, player_y, level, gravity, 'k')) //Collide with key1 = disappearance of blocks
 		{
@@ -147,6 +150,8 @@ int main(void)
 				if(level[i]=='K') level[i]='0';
 			}
 		}
+		if((framelevel/FPS)>13) for (int i = 0; level[i]!='\0' ; i++) if(level[i]=='c') level[i]='0'; //after 13 seconds blocks disappear
+		if((framelevel/FPS)>10) for (int i = 0; level[i]!='\0' ; i++) if(level[i]=='m') level[i]='C'; //after 10 seconds blocks appear
 		if(player_y>=212) player_y=-4;
 		if(player_y<-6) player_y=212;
 	}

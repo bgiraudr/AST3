@@ -49,6 +49,12 @@ void draw_level(char level[])
 			case 'K': //key2
 				dimage(x,y,&img_key1);
 				break;
+			case 'c': //chrono blocks
+				dimage(x,y,&img_solid_1);
+				break;
+			case 'C': //chrono blocks
+				dimage(x,y,&img_solid_1);
+				break;
 		}
 		x+=16;
 		if(x==16*25)
@@ -62,5 +68,5 @@ void draw_level(char level[])
 
 void draw_timer(unsigned int frame)
 {
-	dprint_opt(0, 0, C_WHITE, C_BLACK, DTEXT_LEFT, DTEXT_TOP, "%u.%02u",(frame)/45, (frame)%45);
+	dprint_opt(0, 0, C_WHITE, C_BLACK, DTEXT_LEFT, DTEXT_TOP, "%u.%02u",(frame)/FPS, (frame)%FPS);
 }
