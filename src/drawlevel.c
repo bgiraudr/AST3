@@ -4,7 +4,7 @@
 #include "define.h"
 
 extern bopti_image_t img_solid_0; //solid block
-extern bopti_image_t img_solid_1; //another solid block
+extern bopti_image_t img_coin; //facultative coin
 extern bopti_image_t img_dead; //dead block
 extern bopti_image_t img_player; //player
 extern bopti_image_t img_end; //end of level
@@ -28,8 +28,8 @@ void draw_level(char level[])
 			case '1': //solid block
 				dimage(x,y,&img_solid_0);
 				break;
-			case '2': //another solid block
-				dimage(x,y,&img_solid_1);
+			case 't': //coin (treasure)
+				dimage(x,y,&img_coin);
 				break;
 			case 'd': //dead block
 				dimage(x,y,&img_dead);
@@ -50,10 +50,10 @@ void draw_level(char level[])
 				dimage(x,y,&img_key1);
 				break;
 			case 'c': //chrono blocks
-				dimage(x,y,&img_solid_1);
+				dimage(x,y,&img_keyblock);
 				break;
 			case 'C': //chrono blocks
-				dimage(x,y,&img_solid_1);
+				dimage(x,y,&img_keyblock);
 				break;
 		}
 		x+=16;
