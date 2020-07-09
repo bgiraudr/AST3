@@ -23,6 +23,7 @@ int main(void)
 	int timer = timer_setup(TIMER_ANY, 1000000/FPS, callback, &frame_elapsed);
 	timer_start(timer);
 	
+	char game_loop = 1;
 	unsigned int frame = 0;
 	unsigned int framelevel = 0;
 	int player_x = 20, player_y = 20;
@@ -43,7 +44,7 @@ int main(void)
 	player_x = start_x;
 	player_y = start_y;
 	draw_level(level);
-	while(1)
+	while(game_loop)
 	{
 		while(!frame_elapsed) sleep();
 		frame_elapsed = 0;
@@ -90,7 +91,6 @@ int main(void)
 			check=1;
 		}
 		else if(!keydown(KEY_SHIFT) && check) check=0;
-		if(keydown(KEY_EXIT)) break;
 		if(!gravity)
 		{
 			if(!collide_solid(player_x, player_y+vert_spd, level, gravity))
@@ -172,6 +172,41 @@ int main(void)
 		
 		if(player_y>=212) player_y=-4;
 		if(player_y<-6) player_y=212;
+		
+		if(keydown_any(KEY_EXIT, KEY_MENU, 0))
+		{
+			char menu_loop = 1;
+			char selected = 0;
+			int Y_POS = 90;
+			while(menu_loop)
+			{
+				clearevents();
+				dclear(C_WHITE);
+				selected += keydown(KEY_DOWN) - keydown(KEY_UP);
+				if (selected == 2) selected = 0;
+				else if (selected == -1) selected = 1;
+				dtext(32, Y_POS, C_BLACK, "CONTINUE");
+				dtext(32, Y_POS + 12, C_BLACK, "EXIT GAME");
+				dtext(16, Y_POS + (selected * 12), C_BLACK, ">");
+				dprint(32, Y_POS + 36, C_RGB(83,255,0), "LEVEL : %d", id_level);
+				dprint(32, Y_POS + 48, C_RGB(255,178,0), "COIN : %d", coin);
+				dupdate();
+				if (keydown_any(KEY_SHIFT, KEY_EXE, 0))
+				{
+					switch (selected)
+					{
+						case 0:
+							menu_loop = 0;
+							break;
+						case 1:
+							menu_loop = 0;
+							game_loop = 0;
+							break;
+					}
+				}
+				while (keydown_any(KEY_UP, KEY_DOWN, 0)) clearevents();
+			}
+		}
 	}
 	timer_stop(timer);
 	return 0;
