@@ -7,6 +7,7 @@ import pygame
 from pygame.locals import *
 
 clock = pygame.time.Clock()
+
 def newgrille():
     global grille
     grille=\
@@ -25,41 +26,27 @@ def newgrille():
     ["1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","1"],\
     ["1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1"]
 
-newgrille()
-
 def load(ids):
-    global grille
-    for lev,ide in niv.items():
-        if lev==ids:
-            grille=[]
-            print(ide)
-            for j in range(14):
-                grille.append([])
-                for i in range(25):
-                    grille[-1].append(str(ide[i+25*j]))
-            place()
-            break
-
-niv={}
-niveau=1
-texte = open("src/setlevel.c", "r+")
-for line in texte:
-    if "memcpy" in line:
-        niv[niveau]=line[14:-8]
-        niveau+=1
-    if "del_level" in line:
-        break
-
-p = open("editor/setlevel.c","w+")
-p.write("#include \"setlevel.h\"\n#include <gint/std/string.h>\nvoid set_level(int id_level, char level[], int *startx, int *starty, char *gravity, char check_coin){\nswitch(id_level){")
-
-
-#Defini la suite des blocs pendant les changements (cliquer sur un 1 va donner un 2, cliquer sur un 11 un 0...)
-suite=["0","1","d","s","e","k","3","K","a","c","m","t","l","b"]
+    global grille, gravityid
+    try:
+        lv = open(f"editor/levels/{ids}.lvl","r")
+        ide = lv.read()
+        gravityid=ide[350:]
+        ide = ide[:-1]
+        grille=[]
+        for j in range(14):
+            grille.append([])
+            for i in range(25):
+                grille[-1].append(str(ide[i+25*j]))
+    except FileNotFoundError:
+        newgrille()
+        gravityid="6"
+    place()
 
 def place():
     level = font.render(str(id_level),1,(0,0,0))
-    levelgr = font.render(str(gravityid),1,(0,0,0))
+    if int(gravityid)==6: levelgr = font.render("↓",1,(120,0,0))
+    if int(gravityid)==7: levelgr = font.render("↑",1,(0,120,120))
     for a in range(14):
         for b in range(25):
             pygame.draw.rect(fenetre,(255,255,255),((52*b, 52*a), (52, 52)))
@@ -97,16 +84,21 @@ def place():
     fenetre.blit(levelgr, (10, 60))
     pygame.display.flip()
 
+
+
 pygame.init()
 pygame.mixer.quit()
 pygame.display.set_caption('AST3 generator (Tituya)')
 fenetre = pygame.display.set_mode((25*52, 14*52))
 font = pygame.font.SysFont('arial',25,True)
 
+#Defini la suite des blocs pendant les changements (cliquer sur un 1 va donner un 2, cliquer sur un 11 un 0...)
+suite=["0","1","d","s","e","k","3","K","a","c","m","t","l","b"]
+
 id_level = 1
-gravity = ""
-identifiant = ""
-gravityid = 0
+gravityid = 6
+
+
 
 solid_0 = pygame.image.load("editor/img/solid_0.png").convert()
 player = pygame.image.load("editor/img/player.png").convert()
@@ -122,12 +114,9 @@ coin = pygame.image.load("editor/img/coin.png").convert_alpha()
 change = pygame.image.load("editor/img/change.png").convert_alpha()
 blackout = pygame.image.load("editor/img/blackout.png").convert_alpha()
 
-for cle in niv:
-    if id_level==cle:
-        load(id_level)
-        break
-    else:
-        newgrille()
+
+
+load(id_level)
 place()
 securite=False
 while securite==False:
@@ -136,22 +125,22 @@ while securite==False:
         if event.type==QUIT:
             securite=True
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_TAB:
-                identifiant+=f"case {id_level}:\nmemcpy(level,\""+str(grille).replace("]","").replace("(","").replace(")","").replace("'","").replace("[","").replace(" ","").replace(",","")+"\",350);\nbreak;\n"
-                gravity+=f"case {id_level}:\n*default_gravity = {gravityid};\nbreak;\n"
+            if event.key == pygame.K_d:
                 id_level+=1
-                for cle in niv:
-                    if id_level==cle:
-                        load(id_level)
-                        break
-                    else:
-                        newgrille()
+                load(id_level)
+                place()
+            if event.key == pygame.K_q:
+                if id_level!=1: id_level-=1
+                load(id_level)
                 place()
             if event.key == pygame.K_LSHIFT:
-                if gravityid:
-                    gravityid=0
+                if gravityid=="7":
+                    gravityid="6"
                 else:
-                    gravityid=1
+                    gravityid="7"
+                f = open(f"editor/levels/{id_level}.lvl","w+")
+                f.write(str(grille).replace("]","").replace("(","").replace(")","").replace("'","").replace("[","").replace(" ","").replace(",","")+f"{gravityid}")
+                f.close()
                 place()
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
@@ -168,11 +157,7 @@ while securite==False:
                 pygame.draw.rect(fenetre,(255,255,255),((52*x, 52*y), (52, 52)))
                 place()
             if event.button == 2:
-                p.write(identifiant+"}if(check_coin) for (int i = 0; level[i]!='\\0' ; i++) if(level[i]=='t') level[i]='0';\nset_gravity(id_level, gravity);\nunsigned int x = 0;\
-\nunsigned int y = 0;\nunsigned int i = 0;\nwhile (i!=strlen(level)){\nswitch(level[i]){\ncase 's':\n*startx = x;\n*starty = y;\nbreak;}\nx+=16;\nif(x==16*25){x=0;\ny+=16;}i++;}}\n\
-void set_gravity(int id_level, char *default_gravity){\nswitch(id_level){\n"+gravity+"}}\nvoid del_level(char level[])\n{memcpy(level,\"00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000\",350);}")
                 securite=True
-                texte.close()
             if event.button == 3:
                 x=int(event.pos[0]/52)
                 y=int(event.pos[1]/52)
@@ -186,3 +171,6 @@ void set_gravity(int id_level, char *default_gravity){\nswitch(id_level){\n"+gra
                             break
                 pygame.draw.rect(fenetre,(255,255,255),((52*x, 52*y), (55, 55)))
                 place()
+            f = open(f"editor/levels/{id_level}.lvl","w+")
+            f.write(str(grille).replace("]","").replace("(","").replace(")","").replace("'","").replace("[","").replace(" ","").replace(",","")+f"{gravityid}")
+            f.close()
