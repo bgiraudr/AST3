@@ -3,6 +3,8 @@
 #include <gint/display.h>
 #include "define.h"
 
+#define VISIBLE_RECT 35
+
 extern bopti_image_t img_solid_0; //solid block
 extern bopti_image_t img_coin; //facultative coin
 extern bopti_image_t img_dead; //dead block
@@ -10,6 +12,7 @@ extern bopti_image_t img_player; //player
 extern bopti_image_t img_end; //end of level
 extern bopti_image_t img_key1; //key 1
 extern bopti_image_t img_keyblock; //block link to the key1
+extern bopti_image_t img_blackout; //key 1
 
 void draw_player(int x, int y)
 {
@@ -55,6 +58,9 @@ void draw_level(char level[])
 			case 'C': //chrono blocks
 				dimage(x,y,&img_keyblock);
 				break;
+			case 'b': //blackout blocks
+				dimage(x,y,&img_blackout);
+				break;
 		}
 		x+=16;
 		if(x==16*25)
@@ -64,6 +70,16 @@ void draw_level(char level[])
 		}
 		i++;
 	}
+}
+
+void draw_blackout(int x, int y)
+{
+	x+=5;
+	y+=5;
+	drect(0, 0, 395, y-VISIBLE_RECT, C_BLACK); //top rect
+	drect(0, y-VISIBLE_RECT, x-VISIBLE_RECT, y+VISIBLE_RECT, C_BLACK); //left rect
+	drect(x+VISIBLE_RECT, y-VISIBLE_RECT, 395, y+VISIBLE_RECT, C_BLACK); //right rect
+	drect(0, y+VISIBLE_RECT, 395, 223, C_BLACK); //bottom rect
 }
 
 void draw_timer(unsigned int frame)

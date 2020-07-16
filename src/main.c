@@ -2,6 +2,7 @@
 #include <gint/keyboard.h>
 #include <gint/clock.h>
 #include <gint/timer.h>
+#include <gint/std/string.h>
 
 #include "setlevel.h"
 #include "drawlevel.h"
@@ -30,6 +31,7 @@ int main(void)
 	char level[351];
 	char gravity = 0; //0 down 1 up
 	char check = 0;
+	char blackout = 0;
 	int id_level = 1;
 	int start_x;
 	int start_y;
@@ -52,6 +54,7 @@ int main(void)
 		frame++;
 		framelevel++;
 		draw_level(level);
+		if(blackout) draw_blackout(player_x, player_y);
 		draw_player(player_x,player_y);	
 		draw_timer(frame);
 		dprint(150,100,C_GREEN,"%d",player_x);
@@ -127,6 +130,7 @@ int main(void)
 			player_x = start_x;
 			player_y = start_y;
 			set_level(id_level, level, &start_x, &start_y, &gravity, check_coin);
+			blackout = 0;
 			framelevel = 0;
 		}
 		if(collide_end(player_x, player_y, level, gravity))
@@ -136,6 +140,7 @@ int main(void)
 			set_level(id_level, level, &start_x, &start_y, &gravity, check_coin);
 			player_x = start_x;
 			player_y = start_y;
+			blackout = 0;
 			framelevel=0;
 		}
 		if(collide(player_x, player_y, level, gravity, 'k')) //Collide with key1 = disappearance of blocks
@@ -167,6 +172,56 @@ int main(void)
 			check_coin=1;
 			coin++;
 		}
+		if(collide(player_x, player_y, level, gravity, 'b')) //Collide with blackout block
+		{
+			for (int i = 0; level[i]!='\0' ; i++) 
+			{
+				if(level[i]=='b') 
+				{
+					level[i]='0';
+					break;
+				}
+			}
+			blackout=1;
+		}
+		if(level[((player_x+6)/16)+((player_y+6)/16)*25] == 'l') //Collide with change block
+		{
+			int x = 0;
+			int y = 0;
+			char level2[351] = { 0 };
+			int j = 0;
+			level[((player_x+6)/16)+((player_y+6)/16)*25] = 'P';
+			for (int i = 349; i!=-1 ; i--) 
+			{
+				level2[j]=level[i];
+				j++;
+			}
+			del_level(level);
+			strncpy(level,level2,351);
+			del_level(level2);
+			int i = 0;
+			while (i!=350)
+			{
+				switch(level[i])
+				{
+					case 'P':
+						player_x = x;
+						player_y = y;
+						level[i]='0';
+						break;
+				}
+				x+=16;
+				if(x==16*25)
+				{
+					x=0;
+					y+=16;
+				}
+				i++;
+			}
+			if(!gravity) gravity=1;
+			else gravity=0;
+		}
+		
 		if((framelevel/FPS)>13) for (int i = 0; level[i]!='\0' ; i++) if(level[i]=='c') level[i]='0'; //after 13 seconds blocks disappear
 		if((framelevel/FPS)>10) for (int i = 0; level[i]!='\0' ; i++) if(level[i]=='m') level[i]='C'; //after 10 seconds blocks appear
 		
