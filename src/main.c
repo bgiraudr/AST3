@@ -9,7 +9,7 @@
 #include "collide.h"
 #include "define.h"
 
-#define ACCELERATION 0.4
+#define ACCELERATION 0.2
 #define MAX_VSPD 9.0
 
 int callback(volatile int *frame_elapsed)
@@ -53,10 +53,13 @@ int main(void)
 		
 		frame++;
 		framelevel++;
-		draw_level(level);
-		if(blackout) draw_blackout(player_x, player_y);
-		draw_player(player_x,player_y);	
-		draw_timer(frame);
+		if(!(frame%2))
+		{
+			draw_level(level);
+			if(blackout) draw_blackout(player_x, player_y);
+			draw_player(player_x,player_y);	
+			draw_timer(frame);
+		
 		if(id_level==1)
 		{
 			dprint(85,180,C_RGB(245,245,0),"SHIFT");
@@ -65,21 +68,22 @@ int main(void)
 			dprint(162,173,C_RGB(110,110,110),"sur certains blocs");
 			dprint(315,115,C_RGB(110,110,110),"Bravo !");
 		}
-		dprint(150,100,C_GREEN,"%d",player_x);
-		dprint(150,120,C_GREEN,"%d",player_y);
-		dprint_opt(340, 0, C_RGB(255,190,0), C_BLACK, DTEXT_LEFT, DTEXT_TOP, "Coin : %d", coin);
-		/*dprint(320,120,C_GREEN,"%d",collide_solid(player_x+1, player_y, level, gravity));
-		dprint(320,140,C_GREEN,"%d",collide_solid(player_x-1, player_y, level, gravity));
-		dprint(320,160,C_GREEN,"%d",collide_solid(player_x, player_y+1, level, gravity));
-		dprint(320,180,C_GREEN,"%d",collide_solid(player_x, player_y-1, level, gravity));*/
-		
-		/*dprint(300,100,C_GREEN,"%d",collide_dead(player_x, player_y, level));
-		dprint(300,120,C_GREEN,"%c",level[(int)((player_x-1)/16)+(int)((player_y-1)/16*25)]); //top left
-		dprint(300,140,C_GREEN,"%c",level[(int)((player_x+PLAYER_HEIGHT+1)/16)+(int)((player_y-1)/16*25)]); //top right
-		dprint(300,160,C_GREEN,"%c",level[(int)((player_x-1)/16)+(int)((player_y+PLAYER_HEIGHT+1)/16*25)]); //bottom left
-		dprint(300,180,C_GREEN,"%c",level[(int)((player_x+PLAYER_HEIGHT+1)/16)+(int)((player_y+PLAYER_HEIGHT+1)/16*25)]); //bottom right*/
-		
-		dupdate();
+			dprint(150,100,C_GREEN,"%d",player_x);
+			dprint(150,120,C_GREEN,"%d",player_y);
+			dprint_opt(340, 0, C_RGB(255,190,0), C_BLACK, DTEXT_LEFT, DTEXT_TOP, "Coin : %d", coin);
+			/*dprint(320,120,C_GREEN,"%d",collide_solid(player_x+1, player_y, level, gravity));
+			dprint(320,140,C_GREEN,"%d",collide_solid(player_x-1, player_y, level, gravity));
+			dprint(320,160,C_GREEN,"%d",collide_solid(player_x, player_y+1, level, gravity));
+			dprint(320,180,C_GREEN,"%d",collide_solid(player_x, player_y-1, level, gravity));*/
+			
+			/*dprint(300,100,C_GREEN,"%d",collide_dead(player_x, player_y, level));
+			dprint(300,120,C_GREEN,"%c",level[(int)((player_x-1)/16)+(int)((player_y-1)/16*25)]); //top left
+			dprint(300,140,C_GREEN,"%c",level[(int)((player_x+PLAYER_HEIGHT+1)/16)+(int)((player_y-1)/16*25)]); //top right
+			dprint(300,160,C_GREEN,"%c",level[(int)((player_x-1)/16)+(int)((player_y+PLAYER_HEIGHT+1)/16*25)]); //bottom left
+			dprint(300,180,C_GREEN,"%c",level[(int)((player_x+PLAYER_HEIGHT+1)/16)+(int)((player_y+PLAYER_HEIGHT+1)/16*25)]); //bottom right*/
+			
+			dupdate();
+		}
 		
 		pollevent();
 		if(keydown(KEY_RIGHT))
@@ -104,9 +108,15 @@ int main(void)
 		else if(!keydown(KEY_SHIFT) && check) check=0;
 		if(!gravity)
 		{
-			if(!collide_solid(player_x, player_y+vert_spd, level, gravity))
+			if(!collide_solid(player_x, player_y+vert_spd+1, level, gravity))
 			{
 				if (vspd<MAX_VSPD) vspd+=ACCELERATION;
+				vert_spd = vspd;
+				player_y+=vert_spd;
+			}
+			else if(!collide_solid(player_x, player_y+vert_spd, level, gravity))
+			{
+				vspd-=ACCELERATION;
 				vert_spd = vspd;
 				player_y+=vert_spd;
 			}
@@ -119,9 +129,15 @@ int main(void)
 		}
 		else
 		{
-			if(!collide_solid(player_x, player_y-vert_spd, level, gravity))
+			if(!collide_solid(player_x, player_y-vert_spd-1, level, gravity))
 			{
 				if (vspd<MAX_VSPD) vspd+=ACCELERATION;
+				vert_spd = vspd;
+				player_y-=vert_spd;
+			}
+			else if(!collide_solid(player_x, player_y-vert_spd, level, gravity))
+			{
+				vspd-=ACCELERATION;
 				vert_spd = vspd;
 				player_y-=vert_spd;
 			}
