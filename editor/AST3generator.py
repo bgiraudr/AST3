@@ -125,11 +125,12 @@ while securite==False:
         if event.type==QUIT:
             securite=True
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_d:
+            carac= event.dict['unicode']
+            if carac == "d":
                 id_level+=1
                 load(id_level)
                 place()
-            if event.key == pygame.K_q:
+            if carac == "q":
                 if id_level!=1: id_level-=1
                 load(id_level)
                 place()

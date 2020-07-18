@@ -57,9 +57,17 @@ int main(void)
 		if(blackout) draw_blackout(player_x, player_y);
 		draw_player(player_x,player_y);	
 		draw_timer(frame);
+		if(id_level==1)
+		{
+			dprint(85,180,C_RGB(245,245,0),"SHIFT");
+			dprint(167,19,C_RGB(110,110,110),"Ne touchez pas ces blocs !");	
+			dprint(162,160,C_RGB(110,110,110),"Les clefs agissent");
+			dprint(162,173,C_RGB(110,110,110),"sur certains blocs");
+			dprint(315,115,C_RGB(110,110,110),"Bravo !");
+		}
 		dprint(150,100,C_GREEN,"%d",player_x);
 		dprint(150,120,C_GREEN,"%d",player_y);
-		dprint_opt(340, 0, C_RGB(255,178,0), C_BLACK, DTEXT_LEFT, DTEXT_TOP, "Coin : %d", coin);
+		dprint_opt(340, 0, C_RGB(255,190,0), C_BLACK, DTEXT_LEFT, DTEXT_TOP, "Coin : %d", coin);
 		/*dprint(320,120,C_GREEN,"%d",collide_solid(player_x+1, player_y, level, gravity));
 		dprint(320,140,C_GREEN,"%d",collide_solid(player_x-1, player_y, level, gravity));
 		dprint(320,160,C_GREEN,"%d",collide_solid(player_x, player_y+1, level, gravity));
