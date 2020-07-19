@@ -2,12 +2,16 @@ ids = 1
 
 save = open("src/setlevel.c","w+")
 save.write("#include \"setlevel.h\"\n#include <gint/std/string.h>\nvoid set_level(int id_level, char level[], int *startx, \
-int *starty, char *gravity, char check_coin){\nswitch(id_level){")
+int *starty, char *gravity, char check_coin, int *appear, int *disappear){\nswitch(id_level){")
 while 1:
     try:
         lv = open(f"editor/levels/{ids}.lvl","r")
-        ide = lv.read()
-        save.write(f"case {ids}:\nmemcpy(level,\"{ide[:-1]}\",350);\nbreak;\n")
+        ide = lv.readlines()
+        if len(ide)==1: save.write(f"case {ids}:\nmemcpy(level,\"{str(ide[0][:-1])}\",350);\nbreak;\n")
+        elif ide[1]!='\n':
+            save.write(f"case {ids}:\nmemcpy(level,\"{str(ide[0][:-2])}\",350);\n*appear={ide[1][:-1]};\n*disappear={ide[2]};\nbreak;\n")
+        else:
+            save.write(f"case {ids}:\nmemcpy(level,\"{str(ide[0][:-2])}\",350);\n*appear={ide[2][:-1]};\n*disappear={ide[3]};\nbreak;\n")
         ids+=1
     except FileNotFoundError:
         lv.close()

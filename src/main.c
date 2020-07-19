@@ -26,7 +26,7 @@ int main(void)
 	
 	char game_loop = 1;
 	unsigned int frame = 0;
-	unsigned int framelevel = 0;
+	int framelevel = 0;
 	int player_x = 20, player_y = 20;
 	char level[351];
 	char gravity = 0; //0 down 1 up
@@ -39,10 +39,13 @@ int main(void)
 	unsigned int coin = 0;
 	char check_coin = 0;
 	
+	int appear = 10;
+	int disappear = 13;
+	
 	float vspd = 1.0;
 	int vert_spd = 1;
 	
-	set_level(id_level, level, &start_x, &start_y, &gravity, check_coin);
+	set_level(id_level, level, &start_x, &start_y, &gravity, check_coin, &appear, &disappear);
 	player_x = start_x;
 	player_y = start_y;
 	draw_level(level);
@@ -153,7 +156,7 @@ int main(void)
 			vspd = 1;
 			player_x = start_x;
 			player_y = start_y;
-			set_level(id_level, level, &start_x, &start_y, &gravity, check_coin);
+			set_level(id_level, level, &start_x, &start_y, &gravity, check_coin, &appear, &disappear);
 			blackout = 0;
 			framelevel = 0;
 		}
@@ -161,7 +164,7 @@ int main(void)
 		{
 			id_level++;
 			check_coin = 0;
-			set_level(id_level, level, &start_x, &start_y, &gravity, check_coin);
+			set_level(id_level, level, &start_x, &start_y, &gravity, check_coin, &appear, &disappear);
 			player_x = start_x;
 			player_y = start_y;
 			blackout = 0;
@@ -246,8 +249,8 @@ int main(void)
 			else gravity=0;
 		}
 		
-		if((framelevel/FPS)>13) for (int i = 0; level[i]!='\0' ; i++) if(level[i]=='c') level[i]='0'; //after 13 seconds blocks disappear
-		if((framelevel/FPS)>10) for (int i = 0; level[i]!='\0' ; i++) if(level[i]=='m') level[i]='C'; //after 10 seconds blocks appear
+		if((framelevel/FPS)>disappear) for (int i = 0; level[i]!='\0' ; i++) if(level[i]=='c') level[i]='0'; //after x seconds blocks disappear
+		if((framelevel/FPS)>appear) for (int i = 0; level[i]!='\0' ; i++) if(level[i]=='m') level[i]='C'; //after x seconds blocks appear
 		
 		if(player_y>=212) player_y=-4;
 		if(player_y<-6) player_y=212;

@@ -30,9 +30,12 @@ def load(ids):
     global grille, gravityid
     try:
         lv = open(f"editor/levels/{ids}.lvl","r")
-        ide = lv.read()
-        gravityid=ide[350:]
-        ide = ide[:-1]
+        ide = lv.readlines()
+        gravityid=str(ide[0][350:])
+        if len(ide)==1:
+            ide = str(ide[0][:-1])
+        else:
+            ide = str(ide[0][:-2])
         grille=[]
         for j in range(14):
             grille.append([])
@@ -47,6 +50,8 @@ def place():
     level = font.render(str(id_level),1,(0,0,0))
     if int(gravityid)==6: levelgr = font.render("↓",1,(120,0,0))
     if int(gravityid)==7: levelgr = font.render("↑",1,(0,120,120))
+    timeapp = font.render(str(app),1,(0,120,120))
+    timedisa = font.render(str(disa),1,(0,120,120))
     for a in range(14):
         for b in range(25):
             pygame.draw.rect(fenetre,(255,255,255),((52*b, 52*a), (52, 52)))
@@ -82,9 +87,18 @@ def place():
                 fenetre.blit(pygame.transform.scale(blackout,(52,52)),(52*b,52*a))
     fenetre.blit(level, (10, 10))
     fenetre.blit(levelgr, (10, 60))
+    fenetre.blit(timeapp, (50, 10))
+    fenetre.blit(timedisa, (100, 10))
     pygame.display.flip()
 
-
+def write():
+    f = open(f"editor/levels/{id_level}.lvl","w+")
+    if not "c" in str(grille): 
+        if not "m" in str(grille): 
+            f.write(str(grille).replace("]","").replace("(","").replace(")","").replace("'","").replace("[","").replace(" ","").replace(",","")+f"{gravityid}")
+        else: f.write(str(grille).replace("]","").replace("(","").replace(")","").replace("'","").replace("[","").replace(" ","").replace(",","")+f"{gravityid}\n{app}\n{disa}")
+    else: f.write(str(grille).replace("]","").replace("(","").replace(")","").replace("'","").replace("[","").replace(" ","").replace(",","")+f"{gravityid}\n{app}\n{disa}")
+    f.close()
 
 pygame.init()
 pygame.mixer.quit()
@@ -97,7 +111,8 @@ suite=["0","1","d","s","e","k","3","K","a","c","m","t","l","b"]
 
 id_level = 1
 gravityid = 6
-
+disa = 10
+app = 13
 
 
 solid_0 = pygame.image.load("editor/img/solid_0.png").convert()
@@ -134,14 +149,28 @@ while securite==False:
                 if id_level!=1: id_level-=1
                 load(id_level)
                 place()
+            if carac == "z":
+                app+=1
+                write()
+                place()
+            if carac == "s":
+                app-=1
+                write()
+                place()
+            if carac == "r":
+                disa+=1
+                write()
+                place()
+            if carac == "f":
+                disa-=1
+                write()
+                place()
             if event.key == pygame.K_LSHIFT:
                 if gravityid=="7":
                     gravityid="6"
                 else:
                     gravityid="7"
-                f = open(f"editor/levels/{id_level}.lvl","w+")
-                f.write(str(grille).replace("]","").replace("(","").replace(")","").replace("'","").replace("[","").replace(" ","").replace(",","")+f"{gravityid}")
-                f.close()
+                write()
                 place()
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
@@ -172,6 +201,4 @@ while securite==False:
                             break
                 pygame.draw.rect(fenetre,(255,255,255),((52*x, 52*y), (55, 55)))
                 place()
-            f = open(f"editor/levels/{id_level}.lvl","w+")
-            f.write(str(grille).replace("]","").replace("(","").replace(")","").replace("'","").replace("[","").replace(" ","").replace(",","")+f"{gravityid}")
-            f.close()
+            write()
