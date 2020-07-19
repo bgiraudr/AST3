@@ -27,7 +27,7 @@ def newgrille():
     ["1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1"]
 
 def load(ids):
-    global grille, gravityid
+    global grille, gravityid, app, disa
     try:
         lv = open(f"editor/levels/{ids}.lvl","r")
         ide = lv.readlines()
@@ -35,6 +35,12 @@ def load(ids):
         if len(ide)==1:
             ide = str(ide[0][:-1])
         else:
+            if ide[1]!="\n":
+                app = int(ide[1][:-1])
+                disa = int(ide[2])
+            else:
+                app = int(ide[2][:-1])
+                disa = int(ide[3])
             ide = str(ide[0][:-2])
         grille=[]
         for j in range(14):
@@ -50,8 +56,8 @@ def place():
     level = font.render(str(id_level),1,(0,0,0))
     if int(gravityid)==6: levelgr = font.render("↓",1,(120,0,0))
     if int(gravityid)==7: levelgr = font.render("↑",1,(0,120,120))
-    timeapp = font.render(str(app),1,(0,120,120))
-    timedisa = font.render(str(disa),1,(0,120,120))
+    timeapp = font.render("A="+str(app),1,(255,180,0))
+    timedisa = font.render("D="+str(disa)+"    LOCK : "+str(lock),1,(0,255,100))
     for a in range(14):
         for b in range(25):
             pygame.draw.rect(fenetre,(255,255,255),((52*b, 52*a), (52, 52)))
@@ -87,8 +93,8 @@ def place():
                 fenetre.blit(pygame.transform.scale(blackout,(52,52)),(52*b,52*a))
     fenetre.blit(level, (10, 10))
     fenetre.blit(levelgr, (10, 60))
-    fenetre.blit(timeapp, (50, 10))
-    fenetre.blit(timedisa, (100, 10))
+    fenetre.blit(timeapp, (55, 10))
+    fenetre.blit(timedisa, (140, 10))
     pygame.display.flip()
 
 def write():
@@ -113,7 +119,7 @@ id_level = 1
 gravityid = 6
 disa = 10
 app = 13
-
+lock=""
 
 solid_0 = pygame.image.load("editor/img/solid_0.png").convert()
 player = pygame.image.load("editor/img/player.png").convert()
@@ -165,6 +171,9 @@ while securite==False:
                 disa-=1
                 write()
                 place()
+            if carac == "a":
+                lock=""
+                place()
             if event.key == pygame.K_LSHIFT:
                 if gravityid=="7":
                     gravityid="6"
@@ -176,29 +185,40 @@ while securite==False:
             if event.button == 1:
                 x=int(event.pos[0]/52)
                 y=int(event.pos[1]/52)
-                for i in range(len(suite)):
-                    if grille[y][x] == suite[i]:
-                        if i!=len(suite)-1:
-                            grille[y][x]=suite[i+1]
-                            break
-                        else:
-                            grille[y][x]=suite[0]
-                            break
+                if lock!="":
+                    grille[y][x]=lock
+                else:
+                    for i in range(len(suite)):
+                        if grille[y][x] == suite[i]:
+                            if i!=len(suite)-1:
+                                grille[y][x]=suite[i+1]
+                                break
+                            else:
+                                grille[y][x]=suite[0]
+                                break
                 pygame.draw.rect(fenetre,(255,255,255),((52*x, 52*y), (52, 52)))
                 place()
             if event.button == 2:
-                securite=True
-            if event.button == 3:
                 x=int(event.pos[0]/52)
                 y=int(event.pos[1]/52)
                 for i in range(len(suite)):
                     if grille[y][x] == suite[i]:
-                        if i!=len(suite)+1:
-                            grille[y][x]=suite[i-1]
-                            break
-                        else:
-                            grille[y][x]=suite[len(suite)]
-                            break
+                        lock=suite[i]
+                place()
+            if event.button == 3:
+                x=int(event.pos[0]/52)
+                y=int(event.pos[1]/52)
+                if lock!="":
+                    grille[y][x]="0"
+                else:
+                    for i in range(len(suite)):
+                        if grille[y][x] == suite[i]:
+                            if i!=len(suite)+1:
+                                grille[y][x]=suite[i-1]
+                                break
+                            else:
+                                grille[y][x]=suite[len(suite)]
+                                break
                 pygame.draw.rect(fenetre,(255,255,255),((52*x, 52*y), (55, 55)))
                 place()
             write()
