@@ -12,7 +12,7 @@ extern bopti_image_t img_player; //player
 extern bopti_image_t img_end; //end of level
 extern bopti_image_t img_key1; //key 1
 extern bopti_image_t img_keyblock; //block link to the key1
-extern bopti_image_t img_blackout; //key 1
+extern bopti_image_t img_blackout; //blackout
 
 void draw_player(int x, int y)
 {
