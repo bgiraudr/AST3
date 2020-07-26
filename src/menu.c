@@ -2,36 +2,37 @@
 #include <gint/display.h>
 #include <gint/keyboard.h>
 #include "setlevel.h"
+#include "times.h"
 
 char start_menu()
 {
+	extern bopti_image_t img_menu;
 	char menu_loop = 1;
 	char selection = 0;
+	char buffer = 1;
+	char buffer2 = 1;
 	int Y_POS = 90;
 	while(menu_loop)
 	{
 		clearevents();
 		dclear(C_WHITE);
+		dimage(0,0,&img_menu);
 		selection += keydown(KEY_DOWN) - keydown(KEY_UP);
-		if (selection == 2) selection = 0;
-		else if (selection == -1) selection = 1;
+		if (selection == 3) selection = 0;
+		else if (selection == -1) selection = 2;
 		dtext(32, Y_POS, C_BLACK, "PLAY");
 		dtext(32, Y_POS + 12, C_BLACK, "SPEEDRUN MODE");
+		dtext(32, Y_POS + 24, C_BLACK, "EXIT GAME");
 		dtext(16, Y_POS + (selection * 12), C_BLACK, ">");
 		dupdate();
-		if (keydown_any(KEY_SHIFT, KEY_EXE, 0))
-		{
-			switch (selection)
-			{
-				case 0:
-					return selection;
-					break;
-				case 1:
-					return selection;
-					break;
-			}
+		if (keydown_any(KEY_SHIFT, KEY_EXE, 0)) {
+			if(!buffer2) return selection;
 		}
-		if(keydown_any(KEY_EXIT, KEY_MENU, 0)) return -1;
+		else buffer2 = 0;
+		if(keydown_any(KEY_EXIT, KEY_MENU, 0)) {
+			if(!buffer) return -1;
+		}
+		else buffer = 0;
 		while (keydown_any(KEY_UP, KEY_DOWN, 0)) clearevents();
 	}
 	return selection;
@@ -62,7 +63,7 @@ char speed_menu(int *id_level)
 		set_level(*id_level, level, &start_x, &start_y, &gravity, check_coin, &appear, &disappear);
 		draw_level(level);
 		dimage(0,0,&img_speedrun);
-		dtext(340, 214, C_GREEN, "< PLAY >");
+		dtext(340, 214, C_BLACK, "TIME");
 		dtext(190, 45, C_BLACK, "Time : ");
 		dprint(80,20,C_BLACK,"Level : %d",*id_level);
 		dupdate();
@@ -75,6 +76,10 @@ char speed_menu(int *id_level)
 			}
 		}
 		else check = 0;
+		if (keydown(KEY_F6))
+		{
+			draw_time(*id_level);
+		}
 		if(keydown_any(KEY_EXIT, KEY_MENU, 0)) return 1;
 		while (keydown_any(KEY_RIGHT, KEY_LEFT, 0)) clearevents();
 	}

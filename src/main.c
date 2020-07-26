@@ -14,6 +14,8 @@
 #define ACCELERATION 0.2
 #define MAX_VSPD 9.0
 
+int main(void);
+
 int callback(volatile int *frame_elapsed)
 {
     *frame_elapsed = 1;
@@ -45,6 +47,7 @@ void game(int *id_level, char mode)
 	
 	float vspd = 1.0;
 	int vert_spd = 1;
+	extern bopti_image_t img_speedrun;
 	
 	set_level(*id_level, level, &start_x, &start_y, &gravity, check_coin, &appear, &disappear);
 	player_x = start_x;
@@ -65,7 +68,7 @@ void game(int *id_level, char mode)
 			if(!mode) draw_timer(frame);
 			else draw_timer(framelevel);
 		
-		if(*id_level==1)
+		if(*id_level==1 && !mode)
 		{
 			dprint(85,180,C_RGB(245,245,0),"SHIFT");
 			dprint(167,19,C_RGB(110,110,110),"Ne touchez pas ces blocs !");
@@ -75,7 +78,7 @@ void game(int *id_level, char mode)
 		}
 			dprint(150,100,C_GREEN,"%d",player_x);
 			dprint(150,120,C_GREEN,"%d",player_y);
-			dprint_opt(340, 0, C_RGB(255,190,0), C_BLACK, DTEXT_LEFT, DTEXT_TOP, "Coin : %d", coin);
+			if(!mode) dprint_opt(340, 0, C_RGB(255,190,0), C_BLACK, DTEXT_LEFT, DTEXT_TOP, "Coin : %d", coin);
 			/*dprint(320,120,C_GREEN,"%d",collide_solid(player_x+1, player_y, level, gravity));
 			dprint(320,140,C_GREEN,"%d",collide_solid(player_x-1, player_y, level, gravity));
 			dprint(320,160,C_GREEN,"%d",collide_solid(player_x, player_y+1, level, gravity));
@@ -266,19 +269,23 @@ void game(int *id_level, char mode)
 		{
 			char menu_loop = 1;
 			char selected = 0;
-			int Y_POS = 90;
+			int Y_POS = 18;
 			while(menu_loop)
 			{
 				clearevents();
 				dclear(C_WHITE);
+				draw_level(level);
+				draw_player(player_x,player_y);
+				dimage(0,0,&img_speedrun);
 				selected += keydown(KEY_DOWN) - keydown(KEY_UP);
 				if (selected == 2) selected = 0;
 				else if (selected == -1) selected = 1;
 				dtext(32, Y_POS, C_BLACK, "CONTINUE");
-				dtext(32, Y_POS + 12, C_BLACK, "EXIT GAME");
+				if(!mode) dtext(32, Y_POS + 12, C_BLACK, "MENU");
+				else dtext(32, Y_POS + 12, C_BLACK, "SPEEDRUN MENU");
 				dtext(16, Y_POS + (selected * 12), C_BLACK, ">");
-				dprint(32, Y_POS + 36, C_RGB(83,255,0), "LEVEL : %d", *id_level);
-				dprint(32, Y_POS + 48, C_RGB(255,178,0), "COIN : %d", coin);
+				dprint(180, 45, C_RGB(83,255,0), "LEVEL : %d", *id_level);
+				dprint(320, 8, C_RGB(255,178,0), "COIN : %d", coin);
 				dupdate();
 				if (keydown_any(KEY_SHIFT, KEY_EXE, 0))
 				{
@@ -300,17 +307,22 @@ void game(int *id_level, char mode)
 	timer_stop(timer);
 	if(mode)
 	{
-		dclear(C_WHITE);
-		dprint_opt(198, 112, C_WHITE, C_BLACK, DTEXT_LEFT, DTEXT_TOP, "%u.%02u",(framelevel)/FPS, (framelevel)%FPS);
-		check_medal(framelevel, *id_level);
-		dupdate();
-		getkey();
+		if(game_loop)
+		{
+			dclear(C_WHITE);
+			dprint_opt(198, 112, C_WHITE, C_BLACK, DTEXT_LEFT, DTEXT_TOP, "%u.%02u",(framelevel)/FPS, (framelevel)%FPS);
+			check_medal(framelevel, *id_level);
+			dupdate();
+			sleep_ms(5000);
+		}
 		if(!speed_menu(id_level)) 
 		{
 			mode = 1;
 			game(id_level, mode);
 		}
+		else main();
 	}
+	if(!mode) main();
 }
 
 int main(void)
@@ -331,6 +343,7 @@ int main(void)
 			mode = 1;
 			game(&id_level, mode);
 		}
+		else main();
 	}
 	return 0;
 }
