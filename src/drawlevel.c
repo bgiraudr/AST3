@@ -13,6 +13,11 @@ extern bopti_image_t img_end; //end of level
 extern bopti_image_t img_key1; //key 1
 extern bopti_image_t img_keyblock; //block link to the key1
 extern bopti_image_t img_blackout; //blackout
+extern bopti_image_t img_chrono1; //chronoblock
+extern bopti_image_t img_chrono2; //chronoblock 2
+extern bopti_image_t img_key2; //key 2
+extern bopti_image_t img_key2block; //block link to the key 2
+extern bopti_image_t img_damaged; //damaged block
 
 void draw_player(int x, int y)
 {
@@ -47,19 +52,22 @@ void draw_level(char level[])
 				dimage(x,y,&img_key1);	
 				break;
 			case '4': //block link to the key2
-				dimage(x,y,&img_keyblock);
+				dimage(x,y,&img_key2block);
 				break;
 			case 'K': //key2
-				dimage(x,y,&img_key1);
+				dimage(x,y,&img_key2);
 				break;
 			case 'c': //chrono blocks
-				dimage(x,y,&img_keyblock);
+				dimage(x,y,&img_chrono1);
 				break;
 			case 'C': //chrono blocks
-				dimage(x,y,&img_keyblock);
+				dimage(x,y,&img_chrono2);
 				break;
 			case 'b': //blackout blocks
 				dimage(x,y,&img_blackout);
+				break;
+			case 'B': //damaged block
+				dimage(x,y,&img_damaged);
 				break;
 		}
 		x+=16;

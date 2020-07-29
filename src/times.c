@@ -19,8 +19,8 @@ void check_medal(unsigned int frame_level, int id_level)
 			time2 = 60;
 			break;
 		case 2:
-			time = 9;
-			time2 = 36;
+			time = 8;
+			time2 = 13;
 			break;
 		case 3:
 			time = 6;
@@ -42,18 +42,18 @@ void check_medal(unsigned int frame_level, int id_level)
 			time = 8;
 			time2 = 25;
 			break;
+		case 8:
+			time = 7;
+			time2 = 62;
+			break;	
 				
 	}
-	/*if(frame_level/FPS < time || (frame_level/FPS <= time && frame_level%FPS <= time2)) dimage(380,8,&img_createur);
-	if(frame_level/FPS < (int)(time*1.05+0.5) || (frame_level/FPS <= (int)(time*1.05+0.5) && frame_level%FPS <= (int)(time2*1.8+0.5))) dimage(360,8,&img_or);
-	if(frame_level/FPS < (int)(time*1.2+0.5) || (frame_level/FPS <= (int)(time*1.2+0.5) && frame_level%FPS <= (int)(time2*1.2+0.5))) dimage(340,8,&img_argent);
-	if(frame_level/FPS < (int)(time*1.5+0.5) || (frame_level/FPS <= (int)(time*1.5+0.5) && frame_level%FPS <= (int)(time2*1.5+0.5))) dimage(320,8,&img_bronze);*/
-	
-	if(time2*1.8>=100) 
+	if(frame_level/FPS < (unsigned int)time || (frame_level/FPS <= (unsigned int)time && frame_level%FPS <= (unsigned int)time2)) dimage(380,8,&img_createur);
+	if(time2*2.5>=100) 
 	{ 
-		if(frame_level/FPS < (unsigned int)(time*1.05+0.5+1) || (frame_level/FPS <= (unsigned int)(time*1.05+0.5+1) && frame_level%FPS <= (unsigned int)(time2*2+0.5-100))) dimage(360,8,&img_or);
+		if(frame_level/FPS < (unsigned int)(time*1.05+0.5+1) || (frame_level/FPS <= (unsigned int)(time*1.05+0.5+1) && frame_level%FPS <= (unsigned int)(time2*2.5+0.5-100))) dimage(360,8,&img_or);
 	}
-	else if(frame_level/FPS < (unsigned int)(time*1.05+0.5) || (frame_level/FPS <= (unsigned int)(time*1.05+0.5) && frame_level%FPS <= (unsigned int)(time2*2+0.5))) dimage(360,8,&img_or);
+	else if(frame_level/FPS < (unsigned int)(time*1.05+0.5) || (frame_level/FPS <= (unsigned int)(time*1.05+0.5) && frame_level%FPS <= (unsigned int)(time2*2.5+0.5))) dimage(360,8,&img_or);
 	if(time2*1.2>=100) 
 	{
 		if(frame_level/FPS < (unsigned int)(time*1.2+0.5)+1 || (frame_level/FPS <= (unsigned int)(time*1.2+0.5)+1 && frame_level%FPS <= (unsigned int)(time2*1.2+0.5)-100)) dimage(340,8,&img_argent);
@@ -78,8 +78,8 @@ void draw_time(int id_level)
 			time2 = 60;
 			break;
 		case 2:
-			time = 9;
-			time2 = 36;
+			time = 8;
+			time2 = 13;
 			break;
 		case 3:
 			time = 6;
@@ -101,12 +101,16 @@ void draw_time(int id_level)
 			time = 8;
 			time2 = 25;
 			break;	
+		case 8:
+			time = 7;
+			time2 = 62;
+			break;	
 	}
 	dimage(160,90,&img_createur); 
 	dprint(175,90,C_BLACK,"%d.%02d",time,time2);
 	dimage(160,110,&img_or);
-	if(time2*1.8>=100) dprint(175,110,C_BLACK,"%d.%02d",(int)(time*1.05+0.5)+1, (int)(time2*2+0.5)-100);
-	else dprint(175,110,C_BLACK,"%d.%02d",(int)(time*1.05+0.5), (int)(time2*2+0.5));
+	if(time2*2.5>=100) dprint(175,110,C_BLACK,"%d.%02d",(int)(time*1.05+0.5)+1, (int)(time2*2.5+0.5)-100);
+	else dprint(175,110,C_BLACK,"%d.%02d",(int)(time*1.05+0.5), (int)(time2*2.5+0.5));
 	dimage(160,130,&img_argent); 
 	if(time2*1.2>=100) dprint(175,110,C_BLACK,"%d.%02d",(int)(time*1.05+0.5)+1, (int)(time2*1.2+0.5)-100);
 	else dprint(175,130,C_BLACK,"%d.%02d",(int)(time*1.2+0.5), (int)(time2*1.2+0.5));

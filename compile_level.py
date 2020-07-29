@@ -2,7 +2,7 @@ ids = 1
 
 save = open("src/setlevel.c","w+")
 save.write("#include \"setlevel.h\"\n#include <gint/std/string.h>\nvoid set_level(int id_level, char level[], int *startx, \
-int *starty, char *gravity, char check_coin, int *appear, int *disappear){\nswitch(id_level){")
+int *starty, char *gravity, int *appear, int *disappear){\nswitch(id_level){")
 while 1:
     try:
         lv = open(f"editor/levels/{ids}.lvl","r")
@@ -16,7 +16,7 @@ while 1:
     except FileNotFoundError:
         lv.close()
         break
-save.write("}if(check_coin) for (int i = 0; level[i]!='\\0' ; i++) if(level[i]=='t') level[i]='0';\n\
+save.write("}\n\
 set_gravity(id_level, gravity);\n\
 unsigned int x = 0;\n\
 unsigned int y = 0;\n\

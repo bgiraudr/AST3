@@ -49,7 +49,7 @@ void game(int *id_level, char mode)
 	int vert_spd = 1;
 	extern bopti_image_t img_speedrun;
 	
-	set_level(*id_level, level, &start_x, &start_y, &gravity, check_coin, &appear, &disappear);
+	set_level(*id_level, level, &start_x, &start_y, &gravity, &appear, &disappear);
 	player_x = start_x;
 	player_y = start_y;
 	draw_level(level);
@@ -89,7 +89,6 @@ void game(int *id_level, char mode)
 			dprint(300,140,C_GREEN,"%c",level[(int)((player_x+PLAYER_HEIGHT+1)/16)+(int)((player_y-1)/16*25)]); //top right
 			dprint(300,160,C_GREEN,"%c",level[(int)((player_x-1)/16)+(int)((player_y+PLAYER_HEIGHT+1)/16*25)]); //bottom left
 			dprint(300,180,C_GREEN,"%c",level[(int)((player_x+PLAYER_HEIGHT+1)/16)+(int)((player_y+PLAYER_HEIGHT+1)/16*25)]); //bottom right*/
-			
 			dupdate();
 		}
 		
@@ -161,8 +160,9 @@ void game(int *id_level, char mode)
 			vspd = 1;
 			player_x = start_x;
 			player_y = start_y;
-			if(mode) check_coin = 0;
-			set_level(*id_level, level, &start_x, &start_y, &gravity, check_coin, &appear, &disappear);
+			if(check_coin) coin--;
+			check_coin = 0;
+			set_level(*id_level, level, &start_x, &start_y, &gravity, &appear, &disappear);
 			blackout = 0;
 			framelevel = 0;
 		}
@@ -174,7 +174,7 @@ void game(int *id_level, char mode)
 				break;
 			}
 			check_coin = 0;
-			set_level(*id_level, level, &start_x, &start_y, &gravity, check_coin, &appear, &disappear);
+			set_level(*id_level, level, &start_x, &start_y, &gravity, &appear, &disappear);
 			player_x = start_x;
 			player_y = start_y;
 			blackout = 0;
@@ -196,7 +196,7 @@ void game(int *id_level, char mode)
 				if(level[i]=='K') level[i]='0';
 			}
 		}
-		if(collide(player_x, player_y, level, gravity, 't')) //Collide with coin
+		if(collide(player_x, player_y, level, gravity, 't') && !check_coin) //Collide with coin
 		{
 			for (int i = 0; level[i]!='\0' ; i++) 
 			{
@@ -257,6 +257,19 @@ void game(int *id_level, char mode)
 			}
 			if(!gravity) gravity=1;
 			else gravity=0;
+		}
+		
+		if(collide(player_x, player_y+vert_spd+2, level, gravity, 'B') && vspd>=5.0) //Damaged block
+		{
+			if(level[((player_x)/16)+((player_y+25)/16)*25]=='B') level[((player_x)/16)+((player_y+25)/16)*25]='0';
+			if(level[((player_x+17)/16)+((player_y+25)/16)*25]=='B' && collide_point(player_x+15, player_y+22, level, 'B')) level[((player_x+17)/16)+((player_y+25)/16)*25]='0';
+			vspd=1.0;
+		}
+		if(collide(player_x, player_y-vert_spd-2, level, gravity, 'B') && vspd>=5.0) //Damaged block
+		{
+			if(level[((player_x)/16)+((player_y-vert_spd-2)/16)*25]=='B') level[((player_x)/16)+((player_y-vert_spd-2)/16)*25]='0';
+			if(level[((player_x+17)/16)+((player_y-vert_spd-2)/16)*25]=='B' && collide_point(player_x+15, player_y-12, level, 'B')) level[((player_x+17)/16)+((player_y-vert_spd-2)/16)*25]='0';
+			vspd=1.0;
 		}
 		
 		if((framelevel/FPS)>disappear) for (int i = 0; level[i]!='\0' ; i++) if(level[i]=='c') level[i]='0'; //after x seconds blocks disappear
@@ -332,18 +345,18 @@ int main(void)
 	if(!valeur) //normal game
 	{
 		int id_level = 1;
-		mode = 0;
-		game(&id_level, mode);
-	}
-	else if(valeur==1)
-	{
-		int id_level = 1;
 		if(!speed_menu(&id_level)) 
 		{
 			mode = 1;
 			game(&id_level, mode);
 		}
 		else main();
+	}
+	else if(valeur==1)
+	{
+		int id_level = 1;
+		mode = 0;
+		game(&id_level, mode);
 	}
 	return 0;
 }

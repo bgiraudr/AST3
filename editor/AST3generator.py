@@ -91,6 +91,8 @@ def place():
                 fenetre.blit(pygame.transform.scale(change,(52,52)),(52*b,52*a))
             if grille[a][b]=="b":
                 fenetre.blit(pygame.transform.scale(blackout,(52,52)),(52*b,52*a))
+            if grille[a][b]=="B":
+                fenetre.blit(pygame.transform.scale(damaged,(52,52)),(52*b,52*a))
     fenetre.blit(level, (10, 10))
     fenetre.blit(levelgr, (10, 60))
     fenetre.blit(timeapp, (55, 10))
@@ -113,7 +115,7 @@ fenetre = pygame.display.set_mode((25*52, 14*52))
 font = pygame.font.SysFont('arial',25,True)
 
 #Defini la suite des blocs pendant les changements (cliquer sur un 1 va donner un 2, cliquer sur un 11 un 0...)
-suite=["0","1","d","s","e","k","3","K","a","c","m","t","l","b"]
+suite=["0","1","d","s","e","k","3","K","a","c","m","t","l","b","B"]
 
 id_level = 1
 gravityid = 6
@@ -134,6 +136,7 @@ dead = pygame.image.load("editor/img/dead.png").convert()
 coin = pygame.image.load("editor/img/coin.png").convert_alpha()
 change = pygame.image.load("editor/img/change.png").convert_alpha()
 blackout = pygame.image.load("editor/img/blackout.png").convert_alpha()
+damaged = pygame.image.load("editor/img/damaged.png").convert()
 
 
 

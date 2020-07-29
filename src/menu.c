@@ -60,7 +60,7 @@ char speed_menu(int *id_level)
 		*id_level += keydown(KEY_RIGHT) - keydown(KEY_LEFT);
 		if (*id_level == 11) *id_level = 1;
 		else if (*id_level == 0) *id_level = 10;
-		set_level(*id_level, level, &start_x, &start_y, &gravity, check_coin, &appear, &disappear);
+		set_level(*id_level, level, &start_x, &start_y, &gravity, &appear, &disappear);
 		draw_level(level);
 		dimage(0,0,&img_speedrun);
 		dtext(340, 214, C_BLACK, "TIME");

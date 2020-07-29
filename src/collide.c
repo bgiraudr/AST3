@@ -18,7 +18,8 @@ char collide_solid(int x, int y, char level[], char gravity)
 	|| collide(x, y, level, gravity, '3')
 	|| collide(x, y, level, gravity, '4')
 	|| collide(x, y, level, gravity, 'c')
-	|| collide(x, y, level, gravity, 'C');
+	|| collide(x, y, level, gravity, 'C')
+	|| collide(x, y, level, gravity, 'B');
 }
 
 char collide_dead(int x, int y, char level[])
