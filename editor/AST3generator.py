@@ -56,8 +56,8 @@ def place():
     level = font.render(str(id_level),1,(0,0,0))
     if int(gravityid)==6: levelgr = font.render("↓",1,(120,0,0))
     if int(gravityid)==7: levelgr = font.render("↑",1,(0,120,120))
-    timeapp = font.render("A="+str(app),1,(255,180,0))
-    timedisa = font.render("D="+str(disa)+"    LOCK : "+str(lock),1,(0,255,100))
+    timeapp = font.render("A="+str(app),1,(255,230,0))
+    timedisa = font.render("D="+str(disa)+"    LOCK : "+str(lock),1,(255,180,0))
     for a in range(14):
         for b in range(25):
             pygame.draw.rect(fenetre,(255,255,255),((52*b, 52*a), (52, 52)))
@@ -97,6 +97,7 @@ def place():
     fenetre.blit(levelgr, (10, 60))
     fenetre.blit(timeapp, (55, 10))
     fenetre.blit(timedisa, (140, 10))
+    if id_level==0 : fenetre.blit(font.render("NIVEAU DE TEST",1,(0,180,255)), (600,10))
     pygame.display.flip()
 
 def write():
@@ -114,29 +115,29 @@ pygame.display.set_caption('AST3 generator (Tituya)')
 fenetre = pygame.display.set_mode((25*52, 14*52))
 font = pygame.font.SysFont('arial',25,True)
 
-#Defini la suite des blocs pendant les changements (cliquer sur un 1 va donner un 2, cliquer sur un 11 un 0...)
+#Defini la suite des blocs pendant les changements (cliquer sur un 1 va donner un 2...)
 suite=["0","1","d","s","e","k","3","K","a","c","m","t","l","b","B"]
 
-id_level = 1
+id_level = 0
 gravityid = 6
 disa = 10
 app = 13
 lock=""
 
-solid_0 = pygame.image.load("editor/img/solid_0.png").convert()
-player = pygame.image.load("editor/img/player.png").convert()
-keyblock = pygame.image.load("editor/img/keyblock.png").convert()
-key2block = pygame.image.load("editor/img/key2block.png").convert()
-chrono1 = pygame.image.load("editor/img/chrono1.png").convert()
-chrono2 = pygame.image.load("editor/img/chrono2.png").convert()
+solid_0 = pygame.image.load("editor/img/solid_0.png").convert_alpha()
+player = pygame.image.load("editor/img/player.png").convert_alpha()
+keyblock = pygame.image.load("editor/img/keyblock.png").convert_alpha()
+key2block = pygame.image.load("editor/img/key2block.png").convert_alpha()
+chrono1 = pygame.image.load("editor/img/chrono1.png").convert_alpha()
+chrono2 = pygame.image.load("editor/img/chrono2.png").convert_alpha()
 key1 = pygame.image.load("editor/img/key1.png").convert_alpha()
 key2 = pygame.image.load("editor/img/key2.png").convert_alpha()
 end = pygame.image.load("editor/img/end.png").convert_alpha()
-dead = pygame.image.load("editor/img/dead.png").convert()
+dead = pygame.image.load("editor/img/dead.png").convert_alpha()
 coin = pygame.image.load("editor/img/coin.png").convert_alpha()
 change = pygame.image.load("editor/img/change.png").convert_alpha()
 blackout = pygame.image.load("editor/img/blackout.png").convert_alpha()
-damaged = pygame.image.load("editor/img/damaged.png").convert()
+damaged = pygame.image.load("editor/img/damaged.png").convert_alpha()
 
 
 
@@ -155,7 +156,7 @@ while securite==False:
                 load(id_level)
                 place()
             if carac == "q":
-                if id_level!=1: id_level-=1
+                if id_level!=0: id_level-=1
                 load(id_level)
                 place()
             if carac == "z":

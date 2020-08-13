@@ -46,6 +46,10 @@ void check_medal(unsigned int frame_level, int id_level)
 			time = 7;
 			time2 = 62;
 			break;	
+		case 9:
+			time = 12;
+			time2 = 26;
+			break;	
 				
 	}
 	if(frame_level/FPS < (unsigned int)time || (frame_level/FPS <= (unsigned int)time && frame_level%FPS <= (unsigned int)time2)) dimage(380,8,&img_createur);
@@ -104,6 +108,10 @@ void draw_time(int id_level)
 		case 8:
 			time = 7;
 			time2 = 62;
+			break;	
+		case 9:
+			time = 12;
+			time2 = 26;
 			break;	
 	}
 	dimage(160,90,&img_createur); 

@@ -40,7 +40,6 @@ char start_menu()
 
 char speed_menu(int *id_level)
 {
-
 	char level[351];
 	char gravity = 0; //0 down 1 up
 	int start_x;
@@ -79,6 +78,12 @@ char speed_menu(int *id_level)
 		if (keydown(KEY_F6))
 		{
 			draw_time(*id_level);
+		}
+		if (keydown(KEY_POWER))
+		{
+			*id_level=0;
+			del_level(level);
+			return 0;
 		}
 		if(keydown_any(KEY_EXIT, KEY_MENU, 0)) return 1;
 		while (keydown_any(KEY_RIGHT, KEY_LEFT, 0)) clearevents();

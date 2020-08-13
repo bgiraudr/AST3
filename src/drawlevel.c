@@ -17,7 +17,9 @@ extern bopti_image_t img_chrono1; //chronoblock
 extern bopti_image_t img_chrono2; //chronoblock 2
 extern bopti_image_t img_key2; //key 2
 extern bopti_image_t img_key2block; //block link to the key 2
+extern bopti_image_t img_key2blockvoid; //block link to the key 2
 extern bopti_image_t img_damaged; //damaged block
+extern bopti_image_t img_chock; //chock block
 
 void draw_player(int x, int y)
 {
@@ -51,6 +53,9 @@ void draw_level(char level[])
 			case 'k': //key1
 				dimage(x,y,&img_key1);	
 				break;
+			case 'a': //block link to the key2 when it's not powered on
+				dimage(x,y,&img_key2blockvoid);
+				break;
 			case '4': //block link to the key2
 				dimage(x,y,&img_key2block);
 				break;
@@ -68,6 +73,9 @@ void draw_level(char level[])
 				break;
 			case 'B': //damaged block
 				dimage(x,y,&img_damaged);
+				break;
+			case 'l': //chock blocks
+				dimage(x,y,&img_chock);
 				break;
 		}
 		x+=16;

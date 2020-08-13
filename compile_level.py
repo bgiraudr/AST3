@@ -1,4 +1,4 @@
-ids = 1
+ids = 0
 
 save = open("src/setlevel.c","w+")
 save.write("#include \"setlevel.h\"\n#include <gint/std/string.h>\nvoid set_level(int id_level, char level[], int *startx, \
@@ -32,7 +32,7 @@ if(x==16*25){x=0;\n\
 y+=16;}i++;}}\n\
 void set_gravity(int id_level, char *default_gravity){\n\
 switch(id_level){")
-ids = 1
+ids = 0
 gravity = 0
 while 1:
     try:

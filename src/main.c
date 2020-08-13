@@ -328,6 +328,7 @@ void game(int *id_level, char mode)
 	//when a level is quit
 	if(mode)
 	{
+		if(*id_level==0) *id_level=1;
 		if(game_loop)
 		{
 			dclear(C_WHITE);
