@@ -93,6 +93,7 @@ void game(int *id_level, char mode)
 		}
 		
 		pollevent();
+		//Right collision
 		if(keydown(KEY_RIGHT))
 		{
 			if(!collide_solid(player_x+PLAYER_SPEED, player_y, level, gravity)) player_x+=PLAYER_SPEED;
@@ -100,19 +101,22 @@ void game(int *id_level, char mode)
 			if(player_x>=388) player_x=-4;
 
 		}
+		//Left collision
 		else if(keydown(KEY_LEFT))
 		{
 			if(!collide_solid(player_x-PLAYER_SPEED, player_y, level, gravity)) player_x-=PLAYER_SPEED;
 			else if(!collide_solid(player_x-1, player_y, level, gravity)) player_x-=1;
 			if(player_x<-9) player_x=384;
 		}
-		if(keydown(KEY_SHIFT) && !check && (collide_solid(player_x, player_y-1, level, gravity) || collide_solid(player_x, player_y+1, level, gravity)))
+		//Action key
+		if(keydown(KEY_SHIFT) && !check && ((collide_solid(player_x, player_y-1, level, gravity) && gravity) || (collide_solid(player_x, player_y+1, level, gravity) && !gravity)))
 		{
 			if(!gravity) gravity=1;
 			else gravity=0;
 			check=1;
 		}
 		else if(!keydown(KEY_SHIFT) && check) check=0;
+		//Gravity
 		if(!gravity)
 		{
 			if(!collide_solid(player_x, player_y+vert_spd+1, level, gravity))
@@ -155,6 +159,7 @@ void game(int *id_level, char mode)
 			}
 			else vspd = 1;
 		}
+		//Collide with red block
 		if(collide_dead(player_x, player_y, level))
 		{
 			vspd = 1;
@@ -166,6 +171,7 @@ void game(int *id_level, char mode)
 			blackout = 0;
 			framelevel = 0;
 		}
+		//Collide with the end
 		if(collide_end(player_x, player_y, level, gravity))
 		{
 			if(!mode) *id_level+=1;
@@ -259,7 +265,7 @@ void game(int *id_level, char mode)
 			else gravity=0;
 		}
 		
-		if(collide(player_x, player_y+vert_spd+2, level, gravity, 'B') && vspd>=5.0) //Damaged block
+		if(collide(player_x, player_y+vert_spd+2, level, gravity, 'B') && vspd>=5.0) //Damaged block 
 		{
 			if(level[((player_x)/16)+((player_y+25)/16)*25]=='B') level[((player_x)/16)+((player_y+25)/16)*25]='0';
 			if(level[((player_x+17)/16)+((player_y+25)/16)*25]=='B' && collide_point(player_x+15, player_y+22, level, 'B')) level[((player_x+17)/16)+((player_y+25)/16)*25]='0';
@@ -278,6 +284,7 @@ void game(int *id_level, char mode)
 		if(player_y>=212) player_y=-4;
 		if(player_y<-6) player_y=212;
 		
+		//Menu
 		if(keydown_any(KEY_EXIT, KEY_MENU, 0))
 		{
 			char menu_loop = 1;
@@ -318,6 +325,7 @@ void game(int *id_level, char mode)
 		}
 	}
 	timer_stop(timer);
+	//when a level is quit
 	if(mode)
 	{
 		if(game_loop)
@@ -342,7 +350,7 @@ int main(void)
 {	
 	char mode = 0;
 	int valeur = start_menu();
-	if(!valeur) //normal game
+	if(!valeur) //normal game (level selection)
 	{
 		int id_level = 1;
 		if(!speed_menu(&id_level)) 

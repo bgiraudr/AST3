@@ -5,10 +5,10 @@
 
 char collide(int x, int y, char level[], char gravity, char block) //detect if player is in a block
 {
-	if(((level[(int)(x/16) + (int)((y/16) * 25)] == block || 
-	level[(int)((x + PLAYER_HEIGHT)/16) + (int)((y/16) * 25)] == block) && gravity) ||
-	((level[(int)(x/16) + (int)((y + PLAYER_HEIGHT)/16) * 25] == block || 
-	level[(int)((x + PLAYER_HEIGHT)/16) + (int)((y + PLAYER_HEIGHT)/16) * 25] == block) && !gravity)) return 1;
+	if((level[(int)(x/16) + (int)((y + PLAYER_HEIGHT)/16) * 25] == block || 
+	level[(int)((x + PLAYER_HEIGHT)/16) + (int)((y + PLAYER_HEIGHT)/16) * 25] == block || 
+	level[(int)(x/16) + (int)((y/16) * 25)] == block || 
+	level[(int)((x + PLAYER_HEIGHT)/16) + (int)((y/16) * 25)] == block)) return 1;
 	return 0;
 }
 
