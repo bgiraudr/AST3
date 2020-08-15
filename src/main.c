@@ -334,7 +334,7 @@ void game(int *id_level, char mode)
 			dclear(C_WHITE);
 			float framefloat = framelevel;
 			dprint_opt(198, 90, C_WHITE, C_BLACK, DTEXT_LEFT, DTEXT_TOP, "%d", framelevel);
-			dprint_opt(198, 112, C_WHITE, C_BLACK, DTEXT_LEFT, DTEXT_TOP, "%u.%02u",(framelevel)/FPS, (int)((framefloat)/FPS*100-framelevel/FPS*100));
+			dprint_opt(198, 112, C_WHITE, C_BLACK, DTEXT_LEFT, DTEXT_TOP, "%.2j",(int)(framefloat/FPS*100));
 			check_medal(framelevel, *id_level);
 			dupdate();
 			sleep_ms(5000);
