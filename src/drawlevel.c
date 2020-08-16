@@ -20,6 +20,8 @@ extern bopti_image_t img_key2block; //block link to the key 2
 extern bopti_image_t img_key2blockvoid; //block link to the key 2
 extern bopti_image_t img_damaged; //damaged block
 extern bopti_image_t img_chock; //chock block
+extern bopti_image_t img_switch; //switch block
+extern bopti_image_t img_ice; //switch block
 
 void draw_player(int x, int y)
 {
@@ -76,6 +78,12 @@ void draw_level(char level[])
 				break;
 			case 'l': //chock blocks
 				dimage(x,y,&img_chock);
+				break;
+			case 'i': //chock blocks
+				dimage(x,y,&img_ice);
+				break;
+			case 'S': //chock blocks
+				dimage(x,y,&img_switch);
 				break;
 		}
 		x+=16;
