@@ -44,7 +44,7 @@ char speed_menu(int *id_level)
 	char gravity = 0; //0 down 1 up
 	int start_x;
 	int start_y;
-	char check_coin = 0;
+	
 	int appear = 10;
 	int disappear = 13;
 	
@@ -57,8 +57,8 @@ char speed_menu(int *id_level)
 		clearevents();
 		dclear(C_WHITE);
 		*id_level += keydown(KEY_RIGHT) - keydown(KEY_LEFT);
-		if (*id_level == 11) *id_level = 1;
-		else if (*id_level == 0) *id_level = 10;
+		if (*id_level == 16) *id_level = 1;
+		else if (*id_level == 0) *id_level = 15;
 		set_level(*id_level, level, &start_x, &start_y, &gravity, &appear, &disappear);
 		draw_level(level);
 		dimage(0,0,&img_speedrun);

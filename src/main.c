@@ -13,6 +13,7 @@
 
 #define ACCELERATION 0.2
 #define MAX_VSPD 9.0
+#define FRICTION 0.1
 
 int main(void);
 
@@ -122,6 +123,8 @@ void game(int *id_level, char mode)
 			if(!collide_solid(player_x, player_y+vert_spd+1, level, gravity))
 			{
 				if (vspd<MAX_VSPD) vspd+=ACCELERATION;
+				if(collide_solid(player_x+1, player_y, level, gravity))  vspd-=FRICTION;
+				if(collide_solid(player_x-1, player_y, level, gravity))  vspd-=FRICTION;
 				vert_spd = vspd;
 				player_y+=vert_spd;
 			}
@@ -143,6 +146,8 @@ void game(int *id_level, char mode)
 			if(!collide_solid(player_x, player_y-vert_spd-1, level, gravity))
 			{
 				if (vspd<MAX_VSPD) vspd+=ACCELERATION;
+				if(collide_solid(player_x+1, player_y, level, gravity))  vspd-=FRICTION;
+				if(collide_solid(player_x-1, player_y, level, gravity))  vspd-=FRICTION;
 				vert_spd = vspd;
 				player_y-=vert_spd;
 			}
