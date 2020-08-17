@@ -99,6 +99,8 @@ def place():
                 fenetre.blit(pygame.transform.scale(ice,(52,52)),(52*b,52*a))
             if grille[a][b]=="S":
                 fenetre.blit(pygame.transform.scale(switch,(52,52)),(52*b,52*a))
+            if grille[a][b]=="h":
+                fenetre.blit(pygame.transform.scale(appear,(52,52)),(52*b,52*a))
     fenetre.blit(level, (10, 10))
     fenetre.blit(levelgr, (10, 60))
     fenetre.blit(timeapp, (55, 10))
@@ -122,7 +124,7 @@ fenetre = pygame.display.set_mode((25*52, 14*52))
 font = pygame.font.SysFont('arial',25,True)
 
 #Defini la suite des blocs pendant les changements (cliquer sur un 1 va donner un 2...)
-suite=["0","1","d","s","e","k","3","K","a","c","m","t","l","b","B","i","S"]
+suite=["0","1","d","s","e","k","3","K","a","c","m","t","l","b","B","i","S","h"]
 
 id_level = 0
 gravityid = 6
@@ -146,7 +148,7 @@ blackout = pygame.image.load("editor/img/blackout.png").convert_alpha()
 damaged = pygame.image.load("editor/img/damaged.png").convert_alpha()
 switch = pygame.image.load("editor/img/switch.png").convert_alpha()
 ice = pygame.image.load("editor/img/ice.png").convert_alpha()
-
+appear = pygame.image.load("editor/img/appear.png").convert_alpha()
 
 load(id_level)
 place()

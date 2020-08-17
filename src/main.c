@@ -293,6 +293,18 @@ void game(int *id_level, char mode)
 			vspd=1.0;
 		}
 		
+		if((collide_point(player_x, player_y, level, 'h') || collide_point(player_x + PLAYER_HEIGHT, player_y, level, 'h')) && !gravity) //appear block 
+		{
+			if(level[((player_x)/16)+((player_y)/16)*25] == 'h') level[((player_x)/16)+((player_y)/16)*25] = 'H';
+			if(level[((player_x+PLAYER_HEIGHT)/16)+((player_y)/16)*25] == 'h') level[((player_x+PLAYER_HEIGHT)/16)+((player_y)/16)*25] = 'H';
+			player_y += 16;
+		}
+		else if((collide_point(player_x, player_y + PLAYER_HEIGHT, level, 'h') || collide_point(player_x + PLAYER_HEIGHT, player_y + PLAYER_HEIGHT, level, 'h')) && gravity) //appear block 
+		{
+			if(level[((player_x)/16)+((player_y)/16)*25] == 'h') level[((player_x)/16)+((player_y)/16)*25] = 'H';
+			if(level[((player_x+PLAYER_HEIGHT)/16)+((player_y)/16)*25] == 'h') level[((player_x+PLAYER_HEIGHT)/16)+((player_y)/16)*25] = 'H';
+			player_y -= 16;
+		}
 		if(level[((player_x+6)/16)+((player_y+6)/16)*25] == 'S') //Switch block
 		{
 			level[((player_x+6)/16)+((player_y+6)/16)*25] = '0';
@@ -375,7 +387,7 @@ void game(int *id_level, char mode)
 int main(void)
 {	
 	char mode = 0;
-	int valeur = start_menu();
+	char valeur = start_menu();
 	if(!valeur) //normal game (level selection)
 	{
 		int id_level = 1;
@@ -391,6 +403,11 @@ int main(void)
 		int id_level = 1;
 		mode = 0;
 		game(&id_level, mode);
+	}
+	else if(valeur==2)
+	{
+		dprint_opt(198, 90, C_WHITE, C_BLACK, DTEXT_LEFT, DTEXT_TOP, "CONTROLS");
+		getkey();
 	}
 	return 0;
 }

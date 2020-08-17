@@ -22,6 +22,9 @@ extern bopti_image_t img_damaged; //damaged block
 extern bopti_image_t img_chock; //chock block
 extern bopti_image_t img_switch; //switch block
 extern bopti_image_t img_ice; //switch block
+extern bopti_image_t img_appear; //appear block
+extern bopti_image_t img_appearblock; //appear block
+extern bopti_image_t img_chrono2appear; //appear block
 
 void draw_player(int x, int y)
 {
@@ -84,6 +87,15 @@ void draw_level(char level[])
 				break;
 			case 'S': //chock blocks
 				dimage(x,y,&img_switch);
+				break;
+			case 'h': //void appear blocks
+				dimage(x,y,&img_appear);
+				break;
+			case 'H': //appear blocks
+				dimage(x,y,&img_appearblock);
+				break;
+			case 'm': //chronoappear blocks
+				dimage(x,y,&img_chrono2appear);
 				break;
 		}
 		x+=16;

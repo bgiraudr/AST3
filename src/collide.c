@@ -20,7 +20,8 @@ char collide_solid(int x, int y, char level[])
 	|| collide(x, y, level, 'c')
 	|| collide(x, y, level, 'C')
 	|| collide(x, y, level, 'B')
-	|| collide(x, y, level, 'i');
+	|| collide(x, y, level, 'i')
+	|| collide(x, y, level, 'H');
 }
 
 char collide_dead(int x, int y, char level[])

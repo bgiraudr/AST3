@@ -11,18 +11,19 @@ char start_menu()
 	char selection = 0;
 	char buffer = 1;
 	char buffer2 = 1;
-	int Y_POS = 90;
+	int Y_POS = 85;
 	while(menu_loop)
 	{
 		clearevents();
 		dclear(C_WHITE);
 		dimage(0,0,&img_menu);
 		selection += keydown(KEY_DOWN) - keydown(KEY_UP);
-		if (selection == 3) selection = 0;
-		else if (selection == -1) selection = 2;
+		if (selection == 4) selection = 0;
+		else if (selection == -1) selection = 3;
 		dtext(32, Y_POS, C_BLACK, "PLAY");
 		dtext(32, Y_POS + 12, C_BLACK, "SPEEDRUN MODE");
-		dtext(32, Y_POS + 24, C_BLACK, "EXIT GAME");
+		dtext(32, Y_POS + 24, C_BLACK, "CONTROL");
+		dtext(32, Y_POS + 36, C_BLACK, "EXIT GAME");
 		dtext(16, Y_POS + (selection * 12), C_BLACK, ">");
 		dupdate();
 		if (keydown_any(KEY_SHIFT, KEY_EXE, 0)) {
