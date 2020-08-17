@@ -12,10 +12,9 @@
 #include "define.h"
 
 #define VACCELERATION 0.2
-#define HACCELERATION 0.01
+#define HACCELERATION 0.4
 #define MAX_VSPD 9.0
-//#define MAX_HSPD 3.0
-#define FRICTION 0.06
+#define FRICTION 0.2
 
 int main(void);
 
@@ -24,6 +23,11 @@ int callback(volatile int *frame_elapsed)
     *frame_elapsed = 1;
     return TIMER_CONTINUE;
 }
+
+int round(float num) //round(2.5) = 3 round(-3.2) = -3
+{ 
+    return num < 0 ? num - 0.5 : num + 0.5; 
+} 
 
 void game(int *id_level, char mode)
 {
@@ -49,7 +53,8 @@ void game(int *id_level, char mode)
 	int disappear = 13;
 	
 	float vspd = 1.0;
-	//float hspd = 2.0;
+	float hspd = 0;
+	
 	extern bopti_image_t img_speedrun;
 	
 	set_level(*id_level, level, &start_x, &start_y, &gravity, &appear, &disappear);
@@ -81,8 +86,6 @@ void game(int *id_level, char mode)
 		}
 			//dprint(150,100,C_GREEN,"%d",player_x);
 			//dprint(150,120,C_GREEN,"%d",player_y);
-			//dprint(150,120,C_GREEN,"%.2j",(int)(hspd*100));
-			dprint(150,120,C_GREEN,"%.2j",(int)(vspd*100));
 			if(!mode) dprint_opt(340, 0, C_RGB(255,190,0), C_BLACK, DTEXT_LEFT, DTEXT_TOP, "Coin : %d", coin);
 			/*dprint(320,120,C_GREEN,"%d",collide_solid(player_x+1, player_y, level));
 			dprint(320,140,C_GREEN,"%d",collide_solid(player_x-1, player_y, level));
@@ -98,54 +101,26 @@ void game(int *id_level, char mode)
 		}
 		
 		pollevent();
+	
 		//Right collision
 		if(keydown(KEY_RIGHT))
 		{
-			/*if(!collide_solid(player_x+(int)hspd+1, player_y, level))
-			{
-				if (hspd<MAX_HSPD) hspd+=HACCELERATION;
-				player_x+=(int)hspd;
-			}
-			else if(!collide_solid(player_x+(int)hspd, player_y, level))
-			{
-				hspd-=HACCELERATION;
-				player_x+=(int)hspd;
-			}
-			else if(!collide_solid(player_x+1, player_y, level)) 
-			{	
-				hspd=2.0;
-				player_x+=1;
-			}
-			else if(collide_solid(player_x+1, player_y, level)) hspd=2.0;*/
-			if(!collide_solid(player_x+PLAYER_SPEED, player_y, level)) player_x+=PLAYER_SPEED;
+			hspd *= 1 - FRICTION;
+			hspd += (keydown(KEY_RIGHT)-keydown(KEY_LEFT)) * HACCELERATION;
+			if(!collide_solid(player_x+round(hspd)+1, player_y, level)) player_x += round(hspd);
 			else if(!collide_solid(player_x+1, player_y, level)) player_x+=1;
 			if(player_x>=388) player_x=-4;
-
 		}
 		//Left collision
 		else if(keydown(KEY_LEFT))
 		{
-			/*if(!collide_solid(player_x-(int)hspd-1, player_y, level))
-			{
-				if (hspd<MAX_HSPD) hspd+=HACCELERATION;
-				player_x-=(int)hspd;
-			}
-			else if(!collide_solid(player_x-(int)hspd, player_y, level))
-			{
-				hspd-=HACCELERATION;
-				player_x-=(int)hspd;
-			}
-			else if(!collide_solid(player_x-1, player_y, level)) 
-			{
-				hspd=2.0;
-				player_x-=1;
-			}
-			else if(collide_solid(player_x-1, player_y, level)) hspd=2.0;*/
-			if(!collide_solid(player_x-PLAYER_SPEED, player_y, level)) player_x-=PLAYER_SPEED;
+			hspd *= 1 - FRICTION;
+			hspd += (keydown(KEY_RIGHT)-keydown(KEY_LEFT)) * HACCELERATION;
+			if(!collide_solid(player_x+round(hspd)-1, player_y, level)) player_x += round(hspd);
 			else if(!collide_solid(player_x-1, player_y, level)) player_x-=1;
 			if(player_x<-9) player_x=384;
 		}
-		//else hspd=2.0;
+		else hspd=0;
 		//Action key
 		if(keydown(KEY_SHIFT) && !check && ((collide_solid(player_x, player_y-1, level) && gravity) || (collide_solid(player_x, player_y+1, level) && !gravity)))
 		{
@@ -161,8 +136,6 @@ void game(int *id_level, char mode)
 			if(!collide_solid(player_x, player_y+(int)vspd+1, level))
 			{
 				if (vspd<MAX_VSPD) vspd+=VACCELERATION;
-				if(collide_solid(player_x+1, player_y, level))  vspd-=FRICTION;
-				if(collide_solid(player_x-1, player_y, level))  vspd-=FRICTION;
 				if(collide(player_x+1, player_y, level, 'i'))  vspd+=0.15;
 				if(collide(player_x-1, player_y, level, 'i'))  vspd+=0.15;
 				player_y+=(int)vspd;
@@ -184,8 +157,6 @@ void game(int *id_level, char mode)
 			if(!collide_solid(player_x, player_y-(int)vspd-1, level))
 			{
 				if (vspd<MAX_VSPD) vspd+=VACCELERATION;
-				if(collide_solid(player_x+1, player_y, level))  vspd-=FRICTION;
-				if(collide_solid(player_x-1, player_y, level))  vspd-=FRICTION;
 				if(collide(player_x+1, player_y, level, 'i'))  vspd+=0.15;
 				if(collide(player_x-1, player_y, level, 'i'))  vspd+=0.15;
 				player_y-=(int)vspd;
