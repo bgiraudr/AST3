@@ -91,6 +91,9 @@ void draw_level(char level[])
 			case 'h': //void appear blocks
 				dimage(x,y,&img_appear);
 				break;
+			case 'y': //void appear blocks
+				dimage(x,y,&img_appear);
+				break;
 			case 'H': //appear blocks
 				dimage(x,y,&img_appearblock);
 				break;

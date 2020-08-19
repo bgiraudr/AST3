@@ -29,7 +29,11 @@ char collide_dead(int x, int y, char level[])
 	return collide_point(x + DEAD_COLLISION, y + DEAD_COLLISION, level, 'd') || 
 	collide_point(x + PLAYER_HEIGHT - DEAD_COLLISION, y + DEAD_COLLISION, level, 'd') || 
 	collide_point(x + DEAD_COLLISION, y + PLAYER_HEIGHT - DEAD_COLLISION, level, 'd') || 
-	collide_point(x + PLAYER_HEIGHT - DEAD_COLLISION, y + PLAYER_HEIGHT - DEAD_COLLISION, level, 'd');
+	collide_point(x + PLAYER_HEIGHT - DEAD_COLLISION, y + PLAYER_HEIGHT - DEAD_COLLISION, level, 'd') ||
+	collide_point(x + 1, y + 1, level, 'C') || 
+	collide_point(x + PLAYER_HEIGHT - 1, y + 1, level, 'C') || 
+	collide_point(x + 1, y + PLAYER_HEIGHT - 1, level, 'C') || 
+	collide_point(x + PLAYER_HEIGHT - 1, y + PLAYER_HEIGHT - 1, level, 'C');
 }
 
 char collide_point(int x, int y, char level[], char block)
@@ -40,4 +44,24 @@ char collide_point(int x, int y, char level[], char block)
 char collide_end(int x, int y, char level[])
 {
 	return collide(x, y, level, 'e');
+}
+
+void collide_replace(int x, int y, char level[], char collide, char replace)
+{
+	if(collide_point(x, y, level, collide))
+	{
+		level[((x)/16)+((y)/16)*25] = replace;
+	}
+	if(collide_point(x + PLAYER_HEIGHT, y, level, collide))
+	{
+		level[((x + PLAYER_HEIGHT)/16)+((y)/16)*25] = replace;
+	}
+	if(collide_point(x, y + PLAYER_HEIGHT, level, collide))
+	{
+		level[((x)/16)+((y + PLAYER_HEIGHT)/16)*25] = replace;
+	}
+	if(collide_point(x + PLAYER_HEIGHT, y + PLAYER_HEIGHT, level, collide))
+	{
+		level[((x + PLAYER_HEIGHT)/16)+((y + PLAYER_HEIGHT)/16)*25] = replace;
+	}
 }

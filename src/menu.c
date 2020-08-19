@@ -22,7 +22,7 @@ char start_menu()
 		else if (selection == -1) selection = 3;
 		dtext(32, Y_POS, C_BLACK, "PLAY");
 		dtext(32, Y_POS + 12, C_BLACK, "SPEEDRUN MODE");
-		dtext(32, Y_POS + 24, C_BLACK, "CONTROL");
+		dtext(32, Y_POS + 24, C_BLACK, "TUTORIAL");
 		dtext(32, Y_POS + 36, C_BLACK, "EXIT GAME");
 		dtext(16, Y_POS + (selection * 12), C_BLACK, ">");
 		dupdate();
@@ -45,7 +45,7 @@ char speed_menu(int *id_level)
 	char gravity = 0; //0 down 1 up
 	int start_x;
 	int start_y;
-	
+	char buffer = 1;
 	int appear = 10;
 	int disappear = 13;
 	
@@ -86,7 +86,10 @@ char speed_menu(int *id_level)
 			del_level(level);
 			return 0;
 		}
-		if(keydown_any(KEY_EXIT, KEY_MENU, 0)) return 1;
+		if(keydown_any(KEY_EXIT, KEY_MENU, 0)) {
+			if(!buffer) return 1;
+		}
+		else buffer = 0;
 		while (keydown_any(KEY_RIGHT, KEY_LEFT, 0)) clearevents();
 	}
 	return 0;

@@ -45,9 +45,11 @@ void game(int *id_level, char mode)
 	char blackout = 0;
 	int start_x;
 	int start_y;
+	int death_count = 0;
 	
 	unsigned int coin = 0;
 	char check_coin = 0;
+	char double_check = 1;
 	
 	int appear = 10;
 	int disappear = 13;
@@ -76,16 +78,16 @@ void game(int *id_level, char mode)
 			if(!mode) draw_timer(frame);
 			else draw_timer(framelevel);
 		
-		if(*id_level==1 && !mode)
+		if(*id_level==0 && !mode)
 		{
 			dprint(85,180,C_RGB(245,245,0),"SHIFT");
-			dprint(167,19,C_RGB(110,110,110),"Ne touchez pas ces blocs !");
-			dprint(162,160,C_RGB(110,110,110),"Les clefs agissent");
-			dprint(162,173,C_RGB(110,110,110),"sur certains blocs");
-			dprint(315,115,C_RGB(110,110,110),"Bravo !");
+			dprint(120,3,C_RGB(220,220,220),"Keys has effects on blocks");
+			dprint(15,67,C_RGB(220,220,220),"Red blocks = death");
+			dprint(30,211,C_RGB(220,220,220),"^ special blocks");
+			dprint(290,131,C_RGB(110,110,110),"Well done !");
 		}
 			//dprint(150,100,C_GREEN,"%d",player_x);
-			//dprint(150,120,C_GREEN,"%d",player_y);
+			//dprint(150,120,C_GREEN,"%d",double_check);
 			if(!mode) dprint_opt(340, 0, C_RGB(255,190,0), C_BLACK, DTEXT_LEFT, DTEXT_TOP, "Coin : %d", coin);
 			/*dprint(320,120,C_GREEN,"%d",collide_solid(player_x+1, player_y, level));
 			dprint(320,140,C_GREEN,"%d",collide_solid(player_x-1, player_y, level));
@@ -102,6 +104,11 @@ void game(int *id_level, char mode)
 		
 		pollevent();
 	
+		if(keydown(KEY_OPTN))
+		{
+			level[((player_x+6)/16)+((player_y+6)/16)*25] = 'd';
+			death_count--;
+		}
 		//Right collision
 		if(keydown(KEY_RIGHT))
 		{
@@ -177,28 +184,27 @@ void game(int *id_level, char mode)
 		if(collide_dead(player_x, player_y, level))
 		{
 			vspd = 1;
-			//hspd = 2.0;
 			player_x = start_x;
 			player_y = start_y;
 			if(check_coin) coin--;
 			check_coin = 0;
 			set_level(*id_level, level, &start_x, &start_y, &gravity, &appear, &disappear);
 			blackout = 0;
+			death_count++;
+			double_check = 1;
 			framelevel = 0;
 		}
 		//Collide with the end
 		if(collide_end(player_x, player_y, level))
 		{
-			if(!mode) *id_level+=1;
-			if(mode)
-			{
-				break;
-			}
+			if(!mode && *id_level !=0) *id_level+=1;
+			else break;
 			check_coin = 0;
 			set_level(*id_level, level, &start_x, &start_y, &gravity, &appear, &disappear);
 			player_x = start_x;
 			player_y = start_y;
 			blackout = 0;
+			double_check = 1;
 			framelevel=0;
 		}
 		if(collide(player_x, player_y, level, 'k')) //Collide with key1 = disappearance of blocks
@@ -293,17 +299,31 @@ void game(int *id_level, char mode)
 			vspd=1.0;
 		}
 		
-		if((collide_point(player_x, player_y, level, 'h') || collide_point(player_x + PLAYER_HEIGHT, player_y, level, 'h')) && !gravity) //appear block 
+		collide_replace(player_x, player_y, level, 'h', 'y'); //Appear block
+		if(!collide(player_x, player_y, level, 'y') && double_check) //Appear block
 		{
-			if(level[((player_x)/16)+((player_y)/16)*25] == 'h') level[((player_x)/16)+((player_y)/16)*25] = 'H';
-			if(level[((player_x+PLAYER_HEIGHT)/16)+((player_y)/16)*25] == 'h') level[((player_x+PLAYER_HEIGHT)/16)+((player_y)/16)*25] = 'H';
-			player_y += 16;
+			for (int i = 0; level[i]!='\0' ; i++) 
+			{
+				if(level[i]=='y')
+				{
+					double_check = 1;
+					break;
+				}
+				else if(level[i]=='h')
+				{
+					double_check = 1;
+					break;
+				}
+				else double_check = 0; //This loop is executed only when an h or y is on the level
+			}
+		for (int i = 0; level[i]!='\0'; ++i)
+		{
+			if(level[i]=='y')
+				{
+					level[i]='H';
+				}
 		}
-		else if((collide_point(player_x, player_y + PLAYER_HEIGHT, level, 'h') || collide_point(player_x + PLAYER_HEIGHT, player_y + PLAYER_HEIGHT, level, 'h')) && gravity) //appear block 
-		{
-			if(level[((player_x)/16)+((player_y)/16)*25] == 'h') level[((player_x)/16)+((player_y)/16)*25] = 'H';
-			if(level[((player_x+PLAYER_HEIGHT)/16)+((player_y)/16)*25] == 'h') level[((player_x+PLAYER_HEIGHT)/16)+((player_y)/16)*25] = 'H';
-			player_y -= 16;
+		
 		}
 		if(level[((player_x+6)/16)+((player_y+6)/16)*25] == 'S') //Switch block
 		{
@@ -325,6 +345,7 @@ void game(int *id_level, char mode)
 			char menu_loop = 1;
 			char selected = 0;
 			int Y_POS = 18;
+			char buffer = 1;
 			while(menu_loop)
 			{
 				clearevents();
@@ -340,7 +361,8 @@ void game(int *id_level, char mode)
 				else dtext(32, Y_POS + 12, C_BLACK, "SPEEDRUN MENU");
 				dtext(16, Y_POS + (selected * 12), C_BLACK, ">");
 				dprint(180, 45, C_RGB(83,255,0), "LEVEL : %d", *id_level);
-				dprint(320, 8, C_RGB(255,178,0), "COIN : %d", coin);
+				dprint(320, 3, C_RGB(255,178,0), "COIN : %d", coin);
+				dprint(311, 17, C_RGB(150,16,16), "DEATH : %d", death_count);
 				dupdate();
 				if (keydown_any(KEY_SHIFT, KEY_EXE, 0))
 				{
@@ -355,6 +377,16 @@ void game(int *id_level, char mode)
 							break;
 					}
 				}
+				if(keydown_any(KEY_EXIT, KEY_MENU, 0))
+				{
+					if(!buffer)
+					{
+						menu_loop = 0;
+						game_loop = 0;
+						break;
+					}
+				}
+				else buffer = 0;
 				while (keydown_any(KEY_UP, KEY_DOWN, 0)) clearevents();
 			}
 		}
@@ -377,6 +409,7 @@ void game(int *id_level, char mode)
 		if(!speed_menu(id_level)) 
 		{
 			mode = 1;
+			death_count = 0;
 			game(id_level, mode);
 		}
 		else main();
@@ -406,8 +439,8 @@ int main(void)
 	}
 	else if(valeur==2)
 	{
-		dprint_opt(198, 90, C_WHITE, C_BLACK, DTEXT_LEFT, DTEXT_TOP, "CONTROLS");
-		getkey();
+		int id_level = 0;
+		game(&id_level, mode);
 	}
 	return 0;
 }
