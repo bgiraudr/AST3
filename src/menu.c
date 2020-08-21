@@ -4,7 +4,7 @@
 #include "setlevel.h"
 #include "times.h"
 
-char start_menu()
+char start_menu(char *type)
 {
 	extern bopti_image_t img_menu;
 	char menu_loop = 1;
@@ -34,6 +34,7 @@ char start_menu()
 			if(!buffer) return -1;
 		}
 		else buffer = 0;
+		if(keydown(KEY_5) && keydown(KEY_6)) *type = 3;
 		while (keydown_any(KEY_UP, KEY_DOWN, 0)) clearevents();
 	}
 	return selection;
@@ -79,12 +80,6 @@ char speed_menu(int *id_level)
 		if (keydown(KEY_F6))
 		{
 			draw_time(*id_level);
-		}
-		if (keydown(KEY_POWER))
-		{
-			*id_level=0;
-			del_level(level);
-			return 0;
 		}
 		if(keydown_any(KEY_EXIT, KEY_MENU, 0)) {
 			if(!buffer) return 1;

@@ -29,7 +29,7 @@ int round(float num) //round(2.5) = 3 round(-3.2) = -3
     return num < 0 ? num - 0.5 : num + 0.5; 
 } 
 
-void game(int *id_level, char mode)
+void game(int *id_level, char mode, char *type)
 {
 	volatile int frame_elapsed = 1;
 	int timer = timer_setup(TIMER_ANY, 1000000/FPS, callback, &frame_elapsed);
@@ -56,9 +56,9 @@ void game(int *id_level, char mode)
 	
 	float vspd = 1.0;
 	float hspd = 0;
-	
+	if(*id_level==10 && *type==1) *type = 2;
+	else if(*type!=3) *type = 1;
 	extern bopti_image_t img_speedrun;
-	
 	set_level(*id_level, level, &start_x, &start_y, &gravity, &appear, &disappear);
 	player_x = start_x;
 	player_y = start_y;
@@ -74,7 +74,7 @@ void game(int *id_level, char mode)
 		{
 			draw_level(level);
 			if(blackout) draw_blackout(player_x, player_y);
-			draw_player(player_x,player_y);
+			draw_player(player_x, player_y, *type);
 			if(!mode) draw_timer(frame);
 			else draw_timer(framelevel);
 		
@@ -88,7 +88,7 @@ void game(int *id_level, char mode)
 		}
 			//dprint(150,100,C_GREEN,"%d",player_x);
 			//dprint(150,120,C_GREEN,"%d",double_check);
-			if(!mode) dprint_opt(340, 0, C_RGB(255,190,0), C_BLACK, DTEXT_LEFT, DTEXT_TOP, "Coin : %d", coin);
+			if(!mode) dprint_opt(330, 0, C_RGB(255,190,0), C_BLACK, DTEXT_LEFT, DTEXT_TOP, "Coin : %d", coin);
 			/*dprint(320,120,C_GREEN,"%d",collide_solid(player_x+1, player_y, level));
 			dprint(320,140,C_GREEN,"%d",collide_solid(player_x-1, player_y, level));
 			dprint(320,160,C_GREEN,"%d",collide_solid(player_x, player_y+1, level));
@@ -101,6 +101,7 @@ void game(int *id_level, char mode)
 			dprint(300,180,C_GREEN,"%c",level[(int)((player_x+PLAYER_HEIGHT+1)/16)+(int)((player_y+PLAYER_HEIGHT+1)/16*25)]); //bottom right*/
 			dupdate();
 		}
+		
 		
 		pollevent();
 	
@@ -206,6 +207,8 @@ void game(int *id_level, char mode)
 			blackout = 0;
 			double_check = 1;
 			framelevel=0;
+			if(*id_level==10 && *type==1) *type = 2;
+			else if(*type!=3) *type = 1;
 		}
 		if(collide(player_x, player_y, level, 'k')) //Collide with key1 = disappearance of blocks
 		{
@@ -289,13 +292,13 @@ void game(int *id_level, char mode)
 		if(collide(player_x, player_y+(int)vspd+2, level, 'B') && vspd>=5) //Damaged block 
 		{
 			if(level[((player_x)/16)+((player_y+25)/16)*25]=='B') level[((player_x)/16)+((player_y+25)/16)*25]='0';
-			if(level[((player_x+17)/16)+((player_y+25)/16)*25]=='B' && collide_point(player_x+15, player_y+22, level, 'B')) level[((player_x+17)/16)+((player_y+25)/16)*25]='0';
+			if(level[((player_x+12)/16)+((player_y+25)/16)*25]=='B' && collide_point(player_x+12, player_y+22, level, 'B')) level[((player_x+12)/16)+((player_y+25)/16)*25]='0';
 			vspd=1.0;
 		}
 		if(collide(player_x, player_y-(int)vspd-2, level, 'B') && vspd>=5) //Damaged block
 		{
 			if(level[((player_x)/16)+((player_y-(int)vspd-2)/16)*25]=='B') level[((player_x)/16)+((player_y-(int)vspd-2)/16)*25]='0';
-			if(level[((player_x+17)/16)+((player_y-(int)vspd-2)/16)*25]=='B' && collide_point(player_x+15, player_y-12, level, 'B')) level[((player_x+17)/16)+((player_y-(int)vspd-2)/16)*25]='0';
+			if(level[((player_x+12)/16)+((player_y-(int)vspd-2)/16)*25]=='B' && collide_point(player_x+12, player_y-12, level, 'B')) level[((player_x+12)/16)+((player_y-(int)vspd-2)/16)*25]='0';
 			vspd=1.0;
 		}
 		
@@ -351,7 +354,7 @@ void game(int *id_level, char mode)
 				clearevents();
 				dclear(C_WHITE);
 				draw_level(level);
-				draw_player(player_x,player_y);
+				draw_player(player_x,player_y, *type);
 				dimage(0,0,&img_speedrun);
 				selected += keydown(KEY_DOWN) - keydown(KEY_UP);
 				if (selected == 2) selected = 0;
@@ -410,7 +413,7 @@ void game(int *id_level, char mode)
 		{
 			mode = 1;
 			death_count = 0;
-			game(id_level, mode);
+			game(id_level, mode, type);
 		}
 		else main();
 	}
@@ -420,14 +423,15 @@ void game(int *id_level, char mode)
 int main(void)
 {	
 	char mode = 0;
-	char valeur = start_menu();
+	char type = 1;
+	char valeur = start_menu(&type);
 	if(!valeur) //normal game (level selection)
 	{
 		int id_level = 1;
 		if(!speed_menu(&id_level)) 
 		{
 			mode = 1;
-			game(&id_level, mode);
+			game(&id_level, mode, &type);
 		}
 		else main();
 	}
@@ -435,12 +439,12 @@ int main(void)
 	{
 		int id_level = 1;
 		mode = 0;
-		game(&id_level, mode);
+		game(&id_level, mode, &type);
 	}
 	else if(valeur==2)
 	{
 		int id_level = 0;
-		game(&id_level, mode);
+		game(&id_level, mode, &type);
 	}
 	return 0;
 }

@@ -26,10 +26,11 @@ extern bopti_image_t img_appear; //appear block
 extern bopti_image_t img_appearblock; //appear block
 extern bopti_image_t img_chrono2appear; //appear block
 
-void draw_player(int x, int y)
+void draw_player(int x, int y, char type)
 {
-	dimage(x,y,&img_player);
+	dsubimage(x,y,&img_player, 12*(type-1),0,12,12, DIMAGE_NONE);
 }
+
 void draw_level(char level[])
 {
 	dclear(C_WHITE);
