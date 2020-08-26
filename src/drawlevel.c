@@ -2,6 +2,7 @@
 #include <gint/std/string.h>
 #include <gint/display.h>
 #include "define.h"
+#include "times.h"
 
 #define VISIBLE_RECT 35
 
@@ -11,20 +12,17 @@ extern bopti_image_t img_dead; //dead block
 extern bopti_image_t img_player; //player
 extern bopti_image_t img_end; //end of level
 extern bopti_image_t img_key1; //key 1
-extern bopti_image_t img_keyblock; //block link to the key1
 extern bopti_image_t img_blackout; //blackout
 extern bopti_image_t img_chrono1; //chronoblock
 extern bopti_image_t img_chrono2; //chronoblock 2
 extern bopti_image_t img_key2; //key 2
-extern bopti_image_t img_key2block; //block link to the key 2
-extern bopti_image_t img_key2blockvoid; //block link to the key 2
 extern bopti_image_t img_damaged; //damaged block
 extern bopti_image_t img_chock; //chock block
 extern bopti_image_t img_switch; //switch block
 extern bopti_image_t img_ice; //switch block
 extern bopti_image_t img_appear; //appear block
-extern bopti_image_t img_appearblock; //appear block
-extern bopti_image_t img_chrono2appear; //appear block
+
+extern bopti_image_t img_endscreen;
 
 void draw_player(int x, int y, char type)
 {
@@ -54,25 +52,25 @@ void draw_level(char level[])
 				dimage(x,y,&img_end);
 				break;
 			case '3': //block link to the key1
-				dimage(x,y,&img_keyblock);
+				dsubimage(x,y,&img_key1,0,0,16,16,DIMAGE_NONE);
 				break;
 			case 'k': //key1
-				dimage(x,y,&img_key1);	
+				dsubimage(x,y,&img_key1,16,0,16,16,DIMAGE_NONE);
 				break;
 			case 'a': //block link to the key2 when it's not powered on
-				dimage(x,y,&img_key2blockvoid);
+				dsubimage(x,y,&img_key2,0,0,16,16,DIMAGE_NONE);
 				break;
 			case '4': //block link to the key2
-				dimage(x,y,&img_key2block);
+				dsubimage(x,y,&img_key2,16,0,16,16,DIMAGE_NONE);
 				break;
 			case 'K': //key2
-				dimage(x,y,&img_key2);
+				dsubimage(x,y,&img_key2,32,0,16,16,DIMAGE_NONE);
 				break;
 			case 'c': //chrono blocks
 				dimage(x,y,&img_chrono1);
 				break;
 			case 'C': //chrono blocks
-				dimage(x,y,&img_chrono2);
+				dsubimage(x,y,&img_chrono2,16,0,16,16,DIMAGE_NONE);
 				break;
 			case 'b': //blackout blocks
 				dimage(x,y,&img_blackout);
@@ -83,23 +81,23 @@ void draw_level(char level[])
 			case 'l': //chock blocks
 				dimage(x,y,&img_chock);
 				break;
-			case 'i': //chock blocks
+			case 'i': //ice blocks
 				dimage(x,y,&img_ice);
 				break;
 			case 'S': //chock blocks
 				dimage(x,y,&img_switch);
 				break;
 			case 'h': //void appear blocks
-				dimage(x,y,&img_appear);
+				dsubimage(x,y,&img_appear,0,0,16,16,DIMAGE_NONE);
 				break;
 			case 'y': //void appear blocks
-				dimage(x,y,&img_appear);
+				dsubimage(x,y,&img_appear,0,0,16,16,DIMAGE_NONE);
 				break;
 			case 'H': //appear blocks
-				dimage(x,y,&img_appearblock);
+				dsubimage(x,y,&img_appear,16,0,16,16,DIMAGE_NONE);
 				break;
 			case 'm': //chronoappear blocks
-				dimage(x,y,&img_chrono2appear);
+				dsubimage(x,y,&img_chrono2,0,0,16,16,DIMAGE_NONE);
 				break;
 		}
 		x+=16;
@@ -125,4 +123,14 @@ void draw_blackout(int x, int y)
 void draw_timer(unsigned int frame)
 {
 	dprint_opt(0, 0, C_WHITE, C_BLACK, DTEXT_LEFT, DTEXT_TOP, "%u.%02u",(frame)/FPS, (frame)%FPS);
+}
+
+void draw_end(int framelevel, int id_level)
+{
+	float framefloat = framelevel;
+	dimage(144,60,&img_endscreen);
+	dprint_opt(220, 115, C_WHITE, C_BLACK, DTEXT_LEFT, DTEXT_TOP, "%d", framelevel);
+	dprint(166, 87, C_RED, "%.2j",(int)(framefloat/FPS*100));
+	check_medal(framelevel, id_level, 178, 140);
+	dupdate();
 }

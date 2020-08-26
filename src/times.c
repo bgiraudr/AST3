@@ -3,43 +3,39 @@
 #include <gint/display.h>
 #include <gint/keyboard.h>
 
-extern bopti_image_t img_bronze;
-extern bopti_image_t img_argent;
-extern bopti_image_t img_or;
-extern bopti_image_t img_createur;
-
-void check_medal(unsigned int frame_level, int id_level)
+extern bopti_image_t img_medals;
+void check_medal(unsigned int frame_level, int id_level, int x, int y)
 {
 float time=1.0;
 float framefloat = frame_level;
-float level_time[] = {5.81,8.38,5.89,8.68,3.84,3.58,6.81,7.48,10.46,9.25,6.48,11.94,5.68};
+float level_time[] = {5.91,8.76,5.89,3.58,3.84,8.45,6.92,7.68,10.46,9.25,6.48,11.94,5.68};
 time = level_time[id_level-1];
 
 if(frame_level/FPS < (unsigned int)time || (frame_level/FPS <= (unsigned int)time && 
-(unsigned int)((framefloat)/FPS*100-frame_level/FPS*100) <= (unsigned int)((time)*100-(int)(time)*100))) dimage(380,8,&img_createur);
+(unsigned int)((framefloat)/FPS*100-frame_level/FPS*100) <= (unsigned int)((time)*100-(int)(time)*100))) dsubimage(x+45,y,&img_medals,36,0,12,12,DIMAGE_NONE);
 if(frame_level/FPS < (unsigned int)(time*1.2) || (frame_level/FPS <= (unsigned int)(time*1.2) && 
-(unsigned int)((framefloat)/FPS*100-frame_level/FPS*100) <= (unsigned int)((time*1.2)*100-(int)(time*1.2)*100))) dimage(360,8,&img_or);
+(unsigned int)((framefloat)/FPS*100-frame_level/FPS*100) <= (unsigned int)((time*1.2)*100-(int)(time*1.2)*100))) dsubimage(x+30,y,&img_medals,24,0,12,12,DIMAGE_NONE);
 if(frame_level/FPS < (unsigned int)(time*1.5) || (frame_level/FPS <= (unsigned int)(time*1.5) && 
-(unsigned int)((framefloat)/FPS*100-frame_level/FPS*100) <= (unsigned int)((time*1.5)*100-(int)(time*1.5)*100))) dimage(340,8,&img_argent);
+(unsigned int)((framefloat)/FPS*100-frame_level/FPS*100) <= (unsigned int)((time*1.5)*100-(int)(time*1.5)*100))) dsubimage(x+15,y,&img_medals,12,0,12,12,DIMAGE_NONE);
 if(frame_level/FPS < (unsigned int)(time*2) || (frame_level/FPS <= (unsigned int)(time*2) && 
-(unsigned int)((framefloat)/FPS*100-frame_level/FPS*100) <= (unsigned int)((time*2)*100-(int)(time*2)*100))) dimage(320,8,&img_bronze);
+(unsigned int)((framefloat)/FPS*100-frame_level/FPS*100) <= (unsigned int)((time*2)*100-(int)(time*2)*100))) dsubimage(x,y,&img_medals,0,0,12,12,DIMAGE_NONE);
 }
 
 void draw_time(int id_level)
 {
 dclear(C_WHITE);
 float time=1.0;
-float level_time[] = {5.81,8.38,5.89,8.68,3.84,3.58,6.81,7.48,10.46,9.25,6.48,11.94,5.68};
+float level_time[] = {5.91,8.76,5.89,3.58,3.84,8.45,6.92,7.68,10.46,9.25,6.48,11.94,5.68};
 time = level_time[id_level-1];
 
-dimage(160,90,&img_createur);
-dprint(175,90,C_BLACK,"%.2j",(int)(time*100));
-dimage(160,110,&img_or);
-dprint(175,110,C_BLACK,"%.2j",(int)(time*1.2*100));
-dimage(160,130,&img_argent); 
-dprint(175,130,C_BLACK,"%.2j",(int)(time*1.5*100));
-dimage(160,150,&img_bronze); 
-dprint(175,150,C_BLACK,"%.2j",(int)(time*2*100));
+dsubimage(172,90,&img_medals,36,0,12,12,DIMAGE_NONE);
+dprint(187,90,C_BLACK,"%.2j",(int)(time*100));
+dsubimage(172,110,&img_medals,24,0,12,12,DIMAGE_NONE);
+dprint(187,110,C_BLACK,"%.2j",(int)(time*1.2*100));
+dsubimage(172,130,&img_medals,12,0,12,12,DIMAGE_NONE); 
+dprint(187,130,C_BLACK,"%.2j",(int)(time*1.5*100));
+dsubimage(172,150,&img_medals,0,0,12,12,DIMAGE_NONE); 
+dprint(187,150,C_BLACK,"%.2j",(int)(time*2*100));
 dupdate();
 getkey();
 }

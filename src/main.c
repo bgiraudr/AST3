@@ -2,6 +2,7 @@
 #include <gint/keyboard.h>
 #include <gint/clock.h>
 #include <gint/timer.h>
+#include <gint/gint.h>
 #include <gint/std/string.h>
 
 #include "setlevel.h"
@@ -9,6 +10,7 @@
 #include "collide.h"
 #include "menu.h"
 #include "times.h"
+#include "save.h"
 #include "define.h"
 
 #define VACCELERATION 0.2
@@ -17,17 +19,13 @@
 #define FRICTION 0.2
 
 int main(void);
+void end(unsigned int frame);
 
 int callback(volatile int *frame_elapsed)
 {
     *frame_elapsed = 1;
     return TIMER_CONTINUE;
 }
-
-int round(float num) //round(2.5) = 3 round(-3.2) = -3
-{ 
-    return num < 0 ? num - 0.5 : num + 0.5; 
-} 
 
 void game(int *id_level, char mode, char *type)
 {
@@ -41,7 +39,7 @@ void game(int *id_level, char mode, char *type)
 	int player_x = 20, player_y = 20;
 	char level[351];
 	char gravity = 0; //0 down 1 up
-	char check = 0;
+	char check = 1;
 	char blackout = 0;
 	int start_x;
 	int start_y;
@@ -209,6 +207,11 @@ void game(int *id_level, char mode, char *type)
 			framelevel=0;
 			if(*id_level==10 && *type==1) *type = 2;
 			else if(*type!=3) *type = 1;
+			if(*id_level==LEVEL_MAX+1)
+			{
+				timer_stop(timer);
+				end(frame);
+			}
 		}
 		if(collide(player_x, player_y, level, 'k')) //Collide with key1 = disappearance of blocks
 		{
@@ -401,12 +404,9 @@ void game(int *id_level, char mode, char *type)
 		if(*id_level==0) *id_level=1;
 		if(game_loop)
 		{
-			dclear(C_WHITE);
 			float framefloat = framelevel;
-			dprint_opt(198, 90, C_WHITE, C_BLACK, DTEXT_LEFT, DTEXT_TOP, "%d", framelevel);
-			dprint_opt(198, 112, C_WHITE, C_BLACK, DTEXT_LEFT, DTEXT_TOP, "%.2j",(int)(framefloat/FPS*100));
-			check_medal(framelevel, *id_level);
-			dupdate();
+			draw_end(framelevel, *id_level);
+			savetimes(framefloat, *id_level);
 			sleep_ms(5000);
 		}
 		if(!speed_menu(id_level)) 
@@ -417,7 +417,16 @@ void game(int *id_level, char mode, char *type)
 		}
 		else main();
 	}
-	if(!mode) main();
+	else main();
+}
+
+void end(unsigned int frame)
+{
+	dclear(C_WHITE);
+	float framefloat = frame;
+	dprint_opt(198, 112, C_WHITE, C_BLACK, DTEXT_LEFT, DTEXT_TOP, "%.2j",(int)(framefloat/FPS*100));
+	dupdate();
+	sleep_ms(5000);
 }
 
 int main(void)
@@ -446,5 +455,8 @@ int main(void)
 		int id_level = 0;
 		game(&id_level, mode, &type);
 	}
+	gint_setrestart(1);
+	gint_osmenu();
+	main();
 	return 0;
 }
