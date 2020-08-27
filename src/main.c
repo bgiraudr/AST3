@@ -45,7 +45,7 @@ void game(int *id_level, char mode, char *type)
 	int start_y;
 	int death_count = 0;
 	
-	unsigned int coin = 0;
+	int coin = 0;
 	char check_coin = 0;
 	char double_check = 1;
 	
@@ -402,10 +402,10 @@ void game(int *id_level, char mode, char *type)
 	if(mode)
 	{
 		if(*id_level==0) *id_level=1;
-		if(game_loop)
+		if(game_loop) //end of a level with level selection
 		{
 			float framefloat = framelevel;
-			draw_end(framelevel, *id_level);
+			draw_end(framelevel, *id_level, 0);
 			savetimes(framefloat, *id_level);
 			sleep_ms(5000);
 		}
@@ -422,11 +422,9 @@ void game(int *id_level, char mode, char *type)
 
 void end(unsigned int frame)
 {
-	dclear(C_WHITE);
-	float framefloat = frame;
-	dprint_opt(198, 112, C_WHITE, C_BLACK, DTEXT_LEFT, DTEXT_TOP, "%.2j",(int)(framefloat/FPS*100));
-	dupdate();
-	sleep_ms(5000);
+	draw_end((int)frame, 15, 2);
+	sleep_ms(7000);
+	main();
 }
 
 int main(void)

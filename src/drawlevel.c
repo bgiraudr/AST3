@@ -23,6 +23,7 @@ extern bopti_image_t img_ice; //switch block
 extern bopti_image_t img_appear; //appear block
 
 extern bopti_image_t img_endscreen;
+extern bopti_image_t img_new;
 
 void draw_player(int x, int y, char type)
 {
@@ -125,12 +126,21 @@ void draw_timer(unsigned int frame)
 	dprint_opt(0, 0, C_WHITE, C_BLACK, DTEXT_LEFT, DTEXT_TOP, "%u.%02u",(frame)/FPS, (frame)%FPS);
 }
 
-void draw_end(int framelevel, int id_level)
+void draw_end(int framelevel, int id_level, char record)
 {
 	float framefloat = framelevel;
 	dimage(144,60,&img_endscreen);
-	dprint_opt(220, 115, C_WHITE, C_BLACK, DTEXT_LEFT, DTEXT_TOP, "%d", framelevel);
-	dprint(166, 87, C_RED, "%.2j",(int)(framefloat/FPS*100));
-	check_medal(framelevel, id_level, 178, 140);
+	if(record!=2)
+	{
+		dprint_opt(220, 115, C_WHITE, C_BLACK, DTEXT_LEFT, DTEXT_TOP, "%d", framelevel);
+		dprint(166, 87, C_RED, "%.2j",(int)(framefloat/FPS*100));
+		check_medal(framelevel, id_level, 178, 140);
+		if(record==1) dimage(60,100,&img_new);
+	}
+	else
+	{
+		dprint(166, 87, C_RED, "GG !");
+		dprint(178, 140, C_RED, "%.2j",(int)(framefloat/FPS*100));
+	}
 	dupdate();
 }

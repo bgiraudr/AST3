@@ -30,7 +30,7 @@ char start_menu(char *type)
 		if (selection == 4) selection = 0;
 		else if (selection == -1) selection = 3;
 		dtext(32, Y_POS, C_BLACK, "PLAY");
-		dtext(32, Y_POS + 12, C_BLACK, "SPEEDRUN MODE");
+		dtext(32, Y_POS + 12, C_BLACK, "ALL MODE");
 		dtext(32, Y_POS + 24, C_BLACK, "TUTORIAL");
 		dtext(32, Y_POS + 36, C_BLACK, "EXIT GAME");
 		dtext(16, Y_POS + (selection * 12), C_BLACK, ">");
