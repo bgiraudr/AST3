@@ -54,7 +54,7 @@ void game(int *id_level, char mode, char *type)
 	
 	float vspd = 1.0;
 	float hspd = 0;
-	if(*id_level==10 && *type==1) *type = 2;
+	if(*id_level==10 && *type!=3) *type = 2;
 	else if(*type!=3) *type = 1;
 	extern bopti_image_t img_speedrun;
 	set_level(*id_level, level, &start_x, &start_y, &gravity, &appear, &disappear);

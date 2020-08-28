@@ -126,7 +126,9 @@ font = pygame.font.SysFont('arial',25,True)
 #Defini la suite des blocs pendant les changements (cliquer sur un 1 va donner un 2...)
 suite=["0","1","d","s","e","k","3","K","a","c","m","t","l","b","B","i","S","h"]
 
+lvm = open(f"include/define.h","r")
 id_level = 0
+id_level_max = int(''.join(list(filter(str.isdigit, lvm.readline()))))
 gravityid = 6
 disa = 10
 app = 13
@@ -161,7 +163,7 @@ while securite==False:
         elif event.type == pygame.KEYDOWN:
             carac= event.dict['unicode']
             if carac == "d":
-                id_level+=1
+                if id_level_max>id_level: id_level+=1
                 load(id_level)
                 place()
             if carac == "q":
@@ -187,6 +189,10 @@ while securite==False:
             if carac == "a":
                 lock=""
                 place()
+            if carac == "n":
+            	newgrille()
+            	write()
+            	place()
             if event.key == pygame.K_LSHIFT:
                 if gravityid=="7":
                     gravityid="6"

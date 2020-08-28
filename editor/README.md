@@ -15,7 +15,7 @@ Pour ouvrir (python + pygame):
 - F baisser temps avant disparition blocs -
 - SHIFT changer le sens de la gravité par défaut (gravité affichée en haut à gauche)
 - A supprime le bloc bloqué dans la main. 
-
+- N pour reset la pièce en entier
 
 Click gauche : tourner parmis les blocs dans le sens horaire
 Click droit : tourner parmis les blocs dans le sens anti-horaire
