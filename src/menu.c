@@ -80,6 +80,7 @@ char speed_menu(int *id_level)
 		dprint(80,20,C_BLACK,"Level : %d",*id_level);
 		if(sto != 0) dprint(194,60,C_RED, "%.2j", sto);
 		else dprint(202,60,C_RED, "/");
+		if(*id_level == 14) dprint_opt(180, 8, C_RGB(0,255,255), C_BLACK, DTEXT_LEFT, DTEXT_TOP, "VVVVVV");
 		dupdate();
 		if (keydown_any(KEY_SHIFT, KEY_EXE, 0))
 		{

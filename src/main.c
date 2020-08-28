@@ -84,19 +84,7 @@ void game(int *id_level, char mode, char *type)
 			dprint(30,211,C_RGB(220,220,220),"^ special blocks");
 			dprint(290,131,C_RGB(110,110,110),"Well done !");
 		}
-			//dprint(150,100,C_GREEN,"%d",player_x);
-			//dprint(150,120,C_GREEN,"%d",double_check);
 			if(!mode) dprint_opt(330, 0, C_RGB(255,190,0), C_BLACK, DTEXT_LEFT, DTEXT_TOP, "Coin : %d", coin);
-			/*dprint(320,120,C_GREEN,"%d",collide_solid(player_x+1, player_y, level));
-			dprint(320,140,C_GREEN,"%d",collide_solid(player_x-1, player_y, level));
-			dprint(320,160,C_GREEN,"%d",collide_solid(player_x, player_y+1, level));
-			dprint(320,180,C_GREEN,"%d",collide_solid(player_x, player_y-1, level));*/
-			
-			/*dprint(300,100,C_GREEN,"%d",collide_dead(player_x, player_y, level));
-			dprint(300,120,C_GREEN,"%c",level[(int)((player_x-1)/16)+(int)((player_y-1)/16*25)]); //top left
-			dprint(300,140,C_GREEN,"%c",level[(int)((player_x+PLAYER_HEIGHT+1)/16)+(int)((player_y-1)/16*25)]); //top right
-			dprint(300,160,C_GREEN,"%c",level[(int)((player_x-1)/16)+(int)((player_y+PLAYER_HEIGHT+1)/16*25)]); //bottom left
-			dprint(300,180,C_GREEN,"%c",level[(int)((player_x+PLAYER_HEIGHT+1)/16)+(int)((player_y+PLAYER_HEIGHT+1)/16*25)]); //bottom right*/
 			dupdate();
 		}
 		
