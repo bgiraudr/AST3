@@ -227,17 +227,7 @@ while securite==False:
             if event.button == 3:
                 x=int(event.pos[0]/52)
                 y=int(event.pos[1]/52)
-                if lock!="":
-                    grille[y][x]="0"
-                else:
-                    for i in range(len(suite)):
-                        if grille[y][x] == suite[i]:
-                            if i!=len(suite)+1:
-                                grille[y][x]=suite[i-1]
-                                break
-                            else:
-                                grille[y][x]=suite[len(suite)]
-                                break
+                grille[y][x]="0"
                 pygame.draw.rect(fenetre,(255,255,255),((52*x, 52*y), (55, 55)))
                 place()
             write()

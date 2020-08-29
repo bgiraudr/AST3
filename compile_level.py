@@ -1,7 +1,7 @@
 ids = 0
 
 save = open("src/setlevel.c","w+")
-save.write("#include \"setlevel.h\"\n#include <gint/std/string.h>\nvoid set_level(int id_level, char level[], int *startx, \
+save.write("#include \"setlevel.h\"\n#include <gint/std/string.h>\n#include <gint/display.h>\nvoid set_level(int id_level, char level[], int *startx, \
 int *starty, char *gravity, int *appear, int *disappear){\nswitch(id_level){")
 while 1:
     try:
@@ -44,5 +44,20 @@ while 1:
         ids+=1
     except FileNotFoundError:
         break
+
+f = open("times.lvl","r+")
+lvm = open(f"include/define.h","r")
+ids=f.readlines()
+names=[]
+for i in ids: 
+    names.append(i.rstrip()) 
+for i in range(int(''.join(list(filter(str.isdigit, lvm.readline()))))):
+    hop=names[i].find("-")
+    if hop!=-1: names[i]=names[i][hop+1:]
+    else: names[i]=""
+
+
 save.write("}}\nvoid del_level(char level[])\n{memcpy(level,\"\
-00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000\",350);}")
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000\",350);}\n\n\
+void set_levelname(int id_level)\n{\nchar *levelname[] = {")
+save.write(("\""+'","'.join(names)+'"};\ndprint_opt(180, 25, C_RED, C_BLACK, DTEXT_LEFT, DTEXT_TOP, \"%s\", levelname[id_level-1]);\n}'))

@@ -4,10 +4,14 @@ bronze = 2
 
 f = open("times.lvl","r+")
 d = open("src/times.c","w")
+lvm = open(f"include/define.h","r")
 ids=f.readlines()
 times=[]
-for i in ids: times.append(i.rstrip()) 
-
+for i in ids: 
+	times.append(i.rstrip()) 
+for i in range(int(''.join(list(filter(str.isdigit, lvm.readline()))))):
+	hop=times[i].find("-")
+	if hop!=-1: times[i]=times[i][:hop]
 d.write("#include \"times.h\"\n\
 #include \"define.h\"\n\
 #include <gint/display.h>\n\
