@@ -81,16 +81,20 @@ def place():
                 fenetre.blit(pygame.transform.scale(chrono1,(52,52)),(52*b,52*a))
             if grille[a][b]=="3":
                 fenetre.blit(pygame.transform.scale(keyblock,(52,52)),(52*b,52*a))
-            if grille[a][b]=="m":
+            if grille[a][b]=="m" and tab==0:
+                fenetre.blit(pygame.transform.scale(chrono2appear,(52,52)),(52*b,52*a))
+            elif grille[a][b]=="m" and tab:
                 fenetre.blit(pygame.transform.scale(chrono2,(52,52)),(52*b,52*a))
             if grille[a][b]=="K":
                 fenetre.blit(pygame.transform.scale(key2,(52,52)),(52*b,52*a))
-            if grille[a][b]=="a":
+            if grille[a][b]=="a" and tab==0:
+                fenetre.blit(pygame.transform.scale(key2blockvoid,(52,52)),(52*b,52*a))
+            elif grille[a][b]=="a" and tab:
                 fenetre.blit(pygame.transform.scale(key2block,(52,52)),(52*b,52*a))
             if grille[a][b]=="t":
                 fenetre.blit(pygame.transform.scale(coin,(52,52)),(52*b,52*a))
             if grille[a][b]=="l":
-                fenetre.blit(pygame.transform.scale(change,(52,52)),(52*b,52*a))
+                fenetre.blit(pygame.transform.scale(chock,(52,52)),(52*b,52*a))
             if grille[a][b]=="b":
                 fenetre.blit(pygame.transform.scale(blackout,(52,52)),(52*b,52*a))
             if grille[a][b]=="B":
@@ -99,8 +103,10 @@ def place():
                 fenetre.blit(pygame.transform.scale(ice,(52,52)),(52*b,52*a))
             if grille[a][b]=="S":
                 fenetre.blit(pygame.transform.scale(switch,(52,52)),(52*b,52*a))
-            if grille[a][b]=="h":
+            if grille[a][b]=="h" and tab==0:
                 fenetre.blit(pygame.transform.scale(appear,(52,52)),(52*b,52*a))
+            elif grille[a][b]=="h" and tab:
+                fenetre.blit(pygame.transform.scale(appearblock,(52,52)),(52*b,52*a))
     fenetre.blit(level, (10, 10))
     fenetre.blit(levelgr, (10, 60))
     fenetre.blit(timeapp, (55, 10))
@@ -133,24 +139,28 @@ gravityid = 6
 disa = 10
 app = 13
 lock=""
+tab = 0
 
 solid_0 = pygame.image.load("editor/img/solid_0.png").convert_alpha()
 player = pygame.image.load("editor/img/player.png").convert_alpha()
 keyblock = pygame.image.load("editor/img/keyblock.png").convert_alpha()
 key2block = pygame.image.load("editor/img/key2block.png").convert_alpha()
+key2blockvoid = pygame.image.load("editor/img/key2blockvoid.png").convert_alpha()
 chrono1 = pygame.image.load("editor/img/chrono1.png").convert_alpha()
 chrono2 = pygame.image.load("editor/img/chrono2.png").convert_alpha()
+chrono2appear = pygame.image.load("editor/img/chrono2appear.png").convert_alpha()
 key1 = pygame.image.load("editor/img/key1.png").convert_alpha()
 key2 = pygame.image.load("editor/img/key2.png").convert_alpha()
 end = pygame.image.load("editor/img/end.png").convert_alpha()
 dead = pygame.image.load("editor/img/dead.png").convert_alpha()
 coin = pygame.image.load("editor/img/coin.png").convert_alpha()
-change = pygame.image.load("editor/img/change.png").convert_alpha()
+chock = pygame.image.load("editor/img/chock.png").convert_alpha()
 blackout = pygame.image.load("editor/img/blackout.png").convert_alpha()
 damaged = pygame.image.load("editor/img/damaged.png").convert_alpha()
 switch = pygame.image.load("editor/img/switch.png").convert_alpha()
 ice = pygame.image.load("editor/img/ice.png").convert_alpha()
 appear = pygame.image.load("editor/img/appear.png").convert_alpha()
+appearblock = pygame.image.load("editor/img/appearblock.png").convert_alpha()
 
 load(id_level)
 place()
@@ -200,6 +210,10 @@ while securite==False:
                     gravityid="7"
                 write()
                 place()
+            if event.key == pygame.K_TAB:
+            	if tab==0: tab = 1
+            	else: tab = 0
+            	place()
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 x=int(event.pos[0]/52)
