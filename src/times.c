@@ -8,7 +8,7 @@ void check_medal(unsigned int frame_level, int id_level, int x, int y)
 {
 float time=1.0;
 float framefloat = frame_level;
-float level_time[] = {5.85,8.67,5.64,3.50,3.54,8.42,6.67,7.60,9.20,5.77,6.04,10.38,5.34,7.67,6.24};
+float level_time[] = {5.80,8.62,5.14,3.22,3.25,8.20,6.60,7.18,9.20,5.22,6.04,10.38,5.34,7.61,6.05};
 time = level_time[id_level-1];
 
 if(frame_level/FPS < (unsigned int)time || (frame_level/FPS <= (unsigned int)time && 
@@ -25,7 +25,7 @@ void draw_time(int id_level)
 {
 dclear(C_WHITE);
 float time=1.0;
-float level_time[] = {5.85,8.67,5.64,3.50,3.54,8.42,6.67,7.60,9.20,5.77,6.04,10.38,5.34,7.67,6.24};
+float level_time[] = {5.80,8.62,5.14,3.22,3.25,8.20,6.60,7.18,9.20,5.22,6.04,10.38,5.34,7.61,6.05};
 time = level_time[id_level-1];
 
 dsubimage(172,90,&img_medals,36,0,12,12,DIMAGE_NONE);

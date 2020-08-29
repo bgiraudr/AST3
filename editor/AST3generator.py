@@ -68,9 +68,9 @@ def place():
             if grille[a][b]=="1":
                 fenetre.blit(pygame.transform.scale(solid_0,(52,52)),(52*b,52*a))
             if grille[a][b]=="s" and int(gravityid)==6:
-                fenetre.blit(pygame.transform.scale(player,(39,39)),(52*b,52*a+13))
+                fenetre.blit(pygame.transform.scale(player.subsurface((0,0),(12,12)),(39,39)),(52*b,52*a+13))
             elif grille[a][b]=="s" and int(gravityid)==7:
-                fenetre.blit(pygame.transform.scale(player,(39,39)),(52*b,52*a))
+                fenetre.blit(pygame.transform.scale(player.subsurface((0,0),(12,12)),(39,39)),(52*b,52*a))
             if grille[a][b]=="e":
                 fenetre.blit(pygame.transform.scale(end,(52,52)),(52*b,52*a))
             if grille[a][b]=="d":

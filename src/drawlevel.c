@@ -129,7 +129,8 @@ void draw_blackout(int x, int y)
 
 void draw_timer(unsigned int frame)
 {
-	dprint_opt(0, 0, C_WHITE, C_BLACK, DTEXT_LEFT, DTEXT_TOP, "%u.%02u",(frame)/FPS, (frame)%FPS);
+	float framefloat = frame;
+	dprint_opt(0, 0, C_WHITE, C_BLACK, DTEXT_LEFT, DTEXT_TOP, "%.2j", (int)(framefloat/FPS*100));
 }
 
 void draw_end(int framelevel, int id_level, char record)

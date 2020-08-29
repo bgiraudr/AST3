@@ -131,6 +131,6 @@ void del_level(char level[])
 
 void set_levelname(int id_level)
 {
-char *levelname[] = {"Tituya","Tituya","Massena","Tituya","Tituya","Tituya","Tituya","Tituya","Massena","Tituya","Tituya","Tituya","Tituya","Tituya","Tituya"};
+char *levelname[] = {"KikooDX","KikooDX","KikooDX","KikooDX","KikooDX","KikooDX","KikooDX","KikooDX","Massena","Massena","Tituya","Tituya","Tituya","Tituya","Tituya"};
 dprint_opt(180, 25, C_RED, C_BLACK, DTEXT_LEFT, DTEXT_TOP, "%s", levelname[id_level-1]);
 }
