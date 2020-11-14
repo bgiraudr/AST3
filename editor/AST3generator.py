@@ -1,8 +1,5 @@
-"""
-Programme de création de niveau pour A Switch to the top fait par Tituya
-Pour le CPC#26
-"""
 # coding: utf-8
+
 import pygame
 from pygame.locals import *
 
