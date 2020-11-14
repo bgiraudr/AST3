@@ -1,3 +1,3 @@
 #!/usr/bin/bash
 echo "opening editor"
-python editor/AST3generator.py
+python3 editor/AST3generator.py
