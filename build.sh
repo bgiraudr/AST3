@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/sh
 echo "making setlevel.c from editor"
 rm src/setlevel.c
 python3 compile_level.py
