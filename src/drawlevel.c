@@ -27,7 +27,6 @@ extern bopti_image_t img_appear; //appear block
 extern bopti_image_t img_appearblock; //appear block
 extern bopti_image_t img_chrono2appear; //appear block
 
-
 extern bopti_image_t img_endscreen;
 extern bopti_image_t img_new;
 
@@ -101,7 +100,7 @@ void draw_level(char level[])
 				dimage(x,y,&img_appearblock);
 				break;
 			case 'y': //appear blocks
-				dimage(x,y,&img_appearblock);
+				dimage(x,y,&img_appear);
 				break;
 			case 'm': //chronoappear blocks
 				dimage(x,y,&img_chrono2appear);

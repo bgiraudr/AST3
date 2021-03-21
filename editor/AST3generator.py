@@ -2,6 +2,7 @@
 Programme de création de niveau pour A Switch to the top fait par Tituya
 Pour le CPC#26
 """
+# coding: utf-8
 
 import pygame
 from pygame.locals import *
@@ -134,7 +135,6 @@ suite=["0","1","d","s","e","k","3","K","a","c","m","t","l","b","B","i","S","h"]
 
 lvm = open(f"include/define.h","r")
 id_level = 0
-id_level_max = int(''.join(list(filter(str.isdigit, lvm.readline()))))
 gravityid = 6
 disa = 10
 app = 13
@@ -173,7 +173,7 @@ while securite==False:
         elif event.type == pygame.KEYDOWN:
             carac= event.dict['unicode']
             if carac == "d":
-                if id_level_max>id_level: id_level+=1
+                id_level+=1
                 load(id_level)
                 place()
             if carac == "q":

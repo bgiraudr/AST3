@@ -9,23 +9,28 @@ ids=f.readlines()
 times=[]
 for i in ids: 
 	times.append(i.rstrip()) 
-for i in range(int(''.join(list(filter(str.isdigit, lvm.readline()))))):
-	hop=times[i].find("-")
-	if hop!=-1: times[i]=times[i][:hop]
+try:
+	for i in range(int(''.join(list(filter(str.isdigit, lvm.readline()))))):
+		hop=times[i].find("-")
+		if hop!=-1: times[i]=times[i][:hop]
+except IndexError:
+	times.append("0.00")
 d.write("#include \"times.h\"\n\
 #include \"define.h\"\n\
 #include <gint/display.h>\n\
 #include <gint/keyboard.h>\n\n\
 extern bopti_image_t img_medals;\n\
-void check_medal(unsigned int frame_level, int id_level, int x, int y)\n\
-{\n\
-float time=1.0;\n\
-float framefloat = frame_level;\n\
 float level_time[] = {")
 
 d.write(f"{','.join(times)}")
 
-d.write("};\ntime = level_time[id_level-1];\n\n\
+d.write("};\n\
+void check_medal(unsigned int frame_level, int id_level, int x, int y)\n\
+{\n\
+float time=1.0;\n\
+float framefloat = frame_level;")
+
+d.write("\ntime = level_time[id_level-1];\n\n\
 if(frame_level/FPS < (unsigned int)time || (frame_level/FPS <= (unsigned int)time && \n\
 (unsigned int)((framefloat)/FPS*100-frame_level/FPS*100) <= (unsigned int)((time)*100-(int)(time)*100))) dsubimage(x+45,y,&img_medals,36,0,12,12,DIMAGE_NONE);\n\
 if(frame_level/FPS < (unsigned int)(time*"+str(gold)+") || (frame_level/FPS <= (unsigned int)(time*"+str(gold)+") && \n\
@@ -39,12 +44,9 @@ if(frame_level/FPS < (unsigned int)(time*"+str(bronze)+") || (frame_level/FPS <=
 void draw_time(int id_level)\n\
 {\n\
 dclear(C_WHITE);\n\
-float time=1.0;\n\
-float level_time[] = {")
+float time=1.0;\n")
 
-d.write(f"{','.join(times)}")
-
-d.write("};\ntime = level_time[id_level-1];\n\n\
+d.write("\ntime = level_time[id_level-1];\n\n\
 dsubimage(172,90,&img_medals,36,0,12,12,DIMAGE_NONE);\n\
 dprint(187,90,C_BLACK,\"%.2j\",(int)(time*100));\n\
 dsubimage(172,110,&img_medals,24,0,12,12,DIMAGE_NONE);\n\

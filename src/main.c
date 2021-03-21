@@ -53,7 +53,7 @@ void game(int *id_level, char mode, char *type)
 	int disappear = 13;
 	
 	float vspd = 1.0;
-	float hspd = 0;
+	float hspd = 0.0;
 	if(*id_level==10 && *type!=3) *type = 2;
 	else if(*type!=3) *type = 1;
 	extern bopti_image_t img_speedrun;
@@ -180,6 +180,8 @@ void game(int *id_level, char mode, char *type)
 			death_count++;
 			double_check = 1;
 			framelevel = 0;
+            if(*id_level == 1 && !mode) 
+                frame = 0;
 		}
 		//Collide with the end
 		if(collide_end(player_x, player_y, level))
@@ -395,7 +397,7 @@ void game(int *id_level, char mode, char *type)
 			float framefloat = framelevel;
 			draw_end(framelevel, *id_level, 0);
 			savetimes(framefloat, *id_level);
-			sleep_ms(5000);
+			sleep_ms(3000);
 		}
 		if(!speed_menu(id_level)) 
 		{

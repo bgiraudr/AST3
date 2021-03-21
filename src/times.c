@@ -4,11 +4,11 @@
 #include <gint/keyboard.h>
 
 extern bopti_image_t img_medals;
+float level_time[] = {5.86,8.76,5.80,3.52,3.58,8.62,6.73,7.65,9.62,6.04,6.23,10.78,5.39,8.35,7.45};
 void check_medal(unsigned int frame_level, int id_level, int x, int y)
 {
 float time=1.0;
 float framefloat = frame_level;
-float level_time[] = {5.80,8.62,5.14,3.22,3.25,8.20,6.60,7.18,9.20,5.22,6.04,10.38,5.34,7.61,6.05};
 time = level_time[id_level-1];
 
 if(frame_level/FPS < (unsigned int)time || (frame_level/FPS <= (unsigned int)time && 
@@ -25,7 +25,7 @@ void draw_time(int id_level)
 {
 dclear(C_WHITE);
 float time=1.0;
-float level_time[] = {5.80,8.62,5.14,3.22,3.25,8.20,6.60,7.18,9.20,5.22,6.04,10.38,5.34,7.61,6.05};
+
 time = level_time[id_level-1];
 
 dsubimage(172,90,&img_medals,36,0,12,12,DIMAGE_NONE);
