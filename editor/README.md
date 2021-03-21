@@ -2,7 +2,7 @@
 
 ## Éditeur :
 
-Pour ouvrir (python + pygame): 
+Pour ouvrir (python3 + pygame): 
 `$ ./editor.sh`
 
 ## Commande :
@@ -14,6 +14,7 @@ Pour ouvrir (python + pygame):
 - R augmenter temps avant disparition blocs - (temps affiché en haut à gauche)
 - F baisser temps avant disparition blocs -
 - SHIFT changer le sens de la gravité par défaut (gravité affichée en haut à gauche)
+- TAB Afficher le design des blocs non activé
 - A supprime le bloc bloqué dans la main. 
 - N pour reset la pièce en entier
 

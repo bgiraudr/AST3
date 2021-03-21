@@ -3,6 +3,7 @@
 #include "define.h"
 #include "drawlevel.h"
 int retcode;
+
 int id_leveltab = 0;
 int times[LEVEL_MAX];
 static const uint16_t *filepath = u"\\\\fls0\\AST3.sav";
