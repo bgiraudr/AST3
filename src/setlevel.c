@@ -62,6 +62,11 @@ memcpy(level,"i011100dd1111dddm111ddmd1i01d1000000010S0011100S01i01d100000001000
 *appear=4;
 *disappear=7;
 break;
+case 16:
+memcpy(level,"11111dddd100d110111111331000000000000d1d0000dd10s0111d00000000K1d10000d11111ddddd11ddhh1dddd000dddd11100Sh00dd00000dd00000001i0000000dd000000d0000S001i01100d0dd00d000dd0000001i0d00Sd0dd00dd10ddhh00l01i0ddddd0dd00ddi0d00000001iBBBdd0011aaddi0d0S00d0011000dd000300ddi0d0000d00110mmdd000d00ddi0dd00dd0011emtdddddd00ddi0ddddddkk1111111111100111Bdddd11001",350);
+*appear=15;
+*disappear=7;
+break;
 }
 set_gravity(id_level, gravity);
 unsigned int x = 0;
@@ -123,6 +128,9 @@ case 14:
 *default_gravity = 1;
 break;
 case 15:
+*default_gravity = 0;
+break;
+case 16:
 *default_gravity = 0;
 break;
 }}
