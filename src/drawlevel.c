@@ -6,26 +6,21 @@
 
 #define VISIBLE_RECT 35
 
-extern bopti_image_t img_solid_0; //solid block
+extern bopti_image_t img_solid; //solid block
 extern bopti_image_t img_coin; //facultative coin
 extern bopti_image_t img_dead; //dead block
 extern bopti_image_t img_player; //player
 extern bopti_image_t img_end; //end of level
 extern bopti_image_t img_key1; //key 1
-extern bopti_image_t img_keyblock; //block link to the key1
 extern bopti_image_t img_blackout; //blackout
 extern bopti_image_t img_chrono1; //chronoblock
 extern bopti_image_t img_chrono2; //chronoblock 2
 extern bopti_image_t img_key2; //key 2
-extern bopti_image_t img_key2block; //block link to the key 2
-extern bopti_image_t img_key2blockvoid; //block link to the key 2
 extern bopti_image_t img_damaged; //damaged block
 extern bopti_image_t img_chock; //chock block
 extern bopti_image_t img_switch; //switch block
 extern bopti_image_t img_ice; //switch block
 extern bopti_image_t img_appear; //appear block
-extern bopti_image_t img_appearblock; //appear block
-extern bopti_image_t img_chrono2appear; //appear block
 
 extern bopti_image_t img_endscreen;
 extern bopti_image_t img_new;
@@ -46,7 +41,7 @@ void draw_level(char level[])
 		switch(level[i])
 		{
 			case '1': //solid block
-				dimage(x,y,&img_solid_0);
+				dimage(x,y,&img_solid);
 				break;
 			case 't': //coin (treasure)
 				dimage(x,y,&img_coin);
@@ -58,25 +53,25 @@ void draw_level(char level[])
 				dimage(x,y,&img_end);
 				break;
 			case '3': //block link to the key1
-				dimage(x,y,&img_keyblock);
+				dsubimage(x,y,&img_key1,0,0,16,16,DIMAGE_NONE);
 				break;
 			case 'k': //key1
-				dimage(x,y,&img_key1);	
+				dsubimage(x,y,&img_key1,16,0,16,16,DIMAGE_NONE);
 				break;
-			case 'a': //block link to the key2 when it's not powered on
-				dimage(x,y,&img_key2blockvoid);
+			case 'a': //block link to the key2 when it's not on
+				dsubimage(x,y,&img_key2,0,0,16,16,DIMAGE_NONE);
 				break;
 			case '4': //block link to the key2
-				dimage(x,y,&img_key2block);
+				dsubimage(x,y,&img_key2,16,0,16,16,DIMAGE_NONE);
 				break;
 			case 'K': //key2
-				dimage(x,y,&img_key2);
+                dsubimage(x,y,&img_key2,32,0,16,16,DIMAGE_NONE);
 				break;
 			case 'c': //chrono blocks
 				dimage(x,y,&img_chrono1);
 				break;
 			case 'C': //chrono blocks
-				dimage(x,y,&img_chrono2);
+                dsubimage(x,y,&img_chrono2,16,0,16,16,DIMAGE_NONE);
 				break;
 			case 'b': //blackout blocks
 				dimage(x,y,&img_blackout);
@@ -94,16 +89,16 @@ void draw_level(char level[])
 				dimage(x,y,&img_switch);
 				break;
 			case 'h': //void appear blocks
-				dimage(x,y,&img_appear);
+				dsubimage(x,y,&img_appear,0,0,16,16,DIMAGE_NONE);
 				break;
 			case 'H': //appear blocks
-				dimage(x,y,&img_appearblock);
+                dsubimage(x,y,&img_appear,16,0,16,16,DIMAGE_NONE);
 				break;
 			case 'y': //appear blocks
-				dimage(x,y,&img_appear);
+				dsubimage(x,y,&img_appear,0,0,16,16,DIMAGE_NONE);
 				break;
 			case 'm': //chronoappear blocks
-				dimage(x,y,&img_chrono2appear);
+                dsubimage(x,y,&img_chrono2,0,0,16,16,DIMAGE_NONE);
 				break;
 		}
 		x+=16;

@@ -1,9 +1,6 @@
 appear.png:
   type:bopti-image
   name: img_appear
-appearblock.png:
-  type:bopti-image
-  name: img_appearblock
 blackout.png:
   type:bopti-image
   name: img_blackout
@@ -16,9 +13,6 @@ chrono1.png:
 chrono2.png:
   type:bopti-image
   name: img_chrono2
-chrono2appear.png:
-  type:bopti-image
-  name: img_chrono2appear
 coin.png:
   type:bopti-image
   name: img_coin
@@ -33,6 +27,7 @@ end.png:
   name: img_end
 endscreen.png:
   type:bopti-image
+  profile:p4
   name: img_endscreen
 fxconv-metadata.txt:
   type:bopti-image
@@ -46,32 +41,26 @@ key1.png:
 key2.png:
   type:bopti-image
   name: img_key2
-key2block.png:
-  type:bopti-image
-  name: img_key2block
-key2blockvoid.png:
-  type:bopti-image
-  name: img_key2blockvoid
-keyblock.png:
-  type:bopti-image
-  name: img_keyblock
 medals.png:
   type:bopti-image
   name: img_medals
 menu.png:
   type:bopti-image
+  profile:p4
   name: img_menu
 new.png:
   type:bopti-image
+  profile:p4
   name: img_new
 player.png:
   type:bopti-image
   name: img_player
-solid_0.png:
+solid.png:
   type:bopti-image
-  name: img_solid_0
+  name: img_solid
 speedrun.png:
   type:bopti-image
+  profile:p4
   name: img_speedrun
 switch.png:
   type:bopti-image

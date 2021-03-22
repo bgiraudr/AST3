@@ -2,6 +2,8 @@
 #include <gint/gint.h>
 #include "define.h"
 #include "drawlevel.h"
+#include <gint/keyboard.h>
+
 int retcode;
 
 int id_leveltab = 0;
@@ -39,7 +41,7 @@ void loadfile(void)
 void savetimes(float framelevel, int id_level)
 {
 	if(times[id_level - 1] > (int)(framelevel / FPS * 100) ||
-	   times[id_level - 1] == 0) 
+	   times[id_level - 1] == 0 || keydown(KEY_7)) 
 	{
 		times[id_level - 1] = (int)(framelevel / FPS * 100);
 		draw_end((int)framelevel, id_level, 1);
