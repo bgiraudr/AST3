@@ -12,23 +12,36 @@ find_package(Gint 2.1 REQUIRED)
 include_directories(include)
 
 add_custom_command(
-	OUTPUT "${CMAKE_CURRENT_LIST_DIR}/src/setlevel.c"
-	COMMENT "Generate src/setlevel.c"
-	COMMAND python3 compile_levels.py
-	WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
-	DEPENDS compile_levels.py
-	)
-		
-add_custom_command(
-	OUTPUT
-		"${CMAKE_CURRENT_LIST_DIR}/src/times.c"
-		"${CMAKE_CURRENT_LIST_DIR}/include/define.h"
-	COMMENT "Generate src/times.c & include/define.h"
-	COMMAND sh generate_define.sh
+	OUTPUT "${CMAKE_CURRENT_LIST_DIR}/src/times.c"
+	COMMENT "Generate src/times.c"
 	COMMAND python3 time.py
 	WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
-	DEPENDS time.py times.lvl generate_define.sh
-	)
+	DEPENDS time.py times.lvl include/define.h)
+
+add_custom_command(OUTPUT 
+		"${CMAKE_CURRENT_LIST_DIR}/src/setlevel.c"
+		"${CMAKE_CURRENT_LIST_DIR}/include/define.h"
+	COMMENT "Generate src/setlevel.c & include/define.h"
+	COMMAND sh update_levels.sh
+	WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
+	DEPENDS update_levels.sh compile_levels.py
+		editor/levels/0.lvl
+		editor/levels/1.lvl
+		editor/levels/2.lvl
+		editor/levels/3.lvl
+		editor/levels/4.lvl
+		editor/levels/5.lvl
+		editor/levels/6.lvl
+		editor/levels/7.lvl
+		editor/levels/8.lvl
+		editor/levels/9.lvl
+		editor/levels/10.lvl
+		editor/levels/11.lvl
+		editor/levels/12.lvl
+		editor/levels/13.lvl
+		editor/levels/14.lvl
+		editor/levels/15.lvl
+		editor/levels/16.lvl)
 
 set(SOURCES
 	src/collide.c
