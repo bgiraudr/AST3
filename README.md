@@ -12,12 +12,12 @@ Ceci est une adaptation utilisant Gint de Lephenixnoir pour avoir un jeu plus pl
 
 ## Éditer le jeu :
 
-Clone ce dépot : 
+Clone ce dépot :
 `$ git clone https://gitea.planet-casio.com/Tituya/AST3_C && cd AST3_C`
 
 Pour ouvrir l'éditeur de niveau (Python et Pygame obligatoire).
 `$ ./editor.sh`
 
 Pour compiler le jeu (fxsdk + gint obligatoire).
-`$ ./build.sh`
+`$ fxsdk build-cg`
 
