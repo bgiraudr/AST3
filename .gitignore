@@ -1,1 +1,10 @@
+# Build files
 build-cg/
+
+# Binaries
+*.g3a
+
+# Generated sources
+src/setlevel.c
+src/times.c
+include/define.h
