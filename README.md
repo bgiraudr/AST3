@@ -21,3 +21,5 @@ Pour ouvrir l'éditeur de niveau (Python et Pygame obligatoire).
 Pour compiler le jeu (fxsdk + gint obligatoire).
 `$ fxsdk build-cg`
 
+Appliquer le formatage au code après vos modifications.
+`$ clang-format -style=file -i src/* include*`
