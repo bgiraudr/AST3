@@ -1,7 +1,7 @@
-#include <gint/bfile.h>
-#include <gint/gint.h>
 #include "define.h"
 #include "drawlevel.h"
+#include <gint/bfile.h>
+#include <gint/gint.h>
 #include <gint/keyboard.h>
 
 int retcode;
@@ -16,7 +16,7 @@ static const uint16_t *filepath = u"\\\\fls0\\AST3.sav";
 void savefile(void)
 {
 	int descriptor;
-	
+
 	descriptor = BFile_Open(filepath, BFile_WriteOnly);
 	BFile_Write(descriptor, times, sizeof(times));
 	BFile_Close(descriptor);
@@ -30,8 +30,8 @@ void loadfile(void)
 {
 	int descriptor;
 	descriptor = BFile_Open(filepath, BFile_ReadOnly);
-	BFile_Read(descriptor, &retcode,
-	           sizeof(times[0]), sizeof(times[0]) * id_leveltab);
+	BFile_Read(descriptor, &retcode, sizeof(times[0]),
+	           sizeof(times[0]) * id_leveltab);
 	BFile_Close(descriptor);
 }
 
@@ -40,9 +40,8 @@ void loadfile(void)
  * savefile() else, nothing append to avoid loading time. */
 void savetimes(float framelevel, int id_level)
 {
-	if(times[id_level - 1] > (int)(framelevel / FPS * 100) ||
-	   times[id_level - 1] == 0 || keydown(KEY_7)) 
-	{
+	if (times[id_level - 1] > (int)(framelevel / FPS * 100) ||
+	    times[id_level - 1] == 0 || keydown(KEY_7)) {
 		times[id_level - 1] = (int)(framelevel / FPS * 100);
 		draw_end((int)framelevel, id_level, 1);
 		gint_switch(savefile);
@@ -59,9 +58,10 @@ void restore(void)
 	uint16_t foundpath[30];
 	int size = sizeof(times);
 	int descriptor;
-	char checkfile = BFile_FindFirst(filepath, &handle, foundpath, &fileInfo);
+	char checkfile =
+	    BFile_FindFirst(filepath, &handle, foundpath, &fileInfo);
 	BFile_FindClose(handle);
-	if(checkfile == -1)
+	if (checkfile == -1)
 		BFile_Create(filepath, BFile_File, &size);
 	else {
 		descriptor = BFile_Open(filepath, BFile_ReadOnly);
