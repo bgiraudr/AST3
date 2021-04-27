@@ -21,6 +21,8 @@
 int main(void);
 void end(unsigned int frame);
 
+char run = 0;
+
 int callback(volatile int *frame_elapsed)
 {
     *frame_elapsed = 1;
@@ -48,7 +50,8 @@ void game(int *id_level, char mode, char *type)
 	int coin = 0;
 	char check_coin = 0;
 	char double_check = 1;
-	
+	char chock = 0;
+    
 	int appear = 10;
 	int disappear = 13;
 	
@@ -71,19 +74,24 @@ void game(int *id_level, char mode, char *type)
 		if(!(frame%2))
 		{
 			draw_level(level);
-			if(blackout) draw_blackout(player_x, player_y);
+			if(blackout) 
+                draw_blackout(player_x, player_y);
+            
+            if(blackout && *id_level == 0) {
+                dtext(20, 20, C_WHITE, "You have touched the blackout item");
+                dtext(20, 40, C_WHITE, "it makes you partially blind");
+                dtext(20, 60, C_WHITE, "until your death :p");
+            }
+            if(chock > 0 && *id_level == 0) {
+                dtext(20, 165, C_BLACK, "You have touched the chock");
+                dtext(20, 180, C_BLACK, "item. It rotates your screen");
+                dtext(20, 195, C_BLACK, "horizontally and vertically");
+            }
+            
 			draw_player(player_x, player_y, *type);
 			if(!mode) draw_timer(frame);
 			else draw_timer(framelevel);
 		
-		if(*id_level==0 && !mode)
-		{
-			dprint(85,180,C_RGB(245,245,0),"SHIFT");
-			dprint(120,3,C_RGB(220,220,220),"Keys has effects on blocks");
-			dprint(15,67,C_RGB(220,220,220),"Red blocks = death");
-			dprint(30,211,C_RGB(220,220,220),"^ special blocks");
-			dprint(290,131,C_RGB(110,110,110),"Well done !");
-		}
 			if(!mode) dprint_opt(330, 0, C_RGB(255,190,0), C_BLACK, DTEXT_LEFT, DTEXT_TOP, "Coin : %d", coin);
 			dupdate();
 		}
@@ -280,6 +288,7 @@ void game(int *id_level, char mode, char *type)
 			}
 			if(!gravity) gravity=1;
 			else gravity=0;
+            chock++;
 		}
 		
 		if(collide(player_x, player_y+(int)vspd+2, level, 'B') && vspd>=5) //Damaged block 
@@ -391,13 +400,18 @@ void game(int *id_level, char mode, char *type)
 	//when a level is quit
 	if(mode)
 	{
-		if(*id_level==0) *id_level=1;
+		if(*id_level==0) {
+            game_loop = 0;
+			draw_end(framelevel, *id_level, 0);
+            sleep_ms(2500);
+            *id_level = 1;
+        }
 		if(game_loop) //end of a level with level selection
 		{
 			float framefloat = framelevel;
 			draw_end(framelevel, *id_level, 0);
-			savetimes(framefloat, *id_level);
-			sleep_ms(3000);
+			savetime(framefloat, *id_level);
+			sleep_ms(2500);
 		}
 		if(!speed_menu(id_level)) 
 		{
@@ -419,6 +433,10 @@ void end(unsigned int frame)
 
 int main(void)
 {	
+    if(!run) {
+        gint_switch(restore);
+        run = 1;
+    }
 	char mode = 0;
 	char type = 1;
 	char valeur = start_menu(&type);
@@ -432,19 +450,19 @@ int main(void)
 		}
 		else main();
 	}
-	else if(valeur==1)
+	else if(valeur==1) //all mode
 	{
 		int id_level = 1;
 		mode = 0;
 		game(&id_level, mode, &type);
 	}
-	else if(valeur==2)
+	else if(valeur==2) // tutorial
 	{
 		int id_level = 0;
+        mode = 1;
 		game(&id_level, mode, &type);
 	}
-	gint_setrestart(1);
-	gint_osmenu();
-	main();
+	else if(valeur == 3) //exit 
+        gint_switch(savefile);
 	return 0;
 }

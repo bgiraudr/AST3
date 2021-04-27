@@ -20,7 +20,6 @@ char start_menu(char *type)
 	char buffer = 1;
 	char buffer2 = 1;
 	int Y_POS = 85;
-	gint_switch(restore);
 	while(menu_loop)
 	{
 		clearevents();
@@ -31,7 +30,7 @@ char start_menu(char *type)
 		else if (selection == -1) selection = 3;
 		dtext(32, Y_POS, C_BLACK, "PLAY");
 		dtext(32, Y_POS + 12, C_BLACK, "ALL MODE");
-		dtext(32, Y_POS + 24, C_BLACK, "TUTORIAL");
+		dtext(32, Y_POS + 24, C_BLACK, "TEST LEVEL");
 		dtext(32, Y_POS + 36, C_BLACK, "EXIT GAME");
 		dtext(16, Y_POS + (selection * 12), C_BLACK, ">");
 		dupdate();
@@ -40,7 +39,7 @@ char start_menu(char *type)
 		}
 		else buffer2 = 0;
 		if(keydown_any(KEY_EXIT, KEY_MENU, 0)) {
-			if(!buffer) return -1;
+			if(!buffer) return 3;
 		}
 		else buffer = 0;
 		if(keydown_all(KEY_5,KEY_6)) *type = 3;
@@ -80,7 +79,6 @@ char speed_menu(int *id_level)
 		dprint(80,20,C_BLACK,"Level : %d",*id_level);
 		if(sto != 0) dprint(194,60,C_RED, "%.2j", sto);
 		else dprint(202,60,C_RED, "/");
-		if(*id_level == 14) dprint_opt(180, 8, C_RGB(0,255,255), C_BLACK, DTEXT_LEFT, DTEXT_TOP, "VVVVVV");
 		dupdate();
 		if (keydown_any(KEY_SHIFT, KEY_EXE, 0))
 		{

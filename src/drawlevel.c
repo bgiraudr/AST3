@@ -133,7 +133,6 @@ void draw_end(int framelevel, int id_level, char record)
 	dimage(144,60,&img_endscreen);
 	if(record!=2)
 	{
-		dprint_opt(220, 115, C_WHITE, C_BLACK, DTEXT_LEFT, DTEXT_TOP, "%d", framelevel);
 		dprint(166, 87, C_RED, "%.2j",(int)(framefloat/FPS*100));
 		check_medal(framelevel, id_level, 178, 140);
 		if(record==1) dimage(60,100,&img_new);

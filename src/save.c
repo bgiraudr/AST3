@@ -6,7 +6,6 @@
 
 int retcode;
 
-int id_leveltab = 0;
 int times[LEVEL_MAX];
 static const uint16_t *filepath = u"\\\\fls0\\AST3.sav";
 
@@ -22,30 +21,16 @@ void savefile(void)
 	BFile_Close(descriptor);
 }
 
-/* loadfile() is only called by the function loadtime() because
- * loadtime() set the value of "id_leveltab".  It store in the global retcode
- * the time of the player. This function is called once per level in the
- * level selection menu to avoid loading time. */
-void loadfile(void)
-{
-	int descriptor;
-	descriptor = BFile_Open(filepath, BFile_ReadOnly);
-	BFile_Read(descriptor, &retcode,
-	           sizeof(times[0]), sizeof(times[0]) * id_leveltab);
-	BFile_Close(descriptor);
-}
-
-/* savetimes() is call when the player has reached the end of a level.
- * If his time is better than the save time, it will call the function
- * savefile() else, nothing append to avoid loading time. */
-void savetimes(float framelevel, int id_level)
+/* savetime() is call when the player has reached the end of a level.
+ * If his time is better than the save time, it will save it in the array
+ */
+void savetime(float framelevel, int id_level)
 {
 	if(times[id_level - 1] > (int)(framelevel / FPS * 100) ||
 	   times[id_level - 1] == 0 || keydown(KEY_7)) 
 	{
 		times[id_level - 1] = (int)(framelevel / FPS * 100);
 		draw_end((int)framelevel, id_level, 1);
-		gint_switch(savefile);
 	}
 }
 
@@ -70,13 +55,7 @@ void restore(void)
 	}
 }
 
-/* loadtime() is changing the current value of the global "id_leveltab" to
- * set it to the current level then it execute loadfile and read and
- * stock in the global retcode 4 bytes at the place 4*level (times are in
- * 4 bytes) */
 int loadtime(int idlevel)
 {
-	id_leveltab = idlevel;
-	gint_switch(loadfile);
-	return (int)retcode;
+    return times[idlevel];
 }
