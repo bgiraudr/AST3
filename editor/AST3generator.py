@@ -24,21 +24,17 @@ def newgrille():
     ["1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1"]
 
 def load(ids):
-    global grille, gravityid, app, disa
+    global grille, gravityid, app, disa, nbswitch
     try:
         lv = open(f"editor/levels/{ids}.lvl","r")
         ide = lv.readlines()
-        gravityid=str(ide[0][350:])
-        if len(ide)==1:
-            ide = str(ide[0][:-1])
-        else:
-            if ide[1]!="\n":
-                app = int(ide[1][:-1])
-                disa = int(ide[2])
-            else:
-                app = int(ide[2][:-1])
-                disa = int(ide[3])
-            ide = str(ide[0][:-2])
+        gravityid=(int)(ide[0][350:])
+
+        app = int(ide[1][:-1])
+        disa = int(ide[2])
+        nbswitch = int(ide[3])
+
+        ide = str(ide[0][:-2])
         grille=[]
         for j in range(14):
             grille.append([])
@@ -46,15 +42,16 @@ def load(ids):
                 grille[-1].append(str(ide[i+25*j]))
     except FileNotFoundError:
         newgrille()
-        gravityid="6"
+        gravityid=6
     place()
 
 def place():
     level = font.render(str(id_level),1,(0,0,0))
-    if int(gravityid)==6: levelgr = font.render("↓",1,(120,0,0))
-    if int(gravityid)==7: levelgr = font.render("↑",1,(0,120,120))
+    if gravityid==6: levelgr = font.render("↓",1,(120,0,0))
+    if gravityid==7: levelgr = font.render("↑",1,(0,120,120))
     timeapp = font.render("A="+str(app),1,(255,230,0))
     timedisa = font.render("D="+str(disa)+"    LOCK : "+str(lock),1,(255,180,0))
+    nbswitchfont = font.render("Nb="+str(nbswitch),1,(255,230,0))
     for a in range(14):
         for b in range(25):
             pygame.draw.rect(fenetre,(255,255,255),((52*b, 52*a), (52, 52)))
@@ -64,9 +61,9 @@ def place():
                 pygame.draw.rect(fenetre,(255,255,255),((52*b, 52*a), (52, 52)))
             if grille[a][b]=="1":
                 fenetre.blit(pygame.transform.scale(solid_0,(52,52)),(52*b,52*a))
-            if grille[a][b]=="s" and int(gravityid)==6:
+            if grille[a][b]=="s" and gravityid==6:
                 fenetre.blit(pygame.transform.scale(player.subsurface((0,0),(12,12)),(39,39)),(52*b,52*a+13))
-            elif grille[a][b]=="s" and int(gravityid)==7:
+            elif grille[a][b]=="s" and gravityid==7:
                 fenetre.blit(pygame.transform.scale(player.subsurface((0,0),(12,12)),(39,39)),(52*b,52*a))
             if grille[a][b]=="e":
                 fenetre.blit(pygame.transform.scale(end,(52,52)),(52*b,52*a))
@@ -104,20 +101,19 @@ def place():
                 fenetre.blit(pygame.transform.scale(appear,(52,52)),(52*b,52*a))
             elif grille[a][b]=="h" and tab:
                 fenetre.blit(pygame.transform.scale(appearblock,(52,52)),(52*b,52*a))
+            if grille[a][b]=="z":
+                fenetre.blit(pygame.transform.scale(nbswitchblock,(52,52)),(52*b,52*a))
     fenetre.blit(level, (10, 10))
     fenetre.blit(levelgr, (10, 60))
     fenetre.blit(timeapp, (55, 10))
     fenetre.blit(timedisa, (140, 10))
+    fenetre.blit(nbswitchfont, (370, 10))
     if id_level==0 : fenetre.blit(font.render("NIVEAU DE TEST",1,(0,180,255)), (600,10))
     pygame.display.flip()
 
 def write():
     f = open(f"editor/levels/{id_level}.lvl","w+")
-    if not "c" in str(grille): 
-        if not "m" in str(grille): 
-            f.write(str(grille).replace("]","").replace("(","").replace(")","").replace("'","").replace("[","").replace(" ","").replace(",","")+f"{gravityid}")
-        else: f.write(str(grille).replace("]","").replace("(","").replace(")","").replace("'","").replace("[","").replace(" ","").replace(",","")+f"{gravityid}\n{app}\n{disa}")
-    else: f.write(str(grille).replace("]","").replace("(","").replace(")","").replace("'","").replace("[","").replace(" ","").replace(",","")+f"{gravityid}\n{app}\n{disa}")
+    f.write(str(grille).replace("]","").replace("(","").replace(")","").replace("'","").replace("[","").replace(" ","").replace(",","")+f"{gravityid}\n{app}\n{disa}\n{nbswitch}")
     f.close()
 
 pygame.init()
@@ -127,13 +123,14 @@ fenetre = pygame.display.set_mode((25*52, 14*52))
 font = pygame.font.SysFont('arial',25,True)
 
 #Defini la suite des blocs pendant les changements (cliquer sur un 1 va donner un 2...)
-suite=["0","1","d","s","e","k","3","K","a","c","m","t","l","b","B","i","S","h"]
+suite=["0","1","d","s","e","k","3","K","a","c","m","t","l","b","B","i","S","h","z"]
 
 lvm = open(f"include/define.h","r")
 id_level = 0
 gravityid = 6
 disa = 10
 app = 13
+nbswitch = -1
 lock=""
 tab = 0
 
@@ -157,6 +154,7 @@ switch = pygame.image.load("editor/img/switch.png").convert_alpha()
 ice = pygame.image.load("editor/img/ice.png").convert_alpha()
 appear = pygame.image.load("editor/img/appear.png").convert_alpha()
 appearblock = pygame.image.load("editor/img/appearblock.png").convert_alpha()
+nbswitchblock = pygame.image.load("editor/img/nbswitch.png").convert_alpha()
 
 load(id_level)
 place()
@@ -192,6 +190,14 @@ while securite==False:
                 disa-=1
                 write()
                 place()
+            if carac == "t":
+                nbswitch+=1
+                write()
+                place()
+            if carac == "g":
+                if nbswitch >= 0: nbswitch-=1
+                write()
+                place()
             if carac == "a":
                 lock=""
                 place()
@@ -200,10 +206,10 @@ while securite==False:
             	write()
             	place()
             if event.key == pygame.K_LSHIFT:
-                if gravityid=="7":
-                    gravityid="6"
+                if gravityid==7:
+                    gravityid=6
                 else:
-                    gravityid="7"
+                    gravityid=7
                 write()
                 place()
             if event.key == pygame.K_TAB:

@@ -41,7 +41,8 @@ add_custom_command(OUTPUT
 		editor/levels/13.lvl
 		editor/levels/14.lvl
 		editor/levels/15.lvl
-		editor/levels/16.lvl)
+		editor/levels/16.lvl
+		editor/levels/17.lvl)
 
 set(SOURCES
 	src/collide.c
@@ -74,7 +75,9 @@ set(ASSETS_cg
 	assets-cg/img/player.png
 	assets-cg/img/solid.png
 	assets-cg/img/speedrun.png
-	assets-cg/img/switch.png)
+	assets-cg/img/switch.png
+	assets-cg/img/nbswitch.png
+	assets-cg/img/nbswitchlayout.png)
 
 set(FLAGS -Wall -Wextra -Os)
 

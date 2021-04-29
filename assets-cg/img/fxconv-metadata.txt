@@ -65,3 +65,10 @@ speedrun.png:
 switch.png:
   type:bopti-image
   name: img_switch
+nbswitch.png:
+  type:bopti-image
+  name: img_nbswitch
+nbswitchlayout.png:
+  type:bopti-image
+  profile:p4
+  name: img_nbswitchlayout
