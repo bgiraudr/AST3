@@ -3,8 +3,8 @@ argent = 1.5
 bronze = 2
 
 timeslevel = open("times.lvl","r+")
-dest = open("src/times.c","w")
-lvm = open("include/define.h","r")
+dest = open("generated/times.c","w")
+lvm = open("generated/include/define.h","r")
 ids=timeslevel.readlines()
 times=[]
 

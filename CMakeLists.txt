@@ -9,20 +9,21 @@ include(GenerateG3A)
 include(Fxconv)
 find_package(Gint 2.1 REQUIRED)
 
-include_directories(include)
+include_directories(include generated/include)
 
 add_custom_command(
-	OUTPUT "${CMAKE_CURRENT_LIST_DIR}/src/times.c"
-	COMMENT "Generate src/times.c"
-	COMMAND python3 time.py
+	OUTPUT "${CMAKE_CURRENT_LIST_DIR}/generated/times.c"
+	COMMENT "Generate generated/times.c"
+	COMMAND mkdir -p generated && python3 time.py
 	WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
-	DEPENDS time.py times.lvl include/define.h)
+	DEPENDS time.py times.lvl generated/include/define.h)
 
-add_custom_command(OUTPUT 
-		"${CMAKE_CURRENT_LIST_DIR}/src/setlevel.c"
-		"${CMAKE_CURRENT_LIST_DIR}/include/define.h"
-	COMMENT "Generate src/setlevel.c & include/define.h"
-	COMMAND sh update_levels.sh
+add_custom_command(
+	OUTPUT
+		"${CMAKE_CURRENT_LIST_DIR}/generated/setlevel.c"
+		"${CMAKE_CURRENT_LIST_DIR}/generated/include/define.h"
+	COMMENT "Generate generated/setlevel.c & generated/include/define.h"
+	COMMAND mkdir -p generated/include && sh update_levels.sh
 	WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
 	DEPENDS update_levels.sh compile_levels.py
 		editor/levels/0.lvl
@@ -50,8 +51,8 @@ set(SOURCES
 	src/main.c
 	src/menu.c
 	src/save.c
-	src/setlevel.c
-	src/times.c)
+	generated/setlevel.c
+	generated/times.c)
 
 set(ASSETS)
 set(ASSETS_fx)

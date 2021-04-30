@@ -125,7 +125,7 @@ font = pygame.font.SysFont('arial',25,True)
 #Defini la suite des blocs pendant les changements (cliquer sur un 1 va donner un 2...)
 suite=["0","1","d","s","e","k","3","K","a","c","m","t","l","b","B","i","S","h","z"]
 
-lvm = open(f"include/define.h","r")
+lvm = open(f"generated/include/define.h","r")
 id_level = 0
 gravityid = 6
 disa = 10

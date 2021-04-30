@@ -1,6 +1,6 @@
 ids = 0
 
-save = open("src/setlevel.c","w+")
+save = open("generated/setlevel.c","w+")
 save.write("#include \"setlevel.h\"\n#include <gint/std/string.h>\nvoid set_level(int id_level, char level[], int *startx, \
 int *starty, char *gravity, int *appear, int *disappear, int *nbswitch){\nswitch(id_level){")
 while 1:
