@@ -193,12 +193,12 @@ while securite==False:
                 disa-=1
                 write()
                 place()
-            if carac == "t":
+            if carac == "t" and "z" in str(grille):
                 nbswitch+=1
                 write()
                 place()
-            if carac == "g":
-                if nbswitch >= 0: nbswitch-=1
+            if carac == "g" and "z" in str(grille):
+                if nbswitch > 0: nbswitch-=1
                 write()
                 place()
             if carac == "a":
