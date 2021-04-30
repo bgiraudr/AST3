@@ -32,7 +32,7 @@ int callback(volatile int *frame_elapsed)
 void game(int *id_level, char mode, char *type)
 {
 	volatile int frame_elapsed = 1;
-	int timer = timer_setup(TIMER_ANY, 1000000/FPS, callback, &frame_elapsed);
+	int timer = timer_configure(TIMER_ANY, 1000000/FPS, GINT_CALL(callback, &frame_elapsed));
 	timer_start(timer);
 	
 	char game_loop = 1;
@@ -453,7 +453,7 @@ void end(unsigned int frame)
 int main(void)
 {	
     if(!run) {
-        gint_switch(restore);
+        gint_world_switch(GINT_CALL(restore));
         run = 1;
     }
 	char mode = 0;
@@ -482,6 +482,6 @@ int main(void)
 		game(&id_level, mode, &type);
 	}
 	else if(valeur == 3) //exit 
-        gint_switch(savefile);
+        gint_world_switch(GINT_CALL(savefile));
 	return 0;
 }
