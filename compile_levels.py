@@ -7,8 +7,7 @@ while 1:
     try:
         lv = open(f"editor/levels/{ids}.lvl","r")
         ide = lv.readlines()
-        if ide[1]!='\n':
-            save.write(f"case {ids}:\nmemcpy(level,\"{str(ide[0][:-2])}\",350);\n*appear={ide[1][:-1]};\n*disappear={ide[2]};\n*nbswitch={ide[3]};\nbreak;\n")
+        save.write(f"case {ids}:\nmemcpy(level,\"{str(ide[0][:-2])}\",350);\n*appear={ide[1][:-1]};\n*disappear={ide[2][:-1]};\n*nbswitch={ide[3]};\nbreak;\n")
         ids+=1
     except FileNotFoundError:
         lv.close()

@@ -69,7 +69,6 @@ void game(int *id_level, char mode, char *type)
 	          &disappear, &nbswitch);
 	player_x = start_x;
 	player_y = start_y;
-	draw_level(level);
 	while (game_loop) {
 		while (!frame_elapsed)
 			sleep();
@@ -149,7 +148,7 @@ void game(int *id_level, char mode, char *type)
 			hspd = 0;
 		// Action key
 		if (keydown(KEY_SHIFT) && !check &&
-		    (nbswitch > 0 || nbswitch == -1) &&
+		    nbswitch > 0 &&
 		    ((collide_solid(player_x, player_y - 1, level) &&
 		      gravity) ||
 		     (collide_solid(player_x, player_y + 1, level) &&
@@ -159,7 +158,7 @@ void game(int *id_level, char mode, char *type)
 				gravity = 1;
 			else
 				gravity = 0;
-			if (check_nbswitch && nbswitch != 0) {
+			if (check_nbswitch && nbswitch > 0) {
 				nbswitch -= 1;
 			}
 			check = 1;
@@ -236,6 +235,7 @@ void game(int *id_level, char mode, char *type)
 			          &gravity, &appear, &disappear, &nbswitch);
 			player_x = start_x;
 			player_y = start_y;
+			check_nbswitch = 0;
 			blackout = 0;
 			double_check = 1;
 			framelevel = 0;
@@ -487,8 +487,6 @@ void game(int *id_level, char mode, char *type)
 	if (mode) {
 		if (*id_level == 0) {
 			game_loop = 0;
-			draw_end(framelevel, *id_level, 0);
-			sleep_ms(2500);
 			*id_level = 1;
 		}
 		if (game_loop) // end of a level with level selection
