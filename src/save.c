@@ -1,7 +1,7 @@
-#include <gint/bfile.h>
-#include <gint/gint.h>
 #include "define.h"
 #include "drawlevel.h"
+#include <gint/bfile.h>
+#include <gint/gint.h>
 #include <gint/keyboard.h>
 
 int retcode;
@@ -15,7 +15,7 @@ static const uint16_t *filepath = u"\\\\fls0\\AST3.sav";
 void savefile(void)
 {
 	int descriptor;
-	
+
 	descriptor = BFile_Open(filepath, BFile_WriteOnly);
 	BFile_Write(descriptor, times, sizeof(times));
 	BFile_Close(descriptor);
@@ -26,9 +26,8 @@ void savefile(void)
  */
 void savetime(float framelevel, int id_level)
 {
-	if(times[id_level - 1] > (int)(framelevel / FPS * 100) ||
-	   times[id_level - 1] == 0 || keydown(KEY_7)) 
-	{
+	if (times[id_level - 1] > (int)(framelevel / FPS * 100) ||
+	    times[id_level - 1] == 0 || keydown(KEY_7)) {
 		times[id_level - 1] = (int)(framelevel / FPS * 100);
 		draw_end((int)framelevel, id_level, 1);
 	}
@@ -44,9 +43,10 @@ void restore(void)
 	uint16_t foundpath[30];
 	int size = sizeof(times);
 	int descriptor;
-	char checkfile = BFile_FindFirst(filepath, &handle, foundpath, &fileInfo);
+	char checkfile =
+	    BFile_FindFirst(filepath, &handle, foundpath, &fileInfo);
 	BFile_FindClose(handle);
-	if(checkfile == -1)
+	if (checkfile == -1)
 		BFile_Create(filepath, BFile_File, &size);
 	else {
 		descriptor = BFile_Open(filepath, BFile_ReadOnly);
@@ -55,7 +55,4 @@ void restore(void)
 	}
 }
 
-int loadtime(int idlevel)
-{
-    return times[idlevel];
-}
+int loadtime(int idlevel) { return times[idlevel]; }
