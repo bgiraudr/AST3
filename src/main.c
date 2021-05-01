@@ -4,10 +4,10 @@
 #include <gint/keyboard.h>
 #include <gint/std/string.h>
 #include <gint/timer.h>
-
 #include "collide.h"
 #include "define.h"
 #include "drawlevel.h"
+#include "util.h"
 #include "menu.h"
 #include "save.h"
 #include "setlevel.h"
@@ -18,18 +18,62 @@
 #define MAX_VSPD 9.0
 #define FRICTION 0.2
 
-int main(void);
-void end(unsigned int frame);
+static int callback(volatile int *frame_elapsed);
+static void end(unsigned int frame);
+static void game(int *id_level, char mode, char *type);
 
-char run = 0;
+int main(void)
+{
+	static int run = 0;
+	if (!run) {
+		gint_world_switch(GINT_CALL(restore));
+		run = 1;
+	}
 
-int callback(volatile int *frame_elapsed)
+	char mode = 0;
+	char type = 1;
+	const enum MenuCode valeur = start_menu(&type);
+
+	switch (valeur) {
+	case MenuLevelSel: {
+		int id_level = 1;
+		if (!speed_menu(&id_level)) {
+			mode = 1;
+			game(&id_level, mode, &type);
+		} else
+			main();
+	} break;
+	case MenuAllMode: {
+		int id_level = 1;
+		mode = 0;
+		game(&id_level, mode, &type);
+	} break;
+	case MenuTutorial: {
+		int id_level = 0;
+		mode = 1;
+		game(&id_level, mode, &type);
+	} break;
+	case MenuExit:
+		gint_world_switch(GINT_CALL(savefile));
+		break;
+	}
+	return 0;
+}
+
+static int callback(volatile int *frame_elapsed)
 {
 	*frame_elapsed = 1;
 	return TIMER_CONTINUE;
 }
 
-void game(int *id_level, char mode, char *type)
+static void end(unsigned int frame)
+{
+	draw_end((int)frame, 15, 2);
+	sleep_ms(7000);
+	main();
+}
+
+static void game(int *id_level, char mode, char *type)
 {
 	volatile int frame_elapsed = 1;
 	int timer = timer_configure(TIMER_ANY, 1000000 / FPS,
@@ -147,8 +191,7 @@ void game(int *id_level, char mode, char *type)
 		} else
 			hspd = 0;
 		// Action key
-		if (keydown(KEY_SHIFT) && !check &&
-		    nbswitch > 0 &&
+		if (keydown(KEY_SHIFT) && !check && nbswitch > 0 &&
 		    ((collide_solid(player_x, player_y - 1, level) &&
 		      gravity) ||
 		     (collide_solid(player_x, player_y + 1, level) &&
@@ -504,43 +547,4 @@ void game(int *id_level, char mode, char *type)
 			main();
 	} else
 		main();
-}
-
-void end(unsigned int frame)
-{
-	draw_end((int)frame, 15, 2);
-	sleep_ms(7000);
-	main();
-}
-
-int main(void)
-{
-	if (!run) {
-		gint_world_switch(GINT_CALL(restore));
-		run = 1;
-	}
-	char mode = 0;
-	char type = 1;
-	char valeur = start_menu(&type);
-	if (!valeur) // normal game (level selection)
-	{
-		int id_level = 1;
-		if (!speed_menu(&id_level)) {
-			mode = 1;
-			game(&id_level, mode, &type);
-		} else
-			main();
-	} else if (valeur == 1) // all mode
-	{
-		int id_level = 1;
-		mode = 0;
-		game(&id_level, mode, &type);
-	} else if (valeur == 2) // tutorial
-	{
-		int id_level = 0;
-		mode = 1;
-		game(&id_level, mode, &type);
-	} else if (valeur == 3) // exit
-		gint_world_switch(GINT_CALL(savefile));
-	return 0;
 }

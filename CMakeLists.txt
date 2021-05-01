@@ -51,6 +51,7 @@ set(SOURCES
 	src/main.c
 	src/menu.c
 	src/save.c
+	src/util.c
 	generated/setlevel.c
 	generated/times.c)
 
