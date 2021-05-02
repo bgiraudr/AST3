@@ -1,5 +1,6 @@
 #include "menu.h"
 #include "define.h"
+#include "util.h"
 #include "drawlevel.h"
 #include "save.h"
 #include "setlevel.h"
@@ -110,3 +111,4 @@ char speed_menu(int *id_level)
 	}
 	return 0;
 }
+
