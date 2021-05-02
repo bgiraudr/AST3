@@ -69,3 +69,11 @@ void collide_replace(int x, int y, char level[], char collide, char replace)
 		      ((y + PLAYER_HEIGHT) / 16) * 25] = replace;
 	}
 }
+
+char collide_center(int x, int y, char level[], char block) {
+	if(level[(int)((x + 6) / 16) + 
+			 (int)((y + 6) / 16) * 25] == block) {
+		return 1;
+	}
+	return 0;
+}

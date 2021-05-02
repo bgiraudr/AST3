@@ -26,6 +26,7 @@ add_custom_command(
 	COMMAND mkdir -p generated/include && sh update_levels.sh
 	WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
 	DEPENDS update_levels.sh compile_levels.py
+		editor/levels/
 		editor/levels/0.lvl
 		editor/levels/1.lvl
 		editor/levels/2.lvl
@@ -43,7 +44,9 @@ add_custom_command(
 		editor/levels/14.lvl
 		editor/levels/15.lvl
 		editor/levels/16.lvl
-		editor/levels/17.lvl)
+		editor/levels/17.lvl
+		editor/levels/18.lvl
+		editor/levels/19.lvl)
 
 set(SOURCES
 	src/collide.c
@@ -52,6 +55,7 @@ set(SOURCES
 	src/menu.c
 	src/save.c
 	src/util.c
+	src/replace.c
 	generated/setlevel.c
 	generated/times.c)
 

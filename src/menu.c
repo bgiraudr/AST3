@@ -53,7 +53,7 @@ enum MenuCode start_menu(char *type)
 char speed_menu(int *id_level)
 {
 	char level[351];
-	char gravity = 0; // 0 down 1 up
+	char gravity = -1; // -1 down 1 up
 	int start_x;
 	int start_y;
 	char buffer = 1;
@@ -84,6 +84,7 @@ char speed_menu(int *id_level)
 		dtext(340, 214, C_BLACK, "TIMES");
 		dtext(190, 45, C_BLACK, "Time : ");
 		dprint(80, 20, C_BLACK, "Level : %d", *id_level);
+		dprint(80, 50, C_RED, "%d", gravity);
 		if (sto != 0)
 			dprint(194, 60, C_RED, "%.2j", sto);
 		else

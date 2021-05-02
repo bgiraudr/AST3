@@ -29,12 +29,12 @@ y+=16;}i++;}}\n\
 void set_gravity(int id_level, char *default_gravity){\n\
 switch(id_level){")
 ids = 0
-gravity = 0
+gravity = -1
 while 1:
     try:
         lv = open(f"editor/levels/{ids}.lvl","r")
         ide = lv.read()
-        if ide[350]=="6": gravity=0
+        if ide[350]=="6": gravity=-1
         else: gravity = 1
         save.write(f"case {ids}:\n*default_gravity = {gravity};\nbreak;\n")
         ids+=1
