@@ -7,8 +7,7 @@ while 1:
     try:
         lv = open(f"editor/levels/{ids}.lvl","r")
         ide = lv.readlines()
-        if ide[1]!='\n':
-            save.write(f"case {ids}:\nmemcpy(level,\"{str(ide[0][:-2])}\",350);\n*appear={ide[1][:-1]};\n*disappear={ide[2]};\n*nbswitch={ide[3]};\nbreak;\n")
+        save.write(f"case {ids}:\nmemcpy(level,\"{str(ide[0][:-2])}\",350);\n*appear={ide[1][:-1]};\n*disappear={ide[2][:-1]};\n*nbswitch={ide[3]};\nbreak;\n")
         ids+=1
     except FileNotFoundError:
         lv.close()
@@ -30,13 +29,13 @@ y+=16;}i++;}}\n\
 void set_gravity(int id_level, char *default_gravity){\n\
 switch(id_level){")
 ids = 0
-gravity = 0
+gravity = -1
 while 1:
     try:
         lv = open(f"editor/levels/{ids}.lvl","r")
         ide = lv.read()
-        if ide[350]=="6": gravity=0
-        else: gravity = 1
+        if ide[350]=="6": gravity=1
+        else: gravity = -1
         save.write(f"case {ids}:\n*default_gravity = {gravity};\nbreak;\n")
         ids+=1
     except FileNotFoundError:

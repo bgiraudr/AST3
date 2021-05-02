@@ -1,18 +1,22 @@
 #include "collide.h"
 #include "define.h"
+#include "util.h"
 
 #define DEAD_COLLISION 3 // make collision with the deadly block less effective
 
 char collide(int x, int y, char level[],
              char block) // detect if player is in a block
 {
-	if ((level[(int)(x / 16) + (int)((y + PLAYER_HEIGHT) / 16) * 25] ==
+	if ((level[(int)(x / TILE_HEIGHT) +
+	           (int)((y + PLAYER_HEIGHT) / TILE_HEIGHT) * LEVEL_WIDTH] ==
 	         block ||
-	     level[(int)((x + PLAYER_HEIGHT) / 16) +
-	           (int)((y + PLAYER_HEIGHT) / 16) * 25] == block ||
-	     level[(int)(x / 16) + (int)((y / 16) * 25)] == block ||
-	     level[(int)((x + PLAYER_HEIGHT) / 16) + (int)((y / 16) * 25)] ==
-	         block))
+	     level[(int)((x + PLAYER_HEIGHT) / TILE_HEIGHT) +
+	           (int)((y + PLAYER_HEIGHT) / TILE_HEIGHT) * LEVEL_WIDTH] ==
+	         block ||
+	     level[(int)(x / TILE_HEIGHT) +
+	           (int)((y / TILE_HEIGHT) * LEVEL_WIDTH)] == block ||
+	     level[(int)((x + PLAYER_HEIGHT) / TILE_HEIGHT) +
+	           (int)((y / TILE_HEIGHT) * LEVEL_WIDTH)] == block))
 		return 1;
 	return 0;
 }
@@ -44,7 +48,8 @@ char collide_dead(int x, int y, char level[])
 
 char collide_point(int x, int y, char level[], char block)
 {
-	return (level[(int)(x / 16) + (int)(y / 16) * 25] == block);
+	return (level[(int)(x / TILE_HEIGHT) +
+	              (int)(y / TILE_HEIGHT) * LEVEL_WIDTH] == block);
 }
 
 char collide_end(int x, int y, char level[])
@@ -55,17 +60,32 @@ char collide_end(int x, int y, char level[])
 void collide_replace(int x, int y, char level[], char collide, char replace)
 {
 	if (collide_point(x, y, level, collide)) {
-		level[((x) / 16) + ((y) / 16) * 25] = replace;
+		level[((x) / TILE_HEIGHT) + ((y) / TILE_HEIGHT) * LEVEL_WIDTH] =
+		    replace;
 	}
 	if (collide_point(x + PLAYER_HEIGHT, y, level, collide)) {
-		level[((x + PLAYER_HEIGHT) / 16) + ((y) / 16) * 25] = replace;
+		level[((x + PLAYER_HEIGHT) / TILE_HEIGHT) +
+		      ((y) / TILE_HEIGHT) * LEVEL_WIDTH] = replace;
 	}
 	if (collide_point(x, y + PLAYER_HEIGHT, level, collide)) {
-		level[((x) / 16) + ((y + PLAYER_HEIGHT) / 16) * 25] = replace;
+		level[((x) / TILE_HEIGHT) +
+		      ((y + PLAYER_HEIGHT) / TILE_HEIGHT) * LEVEL_WIDTH] =
+		    replace;
 	}
 	if (collide_point(x + PLAYER_HEIGHT, y + PLAYER_HEIGHT, level,
 	                  collide)) {
-		level[((x + PLAYER_HEIGHT) / 16) +
-		      ((y + PLAYER_HEIGHT) / 16) * 25] = replace;
+		level[((x + PLAYER_HEIGHT) / TILE_HEIGHT) +
+		      ((y + PLAYER_HEIGHT) / TILE_HEIGHT) * LEVEL_WIDTH] =
+		    replace;
 	}
+}
+
+char collide_center(int x, int y, char level[], char block)
+{
+	if (level[(int)((x + round(PLAYER_HEIGHT / 2)) / TILE_HEIGHT) +
+	          (int)((y + round(PLAYER_HEIGHT / 2)) / TILE_HEIGHT) *
+	              LEVEL_WIDTH] == block) {
+		return 1;
+	}
+	return 0;
 }

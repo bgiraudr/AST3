@@ -107,12 +107,15 @@ def place():
     fenetre.blit(levelgr, (10, 60))
     fenetre.blit(timeapp, (55, 10))
     fenetre.blit(timedisa, (140, 10))
-    fenetre.blit(nbswitchfont, (370, 10))
+    if "z" in str(grille):
+        fenetre.blit(nbswitchfont, (370, 10))
     if id_level==0 : fenetre.blit(font.render("NIVEAU DE TEST",1,(0,180,255)), (600,10))
     pygame.display.flip()
 
 def write():
+    global nbswitch
     f = open(f"editor/levels/{id_level}.lvl","w+")
+    if "z" not in str(grille): nbswitch = 1
     f.write(str(grille).replace("]","").replace("(","").replace(")","").replace("'","").replace("[","").replace(" ","").replace(",","")+f"{gravityid}\n{app}\n{disa}\n{nbswitch}")
     f.close()
 
@@ -130,7 +133,7 @@ id_level = 0
 gravityid = 6
 disa = 10
 app = 13
-nbswitch = -1
+nbswitch = 1
 lock=""
 tab = 0
 
@@ -190,12 +193,12 @@ while securite==False:
                 disa-=1
                 write()
                 place()
-            if carac == "t":
+            if carac == "t" and "z" in str(grille):
                 nbswitch+=1
                 write()
                 place()
-            if carac == "g":
-                if nbswitch >= 0: nbswitch-=1
+            if carac == "g" and "z" in str(grille):
+                if nbswitch > 0: nbswitch-=1
                 write()
                 place()
             if carac == "a":
