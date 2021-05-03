@@ -82,8 +82,8 @@ void collide_replace(int x, int y, char level[], char collide, char replace)
 
 char collide_center(int x, int y, char level[], char block)
 {
-	if (level[(int)((x + round(PLAYER_HEIGHT / 2)) / TILE_HEIGHT) +
-	          (int)((y + round(PLAYER_HEIGHT / 2)) / TILE_HEIGHT) *
+	if (level[(int)((x + round_sup(PLAYER_HEIGHT / 2)) / TILE_HEIGHT) +
+	          (int)((y + round_sup(PLAYER_HEIGHT / 2)) / TILE_HEIGHT) *
 	              LEVEL_WIDTH] == block) {
 		return 1;
 	}

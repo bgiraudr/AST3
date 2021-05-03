@@ -17,21 +17,29 @@ enum MenuCode start_menu(char *type)
 	char selection = 0;
 	char buffer = 1;
 	char buffer2 = 1;
-	int Y_POS = 85;
+	int Y_POS = 145;
+
+	char level[351];
+	int start_x;
+	int start_y;
+
+	set_level(rand_range(1,LEVEL_MAX), level, &start_x, &start_y, NULL,
+		          NULL, NULL, NULL);
 	while (menu_loop) {
 		clearevents();
 		dclear(C_WHITE);
+		draw_level(level);
 		dimage(0, 0, &img_menu);
 		selection += keydown(KEY_DOWN) - keydown(KEY_UP);
 		if (selection == 4)
 			selection = 0;
 		else if (selection == -1)
 			selection = 3;
-		dtext(32, Y_POS, C_BLACK, "PLAY");
-		dtext(32, Y_POS + 12, C_BLACK, "ALL MODE");
-		dtext(32, Y_POS + 24, C_BLACK, "TEST LEVEL");
-		dtext(32, Y_POS + 36, C_BLACK, "EXIT GAME");
-		dtext(16, Y_POS + (selection * 12), C_BLACK, ">");
+		dtext(160, Y_POS, C_WHITE, "PLAY");
+		dtext(160, Y_POS + 12, C_WHITE, "ALL MODE");
+		dtext(160, Y_POS + 24, C_WHITE, "TEST LEVEL");
+		dtext(160, Y_POS + 36, C_WHITE, "EXIT GAME");
+		dtext(145, Y_POS + (selection * 12), C_WHITE, ">");
 		dupdate();
 		if (keydown_any(KEY_SHIFT, KEY_EXE, 0)) {
 			if (!buffer2)
@@ -85,7 +93,6 @@ char speed_menu(int *id_level)
 		dtext(340, 214, C_BLACK, "TIMES");
 		dtext(190, 45, C_BLACK, "Time : ");
 		dprint(80, 20, C_BLACK, "Level : %d", *id_level);
-		dprint(80, 50, C_RED, "%d", gravity);
 		if (sto != 0)
 			dprint(194, 60, C_RED, "%.2j", sto);
 		else

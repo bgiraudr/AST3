@@ -7,6 +7,7 @@
 #include "setlevel.h"
 #include "times.h"
 #include "util.h"
+#include "friction.h"
 #include <gint/clock.h>
 #include <gint/display.h>
 #include <gint/gint.h>
@@ -17,7 +18,7 @@
 #define VACCELERATION 0.2
 #define HACCELERATION 0.4
 #define MAX_VSPD 9.0
-#define FRICTION 0.2
+#define MAX_HSPD 2.0
 
 static int callback(volatile int *frame_elapsed);
 static void end(unsigned int frame);
@@ -156,6 +157,7 @@ static void game(int *id_level, char mode, char *type)
 				           coin);
 			if (check_nbswitch)
 				draw_nbswitch(nbswitch);
+			dprint(330, 0, C_RED, "%d", (int)(hspd*100));
 			dupdate();
 		}
 		pollevent();
@@ -168,14 +170,11 @@ static void game(int *id_level, char mode, char *type)
 
 		// right and left collision
 		if (keydown_any(KEY_RIGHT, KEY_LEFT, 0)) {
-			float hbuff = 0.0;
 			char signe = (keydown(KEY_RIGHT) - keydown(KEY_LEFT));
-			if (collide(player_x, player_y - 1, level, 'i') ||
-			    collide(player_x, player_y + 1, level, 'i')) {
-				hbuff += 0.12;
-			}
-			hspd *= 1 - FRICTION;
-			hspd += signe * (HACCELERATION + hbuff);
+			float friction = apply_friction(player_x, player_y, level);
+			hspd *= 1 - friction;
+			hspd += signe * HACCELERATION;
+			
 			if (!collide_solid(player_x + round(hspd) + signe * 1,
 			                   player_y, level))
 				player_x += round(hspd);
@@ -404,14 +403,15 @@ static void game(int *id_level, char mode, char *type)
 		}
 
 		// warp
-		if (player_y >= 212)
+		if (player_y >= 210)
 			player_y = -4;
 		if (player_y < -6)
-			player_y = 212;
+			player_y = 209;
 
 		// Menu
 
 		if (keydown_any(KEY_EXIT, KEY_MENU, 0)) {
+			timer_pause(timer);
 			char menu_loop = 1;
 			char selected = 0;
 			int Y_POS = 18;
@@ -446,6 +446,7 @@ static void game(int *id_level, char mode, char *type)
 					switch (selected) {
 					case 0:
 						menu_loop = 0;
+						timer_start(timer);
 						break;
 					case 1:
 						menu_loop = 0;
@@ -467,6 +468,7 @@ static void game(int *id_level, char mode, char *type)
 		}
 	}
 	timer_stop(timer);
+	timer_wait(timer);
 	// when a level is quit
 	if (mode) {
 		if (*id_level == 0) {

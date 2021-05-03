@@ -56,6 +56,7 @@ set(SOURCES
 	src/save.c
 	src/util.c
 	src/replace.c
+	src/friction.c
 	generated/setlevel.c
 	generated/times.c)
 
@@ -76,7 +77,7 @@ set(ASSETS_cg
 	assets-cg/img/key1.png
 	assets-cg/img/key2.png
 	assets-cg/img/medals.png
-	assets-cg/img/menu.png
+	assets-cg/img/menu2.png
 	assets-cg/img/new.png
 	assets-cg/img/player.png
 	assets-cg/img/solid.png
@@ -93,5 +94,6 @@ add_executable(${PROJECT_NAME} ${SOURCES} ${ASSETS} ${ASSETS_${FXSDK_PLATFORM}})
 target_compile_options(${PROJECT_NAME} PRIVATE ${FLAGS})
 target_link_libraries(${PROJECT_NAME} Gint::Gint)
 target_link_options(${PROJECT_NAME} PRIVATE -Wl,-Map=map)
+
 generate_g3a(TARGET ${PROJECT_NAME} OUTPUT "${PROJECT_NAME}.g3a"
 	NAME "${PROJECT_NAME}" ICONS assets-cg/icon-uns.png assets-cg/icon-sel.png)
