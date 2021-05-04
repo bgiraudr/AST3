@@ -1,3 +1,5 @@
+#pragma once
+
 void savefile(void);
 int loadtime(int idlevel);
 void restore(void);

@@ -15,64 +15,61 @@
 #include <gint/std/string.h>
 #include <gint/timer.h>
 
+#include <gint/std/stdlib.h>
+#include <gint/rtc.h>
+
 #define VACCELERATION 0.2
 #define HACCELERATION 0.4
 #define MAX_VSPD 9.0
 #define MAX_HSPD 2.0
 
+static void startmenu_launcher();
 static int callback(volatile int *frame_elapsed);
-static void end(unsigned int frame);
 static void game(int *id_level, char mode, char *type);
 
-int main(void)
-{
+int main(void) {
 	static int run = 0;
 	if (!run) {
 		gint_world_switch(GINT_CALL(restore));
+		srand(rtc_ticks());
 		run = 1;
 	}
 
-	char mode = 0;
-	char type = 1;
-	const enum MenuCode valeur = start_menu(&type);
-
-	switch (valeur) {
-	case MenuLevelSel: {
-		int id_level = 1;
-		if (!speed_menu(&id_level)) {
-			mode = 1;
-			game(&id_level, mode, &type);
-		} else
-			main();
-	} break;
-	case MenuAllMode: {
-		int id_level = 1;
-		mode = 0;
-		game(&id_level, mode, &type);
-	} break;
-	case MenuTutorial: {
-		int id_level = 0;
-		mode = 1;
-		game(&id_level, mode, &type);
-	} break;
-	case MenuExit:
-		gint_world_switch(GINT_CALL(savefile));
-		break;
-	}
+	startmenu_launcher();
+	gint_world_switch(GINT_CALL(savefile));
 	return 0;
+}
+
+static void startmenu_launcher() {
+	char type = 1;
+	static int menu_run = 1;
+	int id_level = 1;
+	while(menu_run) {
+		const enum MenuCode valeur = start_menu(&type);
+		switch(valeur) {
+			case MenuLevelSel: {
+				int doIRun = level_selection(&id_level);
+				if(doIRun)
+					game(&id_level, 1, &type);
+			} break;
+			case MenuAllMode: {
+				game(&id_level, 0, &type);
+			} break;
+			case MenuTutorial: {
+				id_level = 0;
+				game(&id_level, 1, &type);
+ 			} break;
+			case MenuExit: {
+				menu_run = 0;
+			} break;
+		}
+	}
 }
 
 static int callback(volatile int *frame_elapsed)
 {
 	*frame_elapsed = 1;
 	return TIMER_CONTINUE;
-}
-
-static void end(unsigned int frame)
-{
-	draw_end((int)frame, 15, 2);
-	sleep_ms(7000);
-	main();
 }
 
 static void game(int *id_level, char mode, char *type)
@@ -94,6 +91,8 @@ static void game(int *id_level, char mode, char *type)
 	int start_y;
 	int death_count = 0;
 
+	char hasReachedEnd = 0;
+
 	int coin = 0;
 	char check_coin = 0;
 	char double_check = 1;
@@ -111,7 +110,6 @@ static void game(int *id_level, char mode, char *type)
 		*type = 2;
 	else if (*type != 3)
 		*type = 1;
-	extern bopti_image_t img_speedrun;
 	set_level(*id_level, level, &start_x, &start_y, &gravity, &appear,
 	          &disappear, &nbswitch);
 	player_x = start_x;
@@ -248,27 +246,34 @@ static void game(int *id_level, char mode, char *type)
 		}
 		// Collide with the end
 		if (collide_end(player_x, player_y, level)) {
-			if (!mode && *id_level != 0)
+			//if all mode
+			if (!mode) {
 				*id_level += 1;
-			else
-				break;
-			check_coin = 0;
-			set_level(*id_level, level, &start_x, &start_y,
+				check_coin = 0;
+				check_nbswitch = 0;
+				blackout = 0;
+				double_check = 1;
+				framelevel = 0;
+
+				set_level(*id_level, level, &start_x, &start_y,
 			          &gravity, &appear, &disappear, &nbswitch);
-			player_x = start_x;
-			player_y = start_y;
-			check_nbswitch = 0;
-			blackout = 0;
-			double_check = 1;
-			framelevel = 0;
-			if (*id_level == 10 && *type == 1)
+				player_x = start_x;
+				player_y = start_y;
+
+				if (*id_level == 10 && *type == 1)
 				*type = 2;
-			else if (*type != 3)
-				*type = 1;
-			if (*id_level == LEVEL_MAX + 1) {
-				timer_stop(timer);
-				end(frame);
+				else if (*type != 3)
+					*type = 1;
+				//End of all mode
+				if (*id_level == LEVEL_MAX + 1) {
+					timer_stop(timer);
+					game_loop = 0;
+				}
 			}
+			else {
+				game_loop = 0;
+			}
+			hasReachedEnd = 1;
 		}
 		// Collide with key1 = disappearance of blocks
 		if (collide(player_x, player_y, level, 'k')) {
@@ -408,86 +413,38 @@ static void game(int *id_level, char mode, char *type)
 		if (player_y < -6)
 			player_y = 209;
 
-		// Menu
-
+		// Pause menu
 		if (keydown_any(KEY_EXIT, KEY_MENU, 0)) {
 			timer_pause(timer);
-			char menu_loop = 1;
-			char selected = 0;
-			int Y_POS = 18;
-			char buffer = 1;
-			while (menu_loop) {
-				clearevents();
-				dclear(C_WHITE);
-				draw_level(level);
-				draw_player(player_x, player_y, *type);
-				dimage(0, 0, &img_speedrun);
-				selected += keydown(KEY_DOWN) - keydown(KEY_UP);
-				if (selected == 2)
-					selected = 0;
-				else if (selected == -1)
-					selected = 1;
-				dtext(32, Y_POS, C_BLACK, "CONTINUE");
-				if (!mode)
-					dtext(32, Y_POS + 12, C_BLACK, "MENU");
-				else
-					dtext(32, Y_POS + 12, C_BLACK,
-					      "SPEEDRUN MENU");
-				dtext(16, Y_POS + (selected * 12), C_BLACK,
-				      ">");
-				dprint(180, 45, C_BLACK, "LEVEL : %d",
-				       *id_level);
-				dprint(320, 3, C_RGB(255, 178, 0), "COIN : %d",
-				       coin);
-				dprint(311, 17, C_RGB(150, 16, 16),
-				       "DEATH : %d", death_count);
-				dupdate();
-				if (keydown_any(KEY_SHIFT, KEY_EXE, 0)) {
-					switch (selected) {
-					case 0:
-						menu_loop = 0;
-						timer_start(timer);
-						break;
-					case 1:
-						menu_loop = 0;
-						game_loop = 0;
-						break;
-					}
-				}
-				if (keydown_any(KEY_EXIT, KEY_MENU, 0)) {
-					if (!buffer) {
-						menu_loop = 0;
-						game_loop = 0;
-						break;
-					}
-				} else
-					buffer = 0;
-				while (keydown_any(KEY_UP, KEY_DOWN, 0))
-					clearevents();
+			const enum MenuPause valeur = pause_menu(level, *id_level, coin, death_count);
+			switch(valeur) {
+				case MenuContinue: {
+					timer_start(timer);
+				} break;
+				case MenuBack: {
+					game_loop = 0;
+					hasReachedEnd = 0;
+				} break;
 			}
 		}
 	}
 	timer_stop(timer);
-	timer_wait(timer);
 	// when a level is quit
-	if (mode) {
-		if (*id_level == 0) {
-			game_loop = 0;
-			*id_level = 1;
-		}
-		// end of a level with level selection
-		if (game_loop) {
-			float framefloat = framelevel;
-			draw_end(framelevel, *id_level, 0);
-			savetime(framefloat, *id_level);
-			sleep_ms(2500);
-		}
-		if (!speed_menu(id_level)) {
-			mode = 1;
-			death_count = 0;
-			game(id_level, mode, type);
-		} else
-			main();
-	} else
-		main();
+
+	//if level selection and end
+	if (mode == 1 && *id_level != 0 && hasReachedEnd == 1) {
+
+		float framefloat = framelevel;
+		draw_end(framelevel, *id_level, 0);
+		savetime(framefloat, *id_level);
+		sleep_ms(2500);
+
+
+		int doIRun = level_selection(id_level);
+		if(doIRun)
+			game(id_level, 1, type);
+	} else if(mode == 0 && hasReachedEnd == 1) {
+		draw_end((int)frame, LEVEL_MAX, 2);
+		sleep_ms(7000);
+	}
 }

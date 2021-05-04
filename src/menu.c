@@ -48,7 +48,7 @@ enum MenuCode start_menu(char *type)
 			buffer2 = 0;
 		if (keydown_any(KEY_EXIT, KEY_MENU, 0)) {
 			if (!buffer)
-				return 3;
+				return MenuExit;
 		} else
 			buffer = 0;
 		if (keydown_all(KEY_5, KEY_6))
@@ -56,19 +56,15 @@ enum MenuCode start_menu(char *type)
 		while (keydown_any(KEY_UP, KEY_DOWN, 0))
 			clearevents();
 	}
-	return selection;
+	return MenuExit;
 }
 
-char speed_menu(int *id_level)
+char level_selection(int *id_level)
 {
 	char level[351];
-	char gravity = -1; // -1 down 1 up
 	int start_x;
 	int start_y;
 	char buffer = 1;
-	int appear = 10;
-	int disappear = 13;
-	int nbswitch = 0;
 	int sto = loadtime(*id_level - 1);
 	char menu_loop = 1;
 	char check = 1;
@@ -84,8 +80,8 @@ char speed_menu(int *id_level)
 			*id_level = LEVEL_MAX;
 		if (keydown(KEY_RIGHT) || keydown(KEY_LEFT))
 			sto = loadtime(*id_level - 1);
-		set_level(*id_level, level, &start_x, &start_y, &gravity,
-		          &appear, &disappear, &nbswitch);
+		set_level(*id_level, level, &start_x, &start_y, NULL,
+		          NULL, NULL, NULL);
 		draw_level(level);
 		dimage(0, 0, &img_speedrun);
 		if (sto != 0)
@@ -101,16 +97,18 @@ char speed_menu(int *id_level)
 		if (keydown_any(KEY_SHIFT, KEY_EXE, 0)) {
 			if (!check) {
 				del_level(level);
-				return 0;
+				return 1;
 			}
 		} else
 			check = 0;
+
 		if (keydown(KEY_F6)) {
 			draw_time(*id_level);
 		}
+
 		if (keydown_any(KEY_EXIT, KEY_MENU, 0)) {
 			if (!buffer)
-				return 1;
+				return 0;
 		} else
 			buffer = 0;
 		while (keydown_any(KEY_RIGHT, KEY_LEFT, 0))
@@ -119,3 +117,48 @@ char speed_menu(int *id_level)
 	return 0;
 }
 
+
+enum MenuPause pause_menu(char level[], int id_level, int coin, int death_count) {
+
+	extern bopti_image_t img_speedrun;
+
+	char menu_loop = 1;
+	char selected = 0;
+	int Y_POS = 18;
+	char buffer = 1;
+
+	while (menu_loop) {
+		clearevents();
+		dclear(C_WHITE);
+		draw_level(level);
+		dimage(0, 0, &img_speedrun);
+		selected += keydown(KEY_DOWN) - keydown(KEY_UP);
+		if (selected == 2)
+			selected = 0;
+		else if (selected == -1)
+			selected = 1;
+		dtext(32, Y_POS, C_BLACK, "CONTINUE");
+		dtext(32, Y_POS + 12, C_BLACK, "BACK");
+		dtext(16, Y_POS + (selected * 12), C_BLACK,
+		      ">");
+		dprint(180, 45, C_BLACK, "LEVEL : %d",
+		       id_level);
+		dprint(320, 3, C_RGB(255, 178, 0), "COIN : %d",
+		       coin);
+		dprint(311, 17, C_RGB(150, 16, 16),
+		       "DEATH : %d", death_count);
+		dupdate();
+		if (keydown_any(KEY_SHIFT, KEY_EXE, 0)) {
+			return selected;
+		}
+		if (keydown_any(KEY_EXIT, KEY_MENU, 0)) {
+			if (!buffer) {
+				return MenuBack;
+			}
+		} else
+			buffer = 0;
+		while (keydown_any(KEY_UP, KEY_DOWN, 0))
+			clearevents();
+	}
+	return MenuBack;
+}

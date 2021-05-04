@@ -77,7 +77,7 @@ set(ASSETS_cg
 	assets-cg/img/key1.png
 	assets-cg/img/key2.png
 	assets-cg/img/medals.png
-	assets-cg/img/menu2.png
+	assets-cg/img/menu.png
 	assets-cg/img/new.png
 	assets-cg/img/player.png
 	assets-cg/img/solid.png
