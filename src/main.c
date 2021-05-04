@@ -19,9 +19,7 @@
 #include <gint/rtc.h>
 
 #define VACCELERATION 0.2
-#define HACCELERATION 0.4
 #define MAX_VSPD 9.0
-#define MAX_HSPD 2.0
 
 static void startmenu_launcher();
 static int callback(volatile int *frame_elapsed);
@@ -105,6 +103,9 @@ static void game(int *id_level, char mode, char *type)
 	char check_nbswitch = 0;
 	float vspd = 1.0;
 	float hspd = 0.0;
+	float hrem = 0.0;
+	float friction;
+	float acceleration;
 
 	if (*id_level == 10 && *type != 3)
 		*type = 2;
@@ -166,25 +167,34 @@ static void game(int *id_level, char mode, char *type)
 			death_count--;
 		}
 
-		// right and left collision
-		if (keydown_any(KEY_RIGHT, KEY_LEFT, 0)) {
-			char signe = (keydown(KEY_RIGHT) - keydown(KEY_LEFT));
-			float friction = apply_friction(player_x, player_y, level);
-			hspd *= 1 - friction;
-			hspd += signe * HACCELERATION;
-			
-			if (!collide_solid(player_x + round(hspd) + signe * 1,
-			                   player_y, level))
-				player_x += round(hspd);
-			else if (!collide_solid(player_x + signe * 1, player_y,
-			                        level))
-				player_x += signe;
-			if (player_x >= 388)
-				player_x = -4;
-			if (player_x < -9)
-				player_x = 384;
-		} else
-			hspd = 0;
+		// right and left movement + collision
+		const int signe = (keydown(KEY_RIGHT) - keydown(KEY_LEFT));
+		mod_accel_and_fric(&acceleration, &friction, player_x, player_y, level);
+		hspd *= 1 - friction;
+		hspd += signe * acceleration;
+
+		/* speed reminder */
+		/* TODO
+		 * Please note than `hrem` should be reset after horizontal collision
+		 * with a wall, death or level change. This is necessary to avoid
+		 * cross-level jank/garbage data to be carreid that would ultimatly
+		 * introduce inconsistancies. I didn't do it myself 'cause I couldn't
+		 * find were to do this.
+		 *        -- KikooDX */
+		const float spd_n_rem_x = hspd + hrem;
+		const int spd_x = (int)spd_n_rem_x;
+		hrem = spd_n_rem_x - (float)spd_x;
+
+		if (!collide_solid(player_x + round(hspd) + signe * 1,
+		                   player_y, level))
+			player_x += round(hspd);
+		else if (!collide_solid(player_x + signe * 1, player_y,
+		                        level))
+			player_x += signe;
+		if (player_x >= 388)
+			player_x = -4;
+		if (player_x < -9)
+			player_x = 384;
 
 		// Action key
 		if (keydown(KEY_SHIFT) && !check && nbswitch > 0 &&
