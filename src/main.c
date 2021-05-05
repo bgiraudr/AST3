@@ -51,6 +51,7 @@ static void startmenu_launcher() {
 					game(&id_level, 1, &type);
 			} break;
 			case MenuAllMode: {
+				id_level = 1;
 				game(&id_level, 0, &type);
 			} break;
 			case MenuTutorial: {

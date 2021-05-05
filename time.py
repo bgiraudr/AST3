@@ -2,6 +2,9 @@ gold = 1.2
 argent = 1.5
 bronze = 2
 
+x = 340
+y = 140
+
 timeslevel = open("times.lvl","r+")
 dest = open("generated/times.c","w")
 lvm = open("generated/include/define.h","r")
@@ -44,18 +47,15 @@ if(frame_level/FPS < (unsigned int)(time*"+str(bronze)+") || (frame_level/FPS <=
 \n\
 void draw_time(int id_level)\n\
 {\n\
-dclear(C_WHITE);\n\
 float time=1.0;\n")
 
 dest.write("\ntime = level_time[id_level-1];\n\n\
-dsubimage(172,90,&img_medals,36,0,12,12,DIMAGE_NONE);\n\
-dprint(187,90,C_BLACK,\"%.2j\",(int)(time*100));\n\
-dsubimage(172,110,&img_medals,24,0,12,12,DIMAGE_NONE);\n\
-dprint(187,110,C_BLACK,\"%.2j\",(int)(time*"+str(gold)+"*100));\n\
-dsubimage(172,130,&img_medals,12,0,12,12,DIMAGE_NONE); \n\
-dprint(187,130,C_BLACK,\"%.2j\",(int)(time*"+str(argent)+"*100));\n\
-dsubimage(172,150,&img_medals,0,0,12,12,DIMAGE_NONE); \n\
-dprint(187,150,C_BLACK,\"%.2j\",(int)(time*"+str(bronze)+"*100));\n\
-dupdate();\n\
-getkey();\n\
+dsubimage("+str(x)+","+str(y)+",&img_medals,36,0,12,12,DIMAGE_NONE);\n\
+dprint("+str(x+15)+","+str(y)+",C_BLACK,\"%.2j\",(int)(time*100));\n\
+dsubimage("+str(x)+","+str(y+20)+",&img_medals,24,0,12,12,DIMAGE_NONE);\n\
+dprint("+str(x+15)+","+str(y+20)+",C_BLACK,\"%.2j\",(int)(time*"+str(gold)+"*100));\n\
+dsubimage("+str(x)+","+str(y+40)+",&img_medals,12,0,12,12,DIMAGE_NONE); \n\
+dprint("+str(x+15)+","+str(y+40)+",C_BLACK,\"%.2j\",(int)(time*"+str(argent)+"*100));\n\
+dsubimage("+str(x)+","+str(y+60)+",&img_medals,0,0,12,12,DIMAGE_NONE); \n\
+dprint("+str(x+15)+","+str(y+60)+",C_BLACK,\"%.2j\",(int)(time*"+str(bronze)+"*100));\n\
 }")

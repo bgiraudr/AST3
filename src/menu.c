@@ -86,14 +86,15 @@ char level_selection(int *id_level)
 		dimage(0, 0, &img_speedrun);
 		if (sto != 0)
 			check_medal(round(sto * 0.01 * FPS), *id_level, 335, 8);
-		dtext(340, 214, C_BLACK, "TIMES");
 		dtext(190, 45, C_BLACK, "Time : ");
 		dprint(80, 20, C_BLACK, "Level : %d", *id_level);
 		if (sto != 0)
 			dprint(194, 60, C_RED, "%.2j", sto);
 		else
 			dprint(202, 60, C_RED, "/");
+		draw_time(*id_level);
 		dupdate();
+		
 		if (keydown_any(KEY_SHIFT, KEY_EXE, 0)) {
 			if (!check) {
 				del_level(level);
@@ -101,10 +102,6 @@ char level_selection(int *id_level)
 			}
 		} else
 			check = 0;
-
-		if (keydown(KEY_F6)) {
-			draw_time(*id_level);
-		}
 
 		if (keydown_any(KEY_EXIT, KEY_MENU, 0)) {
 			if (!buffer)
