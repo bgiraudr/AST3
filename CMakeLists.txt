@@ -51,6 +51,7 @@ add_custom_command(
 set(SOURCES
 	src/collide.c
 	src/drawlevel.c
+	src/draw_time.c
 	src/main.c
 	src/menu.c
 	src/save.c

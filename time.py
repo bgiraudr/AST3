@@ -1,5 +1,5 @@
 gold = 1.2
-argent = 1.5
+silver = 1.5
 bronze = 2
 
 x = 340
@@ -11,7 +11,7 @@ lvm = open("generated/include/define.h","r")
 ids=timeslevel.readlines()
 times=[]
 
-for i in ids: 
+for i in ids:
 	times.append(i.rstrip())
 
 nblvl = int(''.join(filter(str.isdigit,lvm.readline())))
@@ -19,12 +19,12 @@ nblvl = int(''.join(filter(str.isdigit,lvm.readline())))
 while(len(times) < nblvl):
     times.append("0.00")
 
-dest.write("#include \"times.h\"\n\
-#include \"define.h\"\n\
-#include <gint/display.h>\n\
-#include <gint/keyboard.h>\n\n\
-extern bopti_image_t img_medals;\n\
-float level_time[] = {")
+dest.write("""#include "times.h"
+#include "define.h"
+#include <gint/display.h>
+#include <gint/keyboard.h>
+extern bopti_image_t img_medals;
+float level_time[] = {""")
 
 dest.write(f"{','.join(times)}")
 
@@ -39,23 +39,9 @@ if(frame_level/FPS < (unsigned int)time || (frame_level/FPS <= (unsigned int)tim
 (unsigned int)((framefloat)/FPS*100-frame_level/FPS*100) <= (unsigned int)((time)*100-(int)(time)*100))) dsubimage(x+45,y,&img_medals,36,0,12,12,DIMAGE_NONE);\n\
 if(frame_level/FPS < (unsigned int)(time*"+str(gold)+") || (frame_level/FPS <= (unsigned int)(time*"+str(gold)+") && \n\
 (unsigned int)((framefloat)/FPS*100-frame_level/FPS*100) <= (unsigned int)((time*"+str(gold)+")*100-(int)(time*"+str(gold)+")*100))) dsubimage(x+30,y,&img_medals,24,0,12,12,DIMAGE_NONE);\n\
-if(frame_level/FPS < (unsigned int)(time*"+str(argent)+") || (frame_level/FPS <= (unsigned int)(time*"+str(argent)+") && \n\
-(unsigned int)((framefloat)/FPS*100-frame_level/FPS*100) <= (unsigned int)((time*"+str(argent)+")*100-(int)(time*"+str(argent)+")*100))) dsubimage(x+15,y,&img_medals,12,0,12,12,DIMAGE_NONE);\n\
+if(frame_level/FPS < (unsigned int)(time*"+str(silver)+") || (frame_level/FPS <= (unsigned int)(time*"+str(silver)+") && \n\
+(unsigned int)((framefloat)/FPS*100-frame_level/FPS*100) <= (unsigned int)((time*"+str(silver)+")*100-(int)(time*"+str(silver)+")*100))) dsubimage(x+15,y,&img_medals,12,0,12,12,DIMAGE_NONE);\n\
 if(frame_level/FPS < (unsigned int)(time*"+str(bronze)+") || (frame_level/FPS <= (unsigned int)(time*"+str(bronze)+") && \n\
 (unsigned int)((framefloat)/FPS*100-frame_level/FPS*100) <= (unsigned int)((time*"+str(bronze)+")*100-(int)(time*"+str(bronze)+")*100))) dsubimage(x,y,&img_medals,0,0,12,12,DIMAGE_NONE);\n\
-}\n\
-\n\
-void draw_time(int id_level)\n\
-{\n\
-float time=1.0;\n")
+}\n")
 
-dest.write("\ntime = level_time[id_level-1];\n\n\
-dsubimage("+str(x)+","+str(y)+",&img_medals,36,0,12,12,DIMAGE_NONE);\n\
-dprint("+str(x+15)+","+str(y)+",C_BLACK,\"%.2j\",(int)(time*100));\n\
-dsubimage("+str(x)+","+str(y+20)+",&img_medals,24,0,12,12,DIMAGE_NONE);\n\
-dprint("+str(x+15)+","+str(y+20)+",C_BLACK,\"%.2j\",(int)(time*"+str(gold)+"*100));\n\
-dsubimage("+str(x)+","+str(y+40)+",&img_medals,12,0,12,12,DIMAGE_NONE); \n\
-dprint("+str(x+15)+","+str(y+40)+",C_BLACK,\"%.2j\",(int)(time*"+str(argent)+"*100));\n\
-dsubimage("+str(x)+","+str(y+60)+",&img_medals,0,0,12,12,DIMAGE_NONE); \n\
-dprint("+str(x+15)+","+str(y+60)+",C_BLACK,\"%.2j\",(int)(time*"+str(bronze)+"*100));\n\
-}")
