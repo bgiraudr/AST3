@@ -7,4 +7,5 @@
 void mod_accel_and_fric(float *acceleration, float *friction, int x, int y,
                         char level[]);
 int mod_ice(float *acceleration, float *friction, int x, int y, char level[]);
+int mod_rough(float *acceleration, float *friction, int x, int y, char level[]);
 int mod_solid(float *acceleration, float *friction, int x, int y, char level[]);

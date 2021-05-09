@@ -72,3 +72,6 @@ nbswitchlayout.png:
   type:bopti-image
   profile:p4
   name: img_nbswitchlayout
+rough.png:
+  type:bopti-image
+  name: img_rough

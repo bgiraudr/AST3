@@ -19,9 +19,10 @@ extern bopti_image_t img_key2;     // key 2
 extern bopti_image_t img_damaged;  // damaged block
 extern bopti_image_t img_chock;    // chock block
 extern bopti_image_t img_switch;   // switch block
-extern bopti_image_t img_ice;      // switch block
+extern bopti_image_t img_ice;      // ice block
 extern bopti_image_t img_appear;   // appear block
-extern bopti_image_t img_nbswitch; // appear block
+extern bopti_image_t img_nbswitch; // nbswitch block
+extern bopti_image_t img_rough;    // rough block
 
 extern bopti_image_t img_endscreen;
 extern bopti_image_t img_nbswitchlayout;
@@ -105,6 +106,9 @@ void draw_level(char level[])
 			break;
 		case 'z': // nbswitch blocks
 			dimage(x, y, &img_nbswitch);
+			break;
+		case 'r': // rough blocks
+			dimage(x, y, &img_rough);
 			break;
 		}
 		x += 16;

@@ -138,12 +138,13 @@ enum MenuPause pause_menu(char level[], int id_level, int coin, int death_count)
 		dtext(32, Y_POS + 12, C_BLACK, "BACK");
 		dtext(16, Y_POS + (selected * 12), C_BLACK,
 		      ">");
-		dprint(180, 45, C_BLACK, "LEVEL : %d",
+		dprint(176, 45, C_BLACK, "LEVEL : %d",
 		       id_level);
 		dprint(320, 3, C_RGB(255, 178, 0), "COIN : %d",
 		       coin);
 		dprint(311, 17, C_RGB(150, 16, 16),
 		       "DEATH : %d", death_count);
+		draw_time(id_level);
 		dupdate();
 		if (keydown_any(KEY_SHIFT, KEY_EXE, 0)) {
 			return selected;

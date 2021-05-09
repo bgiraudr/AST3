@@ -14,10 +14,6 @@ void check_medal(unsigned int frame_level, int id_level, int x, int y)
 	const int player_time = (int)((float)frame_level / FPS * 100.0);
 	int i;
 
-	/* OK, this doesn't have the exact same behavior than the previously
-	 * generated code had. But the conditions were so dirty and hard to
-	 * understand than I simplified it.
-	 *         -- KikooDX */
 	i = 4;
 	while (i-- > 0) {
 		const int mtime = (int)(time * medal_multiplier[i] * 100.0);

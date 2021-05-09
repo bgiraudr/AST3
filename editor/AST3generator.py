@@ -24,7 +24,7 @@ def newgrille():
     ["1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1"]
 
 def load(ids):
-    global grille, gravityid, app, disa, nbswitch
+    global grille, gravityid, app, disa, nbswitchmax
     try:
         lv = open(f"editor/levels/{ids}.lvl","r")
         ide = lv.readlines()
@@ -32,7 +32,7 @@ def load(ids):
 
         app = int(ide[1][:-1])
         disa = int(ide[2])
-        nbswitch = int(ide[3])
+        nbswitchmax = int(ide[3])
 
         ide = str(ide[0][:-2])
         grille=[]
@@ -102,7 +102,9 @@ def place():
             elif grille[a][b]=="h" and tab:
                 fenetre.blit(pygame.transform.scale(appearblock,(52,52)),(52*b,52*a))
             if grille[a][b]=="z":
-                fenetre.blit(pygame.transform.scale(nbswitchblock,(52,52)),(52*b,52*a))
+                fenetre.blit(pygame.transform.scale(nbswitch,(52,52)),(52*b,52*a))
+            if grille[a][b]=="r":
+                fenetre.blit(pygame.transform.scale(rough,(52,52)),(52*b,52*a))
     fenetre.blit(level, (10, 10))
     fenetre.blit(levelgr, (10, 60))
     fenetre.blit(timeapp, (55, 10))
@@ -113,10 +115,10 @@ def place():
     pygame.display.flip()
 
 def write():
-    global nbswitch
+    global nbswitchmax
     f = open(f"editor/levels/{id_level}.lvl","w+")
-    if "z" not in str(grille): nbswitch = 1
-    f.write(str(grille).replace("]","").replace("(","").replace(")","").replace("'","").replace("[","").replace(" ","").replace(",","")+f"{gravityid}\n{app}\n{disa}\n{nbswitch}")
+    if "z" not in str(grille): nbswitchmax = 1
+    f.write(str(grille).replace("]","").replace("(","").replace(")","").replace("'","").replace("[","").replace(" ","").replace(",","")+f"{gravityid}\n{app}\n{disa}\n{nbswitchmax}")
     f.close()
 
 pygame.init()
@@ -126,14 +128,14 @@ fenetre = pygame.display.set_mode((25*52, 14*52))
 font = pygame.font.SysFont('arial',25,True)
 
 #Defini la suite des blocs pendant les changements (cliquer sur un 1 va donner un 2...)
-suite=["0","1","d","s","e","k","3","K","a","c","m","t","l","b","B","i","S","h","z"]
+suite=["0","1","d","s","e","k","3","K","a","c","m","t","l","b","B","i","S","h","z","r"]
 
 lvm = open(f"generated/include/define.h","r")
 id_level = 0
 gravityid = 6
 disa = 10
 app = 13
-nbswitch = 1
+nbswitchmax = 1
 lock=""
 tab = 0
 
@@ -157,7 +159,8 @@ switch = pygame.image.load("editor/img/switch.png").convert_alpha()
 ice = pygame.image.load("editor/img/ice.png").convert_alpha()
 appear = pygame.image.load("editor/img/appear.png").convert_alpha()
 appearblock = pygame.image.load("editor/img/appearblock.png").convert_alpha()
-nbswitchblock = pygame.image.load("editor/img/nbswitch.png").convert_alpha()
+nbswitch = pygame.image.load("editor/img/nbswitch.png").convert_alpha()
+rough = pygame.image.load("editor/img/rough.png").convert_alpha()
 
 load(id_level)
 place()
@@ -194,11 +197,11 @@ while securite==False:
                 write()
                 place()
             if carac == "t" and "z" in str(grille):
-                nbswitch+=1
+                nbswitchmax+=1
                 write()
                 place()
             if carac == "g" and "z" in str(grille):
-                if nbswitch > 0: nbswitch-=1
+                if nbswitchmax > 0: nbswitchmax-=1
                 write()
                 place()
             if carac == "a":

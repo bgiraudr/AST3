@@ -1,3 +1,16 @@
+/*
+* @author : Tituya x KikooDX
+*/
+
+#include <gint/clock.h>
+#include <gint/display.h>
+#include <gint/gint.h>
+#include <gint/keyboard.h>
+#include <gint/std/string.h>
+#include <gint/timer.h>
+#include <gint/std/stdlib.h>
+#include <gint/rtc.h>
+
 #include "collide.h"
 #include "define.h"
 #include "drawlevel.h"
@@ -8,15 +21,6 @@
 #include "times.h"
 #include "util.h"
 #include "friction.h"
-#include <gint/clock.h>
-#include <gint/display.h>
-#include <gint/gint.h>
-#include <gint/keyboard.h>
-#include <gint/std/string.h>
-#include <gint/timer.h>
-
-#include <gint/std/stdlib.h>
-#include <gint/rtc.h>
 
 #define VACCELERATION 0.2
 #define MAX_VSPD 9.0
@@ -26,21 +30,18 @@ static int callback(volatile int *frame_elapsed);
 static void game(int *id_level, char mode, char *type);
 
 int main(void) {
-	static int run = 0;
-	if (!run) {
-		gint_world_switch(GINT_CALL(restore));
-		srand(rtc_ticks());
-		run = 1;
-	}
+	gint_world_switch(GINT_CALL(restore));
+	srand(rtc_ticks());
 
 	startmenu_launcher();
 	gint_world_switch(GINT_CALL(savefile));
+	gint_osmenu();
 	return 0;
 }
 
 static void startmenu_launcher() {
 	char type = 1;
-	static int menu_run = 1;
+	int menu_run = 1;
 	int id_level = 1;
 	while(menu_run) {
 		const enum MenuCode valeur = start_menu(&type);
@@ -169,7 +170,7 @@ static void game(int *id_level, char mode, char *type)
 		}
 
 		// right and left movement + collision
-		const int signe = (keydown(KEY_RIGHT) - keydown(KEY_LEFT));
+		int signe = (keydown(KEY_RIGHT) - keydown(KEY_LEFT));
 		mod_accel_and_fric(&acceleration, &friction, player_x, player_y, level);
 		hspd *= 1 - friction;
 		hspd += signe * acceleration;
@@ -245,13 +246,15 @@ static void game(int *id_level, char mode, char *type)
 			if (check_coin)
 				coin--;
 			check_coin = 0;
-			set_level(*id_level, level, &start_x, &start_y,
-			          &gravity, &appear, &disappear, &nbswitch);
 			blackout = 0;
 			check_nbswitch = 0;
 			death_count++;
 			double_check = 1;
 			framelevel = 0;
+			hrem = 0.00;
+
+			set_level(*id_level, level, &start_x, &start_y,
+			          &gravity, &appear, &disappear, &nbswitch);
 			if (*id_level == 1 && !mode)
 				frame = 0;
 		}
@@ -265,6 +268,7 @@ static void game(int *id_level, char mode, char *type)
 				blackout = 0;
 				double_check = 1;
 				framelevel = 0;
+				hrem = 0.00;
 
 				set_level(*id_level, level, &start_x, &start_y,
 			          &gravity, &appear, &disappear, &nbswitch);
@@ -431,6 +435,7 @@ static void game(int *id_level, char mode, char *type)
 			switch(valeur) {
 				case MenuContinue: {
 					timer_start(timer);
+					check = 1; //prevent for switch when back to the level
 				} break;
 				case MenuBack: {
 					game_loop = 0;
@@ -442,14 +447,15 @@ static void game(int *id_level, char mode, char *type)
 	timer_stop(timer);
 	// when a level is quit
 
-	//if level selection and end
-	if (mode == 1 && *id_level != 0 && hasReachedEnd == 1) {
+	//if level selection
+	if (mode == 1 && *id_level != 0) {
 
-		float framefloat = framelevel;
-		draw_end(framelevel, *id_level, 0);
-		savetime(framefloat, *id_level);
-		sleep_ms(2500);
-
+		if(hasReachedEnd) {
+			float framefloat = framelevel;
+			draw_end(framelevel, *id_level, 0);
+			savetime(framefloat, *id_level);
+			sleep_ms(2500);
+		}
 
 		int doIRun = level_selection(id_level);
 		if(doIRun)

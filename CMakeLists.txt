@@ -85,7 +85,8 @@ set(ASSETS_cg
 	assets-cg/img/speedrun.png
 	assets-cg/img/switch.png
 	assets-cg/img/nbswitch.png
-	assets-cg/img/nbswitchlayout.png)
+	assets-cg/img/nbswitchlayout.png
+	assets-cg/img/rough.png)
 
 set(FLAGS -Wall -Wextra -Os)
 
