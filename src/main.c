@@ -10,6 +10,7 @@
 #include <gint/timer.h>
 #include <gint/std/stdlib.h>
 #include <gint/rtc.h>
+#include <gint/usb-ff-bulk.h>
 
 #include "collide.h"
 #include "define.h"
@@ -30,12 +31,18 @@ static int callback(volatile int *frame_elapsed);
 static void game(int *id_level, char mode, char *type);
 
 int main(void) {
+	/* open USB for fxlink screenshots */
+	usb_interface_t const *interfaces[] = { &usb_ff_bulk, NULL };
+	usb_open(interfaces, GINT_CALL_NULL);
+
 	gint_world_switch(GINT_CALL(restore));
 	srand(rtc_ticks());
 
 	startmenu_launcher();
 	gint_world_switch(GINT_CALL(savefile));
-	gint_osmenu();
+
+	/* close USB */
+	usb_close();
 	return 0;
 }
 
@@ -160,6 +167,8 @@ static void game(int *id_level, char mode, char *type)
 				draw_nbswitch(nbswitch);
 			dprint(330, 0, C_RED, "%d", (int)(hspd*100));
 			dupdate();
+			if (keydown(KEY_VARS) && usb_is_open())
+				usb_fxlink_screenshot(1);
 		}
 		pollevent();
 
