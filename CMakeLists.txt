@@ -7,7 +7,7 @@ project(AST3)
 include(GenerateG1A)
 include(GenerateG3A)
 include(Fxconv)
-find_package(Gint 2.1 REQUIRED)
+find_package(Gint 2.5 REQUIRED)
 
 include_directories(include generated/include)
 

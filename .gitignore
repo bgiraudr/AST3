@@ -6,3 +6,6 @@ build-cg/
 
 # Generated sources
 generated/
+
+# fxlink screenshots
+fxlink-*.png
