@@ -1,6 +1,5 @@
 #include "menu.h"
 #include "define.h"
-#include "util.h"
 #include "drawlevel.h"
 #include "save.h"
 #include "setlevel.h"
@@ -23,8 +22,8 @@ enum MenuCode start_menu(char *type)
 	int start_x;
 	int start_y;
 
-	set_level(rand_range(1,LEVEL_MAX), level, &start_x, &start_y, NULL,
-		          NULL, NULL, NULL);
+	set_level(rand_range(1, LEVEL_MAX), level, &start_x, &start_y, NULL,
+	          NULL, NULL, NULL);
 	while (menu_loop) {
 		clearevents();
 		dclear(C_WHITE);
@@ -80,8 +79,8 @@ char level_selection(int *id_level)
 			*id_level = LEVEL_MAX;
 		if (keydown(KEY_RIGHT) || keydown(KEY_LEFT))
 			sto = loadtime(*id_level - 1);
-		set_level(*id_level, level, &start_x, &start_y, NULL,
-		          NULL, NULL, NULL);
+		set_level(*id_level, level, &start_x, &start_y, NULL, NULL,
+		          NULL, NULL);
 		draw_level(level);
 		dimage(0, 0, &img_speedrun);
 		if (sto != 0)
@@ -94,7 +93,7 @@ char level_selection(int *id_level)
 			dprint(202, 60, C_RED, "/");
 		draw_time(*id_level);
 		dupdate();
-		
+
 		if (keydown_any(KEY_SHIFT, KEY_EXE, 0)) {
 			if (!check) {
 				del_level(level);
@@ -114,8 +113,8 @@ char level_selection(int *id_level)
 	return 0;
 }
 
-
-enum MenuPause pause_menu(char level[], int id_level, int coin, int death_count) {
+enum MenuPause pause_menu(char level[], int id_level, int coin, int death_count)
+{
 
 	extern bopti_image_t img_speedrun;
 
@@ -136,14 +135,10 @@ enum MenuPause pause_menu(char level[], int id_level, int coin, int death_count)
 			selected = 1;
 		dtext(32, Y_POS, C_BLACK, "CONTINUE");
 		dtext(32, Y_POS + 12, C_BLACK, "BACK");
-		dtext(16, Y_POS + (selected * 12), C_BLACK,
-		      ">");
-		dprint(176, 45, C_BLACK, "LEVEL : %d",
-		       id_level);
-		dprint(320, 3, C_RGB(255, 178, 0), "COIN : %d",
-		       coin);
-		dprint(311, 17, C_RGB(150, 16, 16),
-		       "DEATH : %d", death_count);
+		dtext(16, Y_POS + (selected * 12), C_BLACK, ">");
+		dprint(176, 45, C_BLACK, "LEVEL : %d", id_level);
+		dprint(320, 3, C_RGB(255, 178, 0), "COIN : %d", coin);
+		dprint(311, 17, C_RGB(150, 16, 16), "DEATH : %d", death_count);
 		draw_time(id_level);
 		dupdate();
 		if (keydown_any(KEY_SHIFT, KEY_EXE, 0)) {

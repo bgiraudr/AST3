@@ -1,27 +1,27 @@
 /*
-* @author : Tituya x KikooDX
-*/
+ * @author : Tituya x KikooDX
+ */
 
 #include <gint/clock.h>
 #include <gint/display.h>
 #include <gint/gint.h>
 #include <gint/keyboard.h>
+#include <gint/rtc.h>
+#include <gint/std/stdlib.h>
 #include <gint/std/string.h>
 #include <gint/timer.h>
-#include <gint/std/stdlib.h>
-#include <gint/rtc.h>
 #include <gint/usb-ff-bulk.h>
 
 #include "collide.h"
 #include "define.h"
 #include "drawlevel.h"
+#include "friction.h"
 #include "menu.h"
 #include "replace.h"
 #include "save.h"
 #include "setlevel.h"
 #include "times.h"
 #include "util.h"
-#include "friction.h"
 
 #define VACCELERATION 0.2
 #define MAX_VSPD 9.0
@@ -30,9 +30,10 @@ static void startmenu_launcher();
 static int callback(volatile int *frame_elapsed);
 static void game(int *id_level, char mode, char *type);
 
-int main(void) {
+int main(void)
+{
 	/* open USB for fxlink screenshots */
-	usb_interface_t const *interfaces[] = { &usb_ff_bulk, NULL };
+	usb_interface_t const *interfaces[] = {&usb_ff_bulk, NULL};
 	usb_open(interfaces, GINT_CALL_NULL);
 
 	gint_world_switch(GINT_CALL(restore));
@@ -46,29 +47,32 @@ int main(void) {
 	return 0;
 }
 
-static void startmenu_launcher() {
+static void startmenu_launcher()
+{
 	char type = 1;
 	int menu_run = 1;
 	int id_level = 1;
-	while(menu_run) {
+	while (menu_run) {
 		const enum MenuCode valeur = start_menu(&type);
-		switch(valeur) {
-			case MenuLevelSel: {
-				int doIRun = level_selection(&id_level);
-				if(doIRun)
-					game(&id_level, 1, &type);
-			} break;
-			case MenuAllMode: {
+		switch (valeur) {
+		case MenuLevelSel: {
+			if (id_level == 0)
 				id_level = 1;
-				game(&id_level, 0, &type);
-			} break;
-			case MenuTutorial: {
-				id_level = 0;
+			int doIRun = level_selection(&id_level);
+			if (doIRun)
 				game(&id_level, 1, &type);
- 			} break;
-			case MenuExit: {
-				menu_run = 0;
-			} break;
+		} break;
+		case MenuAllMode: {
+			id_level = 1;
+			game(&id_level, 0, &type);
+		} break;
+		case MenuTutorial: {
+			id_level = 0;
+			game(&id_level, 1, &type);
+		} break;
+		case MenuExit: {
+			menu_run = 0;
+		} break;
 		}
 	}
 }
@@ -165,7 +169,7 @@ static void game(int *id_level, char mode, char *type)
 				           coin);
 			if (check_nbswitch)
 				draw_nbswitch(nbswitch);
-			dprint(330, 0, C_RED, "%d", (int)(hspd*100));
+			dprint(330, 0, C_RED, "%d", (int)(hspd * 100));
 			dupdate();
 			if (keydown(KEY_VARS) && usb_is_open())
 				usb_fxlink_screenshot(1);
@@ -180,28 +184,23 @@ static void game(int *id_level, char mode, char *type)
 
 		// right and left movement + collision
 		int signe = (keydown(KEY_RIGHT) - keydown(KEY_LEFT));
-		mod_accel_and_fric(&acceleration, &friction, player_x, player_y, level);
-		hspd *= 1 - friction;
+		mod_accel_and_fric(&acceleration, &friction, player_x, player_y,
+		                   level);
+
+		hspd *= (1 - friction);
 		hspd += signe * acceleration;
 
 		/* speed reminder */
-		/* TODO
-		 * Please note than `hrem` should be reset after horizontal collision
-		 * with a wall, death or level change. This is necessary to avoid
-		 * cross-level jank/garbage data to be carreid that would ultimatly
-		 * introduce inconsistancies. I didn't do it myself 'cause I couldn't
-		 * find were to do this.
-		 *        -- KikooDX */
 		const float spd_n_rem_x = hspd + hrem;
 		const int spd_x = (int)spd_n_rem_x;
 		hrem = spd_n_rem_x - (float)spd_x;
 
-		if (!collide_solid(player_x + round(hspd) + signe * 1,
-		                   player_y, level))
-			player_x += round(hspd);
-		else if (!collide_solid(player_x + signe * 1, player_y,
-		                        level))
-			player_x += signe;
+		player_x += spd_x;
+		while (collide_solid(player_x, player_y, level)) {
+			player_x -= sign(spd_x);
+			hspd = 0;
+			hrem = 0;
+		}
 		if (player_x >= 388)
 			player_x = -4;
 		if (player_x < -9)
@@ -269,7 +268,7 @@ static void game(int *id_level, char mode, char *type)
 		}
 		// Collide with the end
 		if (collide_end(player_x, player_y, level)) {
-			//if all mode
+			// if all mode
 			if (!mode) {
 				*id_level += 1;
 				check_coin = 0;
@@ -280,21 +279,21 @@ static void game(int *id_level, char mode, char *type)
 				hrem = 0.00;
 
 				set_level(*id_level, level, &start_x, &start_y,
-			          &gravity, &appear, &disappear, &nbswitch);
+				          &gravity, &appear, &disappear,
+				          &nbswitch);
 				player_x = start_x;
 				player_y = start_y;
 
 				if (*id_level == 10 && *type == 1)
-				*type = 2;
+					*type = 2;
 				else if (*type != 3)
 					*type = 1;
-				//End of all mode
+				// End of all mode
 				if (*id_level == LEVEL_MAX + 1) {
 					timer_stop(timer);
 					game_loop = 0;
 				}
-			}
-			else {
+			} else {
 				game_loop = 0;
 			}
 			hasReachedEnd = 1;
@@ -401,7 +400,6 @@ static void game(int *id_level, char mode, char *type)
 
 		// Appear block
 		collide_replace(player_x, player_y, level, 'h', 'y');
-		// Appear block
 		if (!collide(player_x, player_y, level, 'y') && double_check) {
 			for (int i = 0; level[i] != '\0'; i++) {
 				if (level[i] == 'y' || level[i] == 'h') {
@@ -440,26 +438,28 @@ static void game(int *id_level, char mode, char *type)
 		// Pause menu
 		if (keydown_any(KEY_EXIT, KEY_MENU, 0)) {
 			timer_pause(timer);
-			const enum MenuPause valeur = pause_menu(level, *id_level, coin, death_count);
-			switch(valeur) {
-				case MenuContinue: {
-					timer_start(timer);
-					check = 1; //prevent for switch when back to the level
-				} break;
-				case MenuBack: {
-					game_loop = 0;
-					hasReachedEnd = 0;
-				} break;
+			const enum MenuPause valeur =
+			    pause_menu(level, *id_level, coin, death_count);
+			switch (valeur) {
+			case MenuContinue: {
+				timer_start(timer);
+				check = 1; // prevent for switch when back to
+				           // the level
+			} break;
+			case MenuBack: {
+				game_loop = 0;
+				hasReachedEnd = 0;
+			} break;
 			}
 		}
 	}
 	timer_stop(timer);
 	// when a level is quit
 
-	//if level selection
+	// if level selection
 	if (mode == 1 && *id_level != 0) {
 
-		if(hasReachedEnd) {
+		if (hasReachedEnd) {
 			float framefloat = framelevel;
 			draw_end(framelevel, *id_level, 0);
 			savetime(framefloat, *id_level);
@@ -467,9 +467,9 @@ static void game(int *id_level, char mode, char *type)
 		}
 
 		int doIRun = level_selection(id_level);
-		if(doIRun)
+		if (doIRun)
 			game(id_level, 1, type);
-	} else if(mode == 0 && hasReachedEnd == 1) {
+	} else if (mode == 0 && hasReachedEnd == 1) {
 		draw_end((int)frame, LEVEL_MAX, 2);
 		sleep_ms(7000);
 	}

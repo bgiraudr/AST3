@@ -51,7 +51,7 @@ def place():
     if gravityid==7: levelgr = font.render("↑",1,(0,120,120))
     timeapp = font.render("A="+str(app),1,(255,230,0))
     timedisa = font.render("D="+str(disa)+"    LOCK : "+str(lock),1,(255,180,0))
-    nbswitchfont = font.render("Nb="+str(nbswitch),1,(255,230,0))
+    nbswitchfont = font.render("Nb="+str(nbswitchmax),1,(255,230,0))
     for a in range(14):
         for b in range(25):
             pygame.draw.rect(fenetre,(255,255,255),((52*b, 52*a), (52, 52)))
