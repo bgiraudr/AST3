@@ -169,7 +169,8 @@ static void game(int *id_level, char mode, char *type)
 				           coin);
 			if (check_nbswitch)
 				draw_nbswitch(nbswitch);
-			dprint(330, 0, C_RED, "%d", (int)(hspd * 100));
+			dprint(330, 0, C_RED, "%d", collide_solid(player_x, player_y - 1, level));
+			dprint(350, 0, C_RED, "%d", collide_solid(player_x, player_y + 1, level));
 			dupdate();
 			if (keydown(KEY_VARS) && usb_is_open())
 				usb_fxlink_screenshot(1);
@@ -208,10 +209,8 @@ static void game(int *id_level, char mode, char *type)
 
 		// Action key
 		if (keydown(KEY_SHIFT) && !check && nbswitch > 0 &&
-		    ((collide_solid(player_x, player_y - 1, level) &&
-		      gravity == -1) ||
-		     (collide_solid(player_x, player_y + 1, level) &&
-		      gravity))) {
+		    (collide_solid_gravity(player_x, player_y - 1, level, gravity) ||
+		     collide_solid_gravity(player_x, player_y + 1, level, gravity))) {
 			vspd = 1;
 			if (gravity == -1)
 				gravity = 1;

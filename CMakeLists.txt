@@ -46,7 +46,8 @@ add_custom_command(
 		editor/levels/16.lvl
 		editor/levels/17.lvl
 		editor/levels/18.lvl
-		editor/levels/19.lvl)
+		editor/levels/19.lvl
+		editor/levels/20.lvl)
 
 set(SOURCES
 	src/collide.c
