@@ -7,7 +7,7 @@
 int retcode;
 
 int times[LEVEL_MAX];
-static const uint16_t *filepath = u"\\\\fls0\\AST3.sav";
+static const uint16_t *filepath = u"\\\\fls0\\AST3C.sav";
 
 /* savefile() write the time of all the player's times in the savefile.
  * savefile() is long to execute. That's why it must be call once per

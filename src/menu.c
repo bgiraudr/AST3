@@ -84,7 +84,7 @@ char level_selection(int *id_level)
 		draw_level(level);
 		dimage(0, 0, &img_speedrun);
 		if (sto != 0)
-			check_medal(round(sto * 0.01 * FPS), *id_level, 335, 8);
+			check_medal(round(sto * 0.01 * FPS), *id_level, 335, 15);
 		dtext(190, 45, C_BLACK, "Time : ");
 		dprint(80, 20, C_BLACK, "Level : %d", *id_level);
 		if (sto != 0)
@@ -117,6 +117,7 @@ enum MenuPause pause_menu(char level[], int id_level, int coin, int death_count)
 {
 
 	extern bopti_image_t img_speedrun;
+	extern bopti_image_t img_coin;
 
 	char menu_loop = 1;
 	char selected = 0;
@@ -136,9 +137,10 @@ enum MenuPause pause_menu(char level[], int id_level, int coin, int death_count)
 		dtext(32, Y_POS, C_BLACK, "CONTINUE");
 		dtext(32, Y_POS + 12, C_BLACK, "BACK");
 		dtext(16, Y_POS + (selected * 12), C_BLACK, ">");
-		dprint(176, 45, C_BLACK, "LEVEL : %d", id_level);
-		dprint(320, 3, C_RGB(255, 178, 0), "COIN : %d", coin);
-		dprint(311, 17, C_RGB(150, 16, 16), "DEATH : %d", death_count);
+		dprint(174, 45, C_BLACK, "LEVEL : %d", id_level);
+		dimage(320,3,&img_coin);
+		dprint(335, 7, C_RGB(255, 178, 0), " : %d", coin);
+		dprint(311, 21, C_RGB(150, 16, 16), "DEATH : %d", death_count);
 		draw_time(id_level);
 		dupdate();
 		if (keydown_any(KEY_SHIFT, KEY_EXE, 0)) {

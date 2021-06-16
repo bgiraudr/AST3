@@ -120,7 +120,8 @@ static void game(int *id_level, char mode, char *type)
 	float friction;
 	float acceleration;
 
-	if (*id_level == 10 && *type != 3)
+	/*KikooDX level*/
+	if (*id_level == 16 && *type != 3)
 		*type = 2;
 	else if (*type != 3)
 		*type = 1;
@@ -169,8 +170,6 @@ static void game(int *id_level, char mode, char *type)
 				           coin);
 			if (check_nbswitch)
 				draw_nbswitch(nbswitch);
-			dprint(330, 0, C_RED, "%d", collide_solid(player_x, player_y - 1, level));
-			dprint(350, 0, C_RED, "%d", collide_solid(player_x, player_y + 1, level));
 			dupdate();
 			if (keydown(KEY_VARS) && usb_is_open())
 				usb_fxlink_screenshot(1);
